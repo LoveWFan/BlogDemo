@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.AppCompatTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_margin="5dp"
+      android:background="@drawable/tag_bg"
+      android:text="Helloworld"
+      android:textSize="15sp"
+      android:clickable="true"
+      android:focusable="true"
+      android:textColor="@drawable/text_color">
+
+</android.support.v7.widget.AppCompatTextView>

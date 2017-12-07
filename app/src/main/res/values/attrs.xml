@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleView">
+        <attr name="circle_color" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MyEditText">
+
+        <!-- 设置自定义输入框的模式 当值为1:普通输入框模式 2:银行卡号输入框模式 3:电话号码模式 默认为1-->
+        <attr name="editTextMode" format="integer" />
+        <!-- 配置自定义控件在银行卡号模式下分隔位数 ,默认为4位 -->
+        <attr name="splitNumber" format="integer" />
+
+    </declare-styleable>
+
+    <declare-styleable name="TagFlowLayout">
+        <attr name="max_select" format="integer"/>
+        <attr name="tag_gravity">
+            <enum name="left" value="-1" />
+            <enum name="center" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="SwipeItemLayout.Layout">
+        <attr name="layout_itemType">
+            <flag name="main" value="0x01"/>
+            <flag name="menu" value="0x02"/>
+        </attr>
+    </declare-styleable>
+</resources>
