@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication;
+package com.mafeibiao.testapplication.LeakCanary;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mafeibiao.testapplication.LeakCanary.LeakNavActivity;
+import com.mafeibiao.testapplication.R;
 
 import java.util.List;
 
@@ -16,13 +16,13 @@ import java.util.List;
  * Created by mafeibiao on 2017/12/7.
  */
 
-public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
+public class LeakNavAdapter extends RecyclerView.Adapter<LeakNavAdapter.ViewHolder> {
 
     private List<String> mData;
     private LayoutInflater mInflater;
 
     private Context mContext;
-    public MainAdapter(Context context, List<String> data) {
+    public LeakNavAdapter(Context context, List<String> data) {
         this.mData = data;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
@@ -36,16 +36,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             public void onClick(View v) {
                 switch (viewHolder.getAdapterPosition()) {
                     case 0: {
-                        mContext.startActivity(new Intent(mContext, CustomViewDemoActivity.class));
+                        mContext.startActivity(new Intent(mContext, TestActivity.class));
                         break;
                     }
                     case 1: {
-                        mContext.startActivity(new Intent(mContext, CustomViewGroupDemoActivity.class));
-                        break;
-                    }
-
-                    case 2: {
-                        mContext.startActivity(new Intent(mContext, LeakNavActivity.class));
+                        mContext.startActivity(new Intent(mContext, SingleActivity.class));
                         break;
                     }
                 }
