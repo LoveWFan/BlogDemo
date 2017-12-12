@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add("自定义View");
         dataList.add("自定义ViewGroup");
         dataList.add("内存泄漏");
+        dataList.add("Android消息机制");
         return dataList;
     }
 

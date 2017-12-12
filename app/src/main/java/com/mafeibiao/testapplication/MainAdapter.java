@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mafeibiao.testapplication.LeakCanary.LeakNavActivity;
+import com.mafeibiao.testapplication.Messaging.MessageActivity;
 
 import java.util.List;
 
@@ -46,6 +47,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
                     case 2: {
                         mContext.startActivity(new Intent(mContext, LeakNavActivity.class));
+                        break;
+                    }
+                    case 3: {
+                        mContext.startActivity(new Intent(mContext, MessageActivity.class));
                         break;
                     }
                 }
