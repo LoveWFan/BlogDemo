@@ -1,6 +1,5 @@
 package com.mafeibiao.testapplication.MyTagFlowLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -30,15 +29,11 @@ public class MyTagFlowLayout extends ViewGroup {
     }
 
     public MyTagFlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs,defStyleAttr,0);
-
+        super(context, attrs, defStyleAttr);
     }
 
 
-    @SuppressLint("NewApi")
-    public MyTagFlowLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

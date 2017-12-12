@@ -43,6 +43,14 @@ public class LeakNavAdapter extends RecyclerView.Adapter<LeakNavAdapter.ViewHold
                         mContext.startActivity(new Intent(mContext, SingleActivity.class));
                         break;
                     }
+                    case 2: {
+                        mContext.startActivity(new Intent(mContext, NonStaticActivity.class));
+                        break;
+                    }
+                    case 3: {
+                        mContext.startActivity(new Intent(mContext, HandlerActivity.class));
+                        break;
+                    }
                 }
             }
         });

@@ -21,7 +21,9 @@
         <activity android:name=".CustomViewDemoActivity" />
         <activity android:name=".LeakCanary.TestActivity" />
         <activity android:name=".LeakCanary.LeakNavActivity" />
-        <activity android:name=".LeakCanary.SingleActivity"></activity>
+        <activity android:name=".LeakCanary.SingleActivity" />
+        <activity android:name=".LeakCanary.NonStaticActivity" />
+        <activity android:name=".LeakCanary.HandlerActivity"></activity>
     </application>
 
 </manifest>

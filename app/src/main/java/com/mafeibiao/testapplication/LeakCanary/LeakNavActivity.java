@@ -35,6 +35,8 @@ public class LeakNavActivity extends AppCompatActivity {
         List<String> dataList = new ArrayList<>();
         dataList.add("静态变量引起的内存泄漏");
         dataList.add("单例模式引起的内存泄漏");
+        dataList.add("非静态内部类创建静态实例引起的内存泄漏");
+        dataList.add("Handler引起的内存泄漏");
         return dataList;
     }
 

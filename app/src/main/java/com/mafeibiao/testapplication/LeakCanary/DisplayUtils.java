@@ -10,7 +10,7 @@ public class DisplayUtils {
     private static volatile DisplayUtils instance = null;
     private Context mContext;
     private DisplayUtils(Context context){
-        this.mContext = context;
+        this.mContext = context.getApplicationContext();
     }
     public static DisplayUtils getInstance(Context context){
         if (instance == null){
