@@ -10,7 +10,13 @@ import java.io.Serializable;
 
 class Person implements Serializable {
 
-    private String desc;
+
+    //静态域
+    public static int static_field;
+    //transient域
+    public transient int transient_field;
+    //一个普通的域
+    public String desc;
 
     public Person(String desc) {
         this.desc = desc;

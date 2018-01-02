@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class Person implements Parcelable{
-    private String desc;
+    public String desc;
     private Person(Parcel in) {
         desc = in.readString();
     }
