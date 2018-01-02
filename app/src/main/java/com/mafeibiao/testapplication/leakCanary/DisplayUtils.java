@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.LeakCanary;
+package com.mafeibiao.testapplication.leakCanary;
 
 import android.content.Context;
 

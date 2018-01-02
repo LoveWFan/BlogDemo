@@ -36,14 +36,14 @@
             android:text="持卡人"
             />
 
-        <com.mafeibiao.testapplication.CustomView.MyEditText
+        <com.mafeibiao.testapplication.customView.MyEditText
             android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:hint="请输入姓名"
             android:padding="5dp" >
-        </com.mafeibiao.testapplication.CustomView.MyEditText>
+        </com.mafeibiao.testapplication.customView.MyEditText>
     </LinearLayout>
 
     <LinearLayout
@@ -65,7 +65,7 @@
             android:gravity="left"
             android:text="卡号" />
 
-        <com.mafeibiao.testapplication.CustomView.MyEditText
+        <com.mafeibiao.testapplication.customView.MyEditText
             android:id="@+id/et_card_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:inputType="number"
             app:editTextMode="2"
             app:splitNumber="4">
-        </com.mafeibiao.testapplication.CustomView.MyEditText>
+        </com.mafeibiao.testapplication.customView.MyEditText>
     </LinearLayout>
 
     <LinearLayout
@@ -97,7 +97,7 @@
             android:gravity="left"
             android:text="手机号" />
 
-        <com.mafeibiao.testapplication.CustomView.MyEditText
+        <com.mafeibiao.testapplication.customView.MyEditText
             android:id="@+id/et_phone_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
             android:padding="5dp"
             app:editTextMode="3"
             >
-        </com.mafeibiao.testapplication.CustomView.MyEditText>
+        </com.mafeibiao.testapplication.customView.MyEditText>
     </LinearLayout>
 
 </LinearLayout>

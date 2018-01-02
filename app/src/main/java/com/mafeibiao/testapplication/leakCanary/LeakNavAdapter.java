@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.LeakCanary;
+package com.mafeibiao.testapplication.leakCanary;
 
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +71,7 @@ public class LeakNavAdapter extends RecyclerView.Adapter<LeakNavAdapter.ViewHold
         private TextView mTextView;
         public ViewHolder(View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.tv_title);
+            mTextView = (TextView) itemView.findViewById(R.id.tv_title);
         }
 
         public void setData(String title) {

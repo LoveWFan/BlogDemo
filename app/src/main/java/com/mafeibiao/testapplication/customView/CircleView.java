@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.CustomView;
+package com.mafeibiao.testapplication.customView;
 
 import android.content.Context;
 import android.content.res.TypedArray;

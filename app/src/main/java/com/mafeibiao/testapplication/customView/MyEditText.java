@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.CustomView;
+package com.mafeibiao.testapplication.customView;
 
 /**
  * Created by mafeibiao on 2017/11/21.

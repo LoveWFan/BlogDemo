@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mafeibiao.testapplication.MyTagFlowLayout.MyTagAdapter;
-import com.mafeibiao.testapplication.MyTagFlowLayout.MyTagFlowLayout;
+import com.mafeibiao.testapplication.myTagFlowLayout.MyTagAdapter;
+import com.mafeibiao.testapplication.myTagFlowLayout.MyTagFlowLayout;
 
 public class CustomViewGroupDemoActivity extends AppCompatActivity {
 

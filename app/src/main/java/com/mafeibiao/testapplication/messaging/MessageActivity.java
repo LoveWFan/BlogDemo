@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.Messaging;
+package com.mafeibiao.testapplication.messaging;
 
 import android.os.Bundle;
 import android.os.Looper;

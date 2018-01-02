@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mafeibiao.testapplication.LeakCanary.LeakNavActivity;
-import com.mafeibiao.testapplication.Messaging.MessageActivity;
+import com.mafeibiao.testapplication.leakCanary.LeakNavActivity;
+import com.mafeibiao.testapplication.messaging.MessageActivity;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         private TextView mTextView;
         public ViewHolder(View itemView) {
             super(itemView);
-            mTextView = itemView.findViewById(R.id.tv_title);
+            mTextView = (TextView) itemView.findViewById(R.id.tv_title);
         }
 
         public void setData(String title) {

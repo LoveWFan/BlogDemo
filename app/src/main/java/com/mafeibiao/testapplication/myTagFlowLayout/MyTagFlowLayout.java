@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.MyTagFlowLayout;
+package com.mafeibiao.testapplication.myTagFlowLayout;
 
 import android.content.Context;
 import android.util.AttributeSet;
