@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.mafeibiao.testapplication.R;
+import com.mafeibiao.testapplication.xuliehua.pacel.Book;
 import com.mafeibiao.testapplication.xuliehua.pacel.Person;
 
 public class TestActivity extends AppCompatActivity {
@@ -14,8 +15,9 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test2);
+
         Parcel parcel = Parcel.obtain();
-        Person person = new Person("TEST");
+        Person person = new Person(23,"TEST",new Book("c++"));
 
         //写入Parcel
         parcel.writeParcelable(person,0);
@@ -23,6 +25,6 @@ public class TestActivity extends AppCompatActivity {
         parcel.setDataPosition(0);
         //读取Parcel
         Person person1 = parcel.readParcelable(Person.class.getClassLoader());
-        Log.d("TestActivity",person1.desc);
+        Log.d("TestActivity",person1.toString());
     }
 }

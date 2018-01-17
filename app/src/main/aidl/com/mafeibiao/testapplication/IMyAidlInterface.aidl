@@ -5,5 +5,4 @@ package com.mafeibiao.testapplication;
 
 interface IMyAidlInterface {
     int getTest();
-    void setTest(int temp);
 }

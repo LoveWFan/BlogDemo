@@ -30,7 +30,8 @@
             android:authorities="com.mafeibiao.testapplication.contentProvider.provider"
             android:process=":provider" />
 
-        <activity android:name=".xuliehua.TestActivity"></activity>
+        <activity android:name=".xuliehua.TestActivity" />
+        <activity android:name=".bitmap.BitmapActivity"></activity>
     </application>
 
 </manifest>

@@ -1,15 +1,19 @@
 package com.mafeibiao.testapplication.xuliehua.serializable;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
  * Created by mafeibiao on 2018/1/2.
  */
 
-class Person implements Serializable {
-
+public class Person extends PersonParent implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     //静态域
     public static int static_field;
@@ -22,16 +26,16 @@ class Person implements Serializable {
         this.desc = desc;
     }
 
-    static class SerializableProxy implements Serializable{
+    static class PersonSerializableProxy implements Serializable{
         private String desc;
 
-        private SerializableProxy(Person s) {
+        private PersonSerializableProxy(Person s) {
             this.desc = s.desc;
         }
 
         /**
-         * 在这里恢复外围类
-         * 注意看这里!!!最大的好处就是我们最后得到的外围类是通过构造器构建的!
+         * 与writeReplace相同，ObjectInputStream会通过反射调用 readResolve()这个方法，
+         * 决定是否替换反序列化出来的对象。
          * @return
          */
         private Object readResolve() {
@@ -41,11 +45,15 @@ class Person implements Serializable {
     }
 
     /**
-     * 外围类直接替换成静态内部代理类作为真正的序列化对象
+     *
+     * 在序列化一个对象时，ObjectOutputStream会通过反射首先调用writeReplace这个方法，
+     * 在这里我们可以替换真正送去序列的对象，
+     * 如果我们没有重写，那序列化的对象就是最开始的对象。
      * @return
      */
     private Object writeReplace() {
-        return new SerializableProxy(this);
+         //序列化Person的时候我们并没有直接写入Person对象，而是写入了PersonSerializableProxy对象
+        return new PersonSerializableProxy(this);
     }
 
     /**
@@ -56,5 +64,35 @@ class Person implements Serializable {
      */
     private void readObject(ObjectInputStream stream) throws InvalidObjectException {
         throw new InvalidObjectException("proxy requied!");
+    }
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        Person person = new Person("desc");
+        person.transient_field = 100;
+        person.static_field = 10086;
+
+        ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("cache.txt"));
+        outputStream.writeObject(person);
+        outputStream.flush();
+        outputStream.close();
+
+        person.static_field = 10087;
+
+
+        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("cache.txt"));
+        Person deserialObj = (Person) objectInputStream.readObject();
+        System.out.println(deserialObj);
+    }
+
+
+}
+class PersonParent{
+    private String name;
+    //PersonParent类要么继承自Serializable，要么需要提供一个无参构造器。
+    public PersonParent() {
+    }
+
+    public PersonParent(String name) {
+        this.name = name;
     }
 }

@@ -8,13 +8,22 @@ import android.os.Parcelable;
  */
 
 public class Person implements Parcelable{
-    public String desc;
-    private Person(Parcel in) {
-        desc = in.readString();
+    private int mAge;
+    private String mDesc;
+    private Book mBook;
+
+
+    public Person(int age, String desc, Book book) {
+        mAge = age;
+        mDesc = desc;
+        mBook = book;
     }
 
-    public Person(String desc) {
-        this.desc = desc;
+
+    protected Person(Parcel in) {
+        mAge = in.readInt();
+        mDesc = in.readString();
+        mBook = in.readParcelable(Thread.currentThread().getContextClassLoader());
     }
 
     public static final Creator<Person> CREATOR = new Creator<Person>() {
@@ -36,6 +45,16 @@ public class Person implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(desc);
+        dest.writeInt(mAge);
+        dest.writeString(mDesc);
+        dest.writeParcelable(mBook,0);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "mAge=" + mAge +
+                ", mDesc='" + mDesc + '\'' +
+                '}';
     }
 }
