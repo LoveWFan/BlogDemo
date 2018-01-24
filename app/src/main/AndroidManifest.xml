@@ -31,7 +31,8 @@
             android:process=":provider" />
 
         <activity android:name=".xuliehua.TestActivity" />
-        <activity android:name=".bitmap.BitmapActivity"></activity>
+        <activity android:name=".bitmap.BitmapActivity" />
+        <activity android:name=".fragment.FragmentActivity"></activity>
     </application>
 
 </manifest>
