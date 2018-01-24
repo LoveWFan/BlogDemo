@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mafeibiao.testapplication.fragment.FragmentActivity;
+import com.mafeibiao.testapplication.fragment.BestFragmentActivity;
+import com.mafeibiao.testapplication.fragment.EasyFragmentActivity;
 import com.mafeibiao.testapplication.leakCanary.LeakNavActivity;
 import com.mafeibiao.testapplication.messaging.MessageActivity;
 
@@ -56,7 +57,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     }
 
                     case 4: {
-                        mContext.startActivity(new Intent(mContext, FragmentActivity.class));
+                        mContext.startActivity(new Intent(mContext, EasyFragmentActivity.class));
+                        break;
+                    }
+                    case 5: {
+                        mContext.startActivity(new Intent(mContext, BestFragmentActivity.class));
                         break;
                     }
                 }

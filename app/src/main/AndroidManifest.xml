@@ -32,7 +32,8 @@
 
         <activity android:name=".xuliehua.TestActivity" />
         <activity android:name=".bitmap.BitmapActivity" />
-        <activity android:name=".fragment.FragmentActivity"></activity>
+        <activity android:name=".fragment.BestFragmentActivity" />
+        <activity android:name=".fragment.EasyFragmentActivity"></activity>
     </application>
 
 </manifest>
