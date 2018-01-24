@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="com.mafeibiao.testapplication.fragment.GoodFragment"
+        android:name="com.mafeibiao.testapplication.fragment.GoodsFragment"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1"

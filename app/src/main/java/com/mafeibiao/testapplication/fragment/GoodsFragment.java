@@ -13,7 +13,7 @@ import com.mafeibiao.testapplication.R;
 /**
  * Created by Chenyc on 15/7/1.
  */
-public class GoodFragment extends Fragment {
+public class GoodsFragment extends Fragment {
 
 
     @Nullable

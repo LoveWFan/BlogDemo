@@ -76,7 +76,7 @@ public class BestFragmentActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new GoodCarFragment(), Constant.GOODCAR_FRAGMENT_FLAG).commit();
     }
     private void switchToHome() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new GoodFragment(), Constant.GOODS_FRAGMENT_FLAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new GoodsFragment(), Constant.GOODS_FRAGMENT_FLAG).commit();
     }
 
 
