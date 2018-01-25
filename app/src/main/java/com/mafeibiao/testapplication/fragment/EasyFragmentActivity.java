@@ -18,10 +18,10 @@ public class EasyFragmentActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         if (display.getWidth() > display.getHeight()) {
             GoodCarFragment fragment1 = new GoodCarFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment1).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment1,Constant.GOODCAR_FRAGMENT_FLAG).commit();
         } else {
             GoodsFragment fragment2 = new GoodsFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment2).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_layout, fragment2,Constant.GOODS_FRAGMENT_FLAG).commit();
         }
     }
 
@@ -60,5 +60,9 @@ public class EasyFragmentActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG,"onRestart");
+    }
+
+    public void show(){
+        Log.d(TAG,"show");
     }
 }
