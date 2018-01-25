@@ -7,7 +7,7 @@ import android.view.Display;
 
 import com.mafeibiao.testapplication.R;
 
-public class EasyFragmentActivity extends AppCompatActivity {
+public class EasyFragmentActivity extends AppCompatActivity implements IShow {
     private static String TAG= EasyFragmentActivity.class.getSimpleName();
 
     @Override
@@ -62,7 +62,9 @@ public class EasyFragmentActivity extends AppCompatActivity {
         Log.d(TAG,"onRestart");
     }
 
+    @Override
     public void show(){
         Log.d(TAG,"show");
     }
+
 }

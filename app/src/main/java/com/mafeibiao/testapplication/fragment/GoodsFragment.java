@@ -17,9 +17,13 @@ import com.mafeibiao.testapplication.R;
  */
 public class GoodsFragment extends Fragment {
     private static String TAG= GoodsFragment.class.getSimpleName();
+    private IShow mCallback;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context != null) {
+            mCallback = (IShow) context;
+        }
         Log.d(TAG,"onAttach");
     }
 
@@ -29,8 +33,10 @@ public class GoodsFragment extends Fragment {
         Log.d(TAG,"onCreateView");
         View view = inflater.inflate(R.layout.fragment_goods, null);
 //        ((EasyFragmentActivity)getActivity()).show();
-        GoodCarFragment goodCarFragment = (GoodCarFragment) getActivity().getSupportFragmentManager().findFragmentByTag("GOODCAR_FRAGMENT_FLAG");
-        goodCarFragment.show();
+//        GoodCarFragment goodCarFragment = (GoodCarFragment) getActivity().getSupportFragmentManager().findFragmentByTag("GOODCAR_FRAGMENT_FLAG");
+//        goodCarFragment.show();
+
+        mCallback.show();
         return view;
     }
 
