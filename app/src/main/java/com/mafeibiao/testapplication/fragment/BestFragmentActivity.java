@@ -9,7 +9,7 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 import com.mafeibiao.testapplication.R;
 
-public class BestFragmentActivity extends AppCompatActivity {
+public class BestFragmentActivity extends AppCompatActivity implements IShow{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,4 +80,8 @@ public class BestFragmentActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void show() {
+
+    }
 }
