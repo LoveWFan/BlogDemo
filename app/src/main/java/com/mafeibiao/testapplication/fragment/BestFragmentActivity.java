@@ -14,6 +14,11 @@ import com.mafeibiao.testapplication.R;
 public class BestFragmentActivity extends AppCompatActivity implements IShow{
 
     private Fragment mCurFragment = new Fragment();
+    private GoodsFragment mGoodsFragment = new GoodsFragment();
+    private GoodCarFragment mGoodCarFragment = new GoodCarFragment();
+    private TaskFragment mTaskFragment = new TaskFragment();
+    private AboutFragment mAboutFragment  = new AboutFragment();
+    private CategoryFragment mCategoryFragment  = new CategoryFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,19 +91,19 @@ public class BestFragmentActivity extends AppCompatActivity implements IShow{
 
 
     private void switchToAbout() {
-        switchFragment(new AboutFragment());
+        switchFragment(mAboutFragment);
     }
     private void switchToCategory() {
-        switchFragment(new CategoryFragment());
+        switchFragment(mCategoryFragment);
     }
     private void switchToTask() {
-        switchFragment(new TaskFragment());
+        switchFragment(mTaskFragment);
     }
     private void switchToGoodCar() {
-        switchFragment(new GoodCarFragment());
+        switchFragment(mGoodCarFragment);
     }
     private void switchToHome() {
-        switchFragment(new GoodsFragment());
+        switchFragment(mGoodsFragment);
     }
 
 

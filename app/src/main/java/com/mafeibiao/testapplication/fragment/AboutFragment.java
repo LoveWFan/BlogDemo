@@ -25,5 +25,8 @@ public class AboutFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
 }
