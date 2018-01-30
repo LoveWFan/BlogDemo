@@ -19,4 +19,21 @@
     <dimen name="dp_70">70dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_2">2dp</dimen>
+
+    <dimen name="bottom_navigation_elevation">8dp</dimen>
+    <dimen name="bottom_navigation_shadow_height">8dp</dimen>
+    <dimen name="bottom_navigation_shadow_height_without_colored_background">4dp</dimen>
+    <dimen name="bottom_navigation_min_width">104dp</dimen>
+    <dimen name="bottom_navigation_max_width">168dp</dimen>
+    <dimen name="bottom_navigation_height">56dp</dimen>
+    <dimen name="bottom_navigation_line_width">1dp</dimen>
+    <dimen name="bottom_navigation_icon">24dp</dimen>
+    <dimen name="bottom_navigation_padding_top_active">5dp</dimen>
+    <dimen name="bottom_navigation_padding_top_inactive">9dp</dimen>
+    <dimen name="bottom_navigation_padding_top_inactive_without_text">16dp</dimen>
+    <dimen name="bottom_navigation_padding_bottom">7dp</dimen>
+    <dimen name="bottom_navigation_padding_left">12dp</dimen>
+    <dimen name="bottom_navigation_padding_right">12dp</dimen>
+    <dimen name="bottom_navigation_text_size_active">14sp</dimen>
+    <dimen name="bottom_navigation_text_size_inactive">12sp</dimen>
 </resources>

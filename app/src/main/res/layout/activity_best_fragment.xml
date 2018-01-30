@@ -30,6 +30,9 @@
         app:bnv_viewpager_slide="true"
         app:bnv_active_color="@color/colorPrimary"
         app:bnv_active_text_size="@dimen/bottom_navigation_text_size_active"
-        app:bnv_inactive_text_size="@dimen/bottom_navigation_text_size_inactive"/>
+        app:bnv_inactive_text_size="@dimen/bottom_navigation_text_size_inactive">
+
+
+    </com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView>
 
 </RelativeLayout>
