@@ -1,6 +1,8 @@
 package com.mafeibiao.testapplication.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +12,8 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItem
 import com.mafeibiao.testapplication.R;
 
 public class BestFragmentActivity extends AppCompatActivity implements IShow{
+
+    private Fragment mCurFragment = new Fragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,6 @@ public class BestFragmentActivity extends AppCompatActivity implements IShow{
         bottomNavigationView.addTab(bottomNavigationItem3);
         bottomNavigationView.addTab(bottomNavigationItem4);
 
-
         bottomNavigationView.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
             @Override
             public void onNavigationItemClick(int i) {
@@ -62,22 +65,42 @@ public class BestFragmentActivity extends AppCompatActivity implements IShow{
         switchToHome();
     }
 
+    private void switchFragment(Fragment targetFragment){
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+        if (!targetFragment.isAdded()) {
+            transaction
+                    .hide(mCurFragment)
+                    .add(R.id.frame_content, targetFragment,targetFragment.getClass().getName())
+                    .commit();
+        } else {
+            transaction
+                    .hide(mCurFragment)
+                    .show(targetFragment)
+                    .commit();
+        }
+        mCurFragment = targetFragment;
+
+
+    }
+
 
     private void switchToAbout() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new AboutFragment(), Constant.ABOUT_FRAGMENT_FLAG).commit();
+        switchFragment(new AboutFragment());
     }
     private void switchToCategory() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new CategoryFragment(), Constant.CATEGORY_FRAGMENT_FLAG).commit();
+        switchFragment(new CategoryFragment());
     }
     private void switchToTask() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new TaskFragment(), Constant.TASK_FRAGMENT_FLAG).commit();
+        switchFragment(new TaskFragment());
     }
     private void switchToGoodCar() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new GoodCarFragment(), Constant.GOODCAR_FRAGMENT_FLAG).commit();
+        switchFragment(new GoodCarFragment());
     }
     private void switchToHome() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new GoodsFragment(), Constant.GOODS_FRAGMENT_FLAG).commit();
+        switchFragment(new GoodsFragment());
     }
+
 
 
     @Override
