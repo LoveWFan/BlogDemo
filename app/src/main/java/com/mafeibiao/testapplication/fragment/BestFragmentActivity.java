@@ -12,8 +12,9 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItem
 import com.mafeibiao.testapplication.R;
 
 public class BestFragmentActivity extends AppCompatActivity implements IShow{
-
+    //当前的Fragment
     private Fragment mCurFragment = new Fragment();
+    //初始化其他的Fragment
     private GoodsFragment mGoodsFragment = new GoodsFragment();
     private GoodCarFragment mGoodCarFragment = new GoodCarFragment();
     private TaskFragment mTaskFragment = new TaskFragment();
@@ -73,17 +74,18 @@ public class BestFragmentActivity extends AppCompatActivity implements IShow{
     private void switchFragment(Fragment targetFragment){
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
-        if (!targetFragment.isAdded()) {
+        if (!targetFragment.isAdded()) {//如果要显示的targetFragment没有添加过
             transaction
-                    .hide(mCurFragment)
-                    .add(R.id.frame_content, targetFragment,targetFragment.getClass().getName())
+                    .hide(mCurFragment)//隐藏当前Fragment
+                    .add(R.id.frame_content, targetFragment,targetFragment.getClass().getName())//添加targetFragment
                     .commit();
-        } else {
-            transaction
+        } else {//如果要显示的targetFragment已经添加过
+            transaction//隐藏当前Fragment
                     .hide(mCurFragment)
-                    .show(targetFragment)
+                    .show(targetFragment)//显示targetFragment
                     .commit();
         }
+        //更新当前Fragment为targetFragment
         mCurFragment = targetFragment;
 
 
@@ -106,7 +108,27 @@ public class BestFragmentActivity extends AppCompatActivity implements IShow{
         switchFragment(mGoodsFragment);
     }
 
-
+//    private void switchToAbout() {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new AboutFragment(),AboutFragment.class.getName()).commit();
+//    }
+//    private void switchToCategory() {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new CategoryFragment(),CategoryFragment.class.getName()).commit();
+//    }
+//
+//    private void switchToTask() {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new TaskFragment(),TaskFragment.class.getName()).commit();
+//    }
+//
+//    private void switchToGoodCar() {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new GoodCarFragment(),GoodCarFragment.class.getName()).commit();
+//    }
+//
+//    private void switchToHome() {
+//        getSupportFragmentManager().beginTransaction().add(R.id.frame_content,new AboutFragment(),AboutFragment.class.getName()).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.frame_content,new CategoryFragment(),CategoryFragment.class.getName()).commit();
+//        getSupportFragmentManager().beginTransaction().add(R.id.frame_content,new TaskFragment(),TaskFragment.class.getName()).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new GoodsFragment(),GoodsFragment.class.getName()).commit();
+//    }
 
     @Override
     public void show() {
