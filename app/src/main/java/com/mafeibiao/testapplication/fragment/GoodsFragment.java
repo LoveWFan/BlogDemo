@@ -3,41 +3,61 @@ package com.mafeibiao.testapplication.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mafeibiao.testapplication.R;
+import com.mafeibiao.testapplication.fragment_tabLayout_viewpager.BaseFragment;
 
 
 /**
  * Created by Chenyc on 15/7/1.
  */
-public class GoodsFragment extends Fragment {
+public class GoodsFragment extends BaseFragment {
     private static String TAG= GoodsFragment.class.getSimpleName();
-    private IShow mCallback;
+//    private IShow mCallback;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context != null) {
-            mCallback = (IShow) context;
-        }
+//        if (context != null) {
+//            mCallback = (IShow) context;
+//        }
         Log.d(TAG,"onAttach");
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG,"onCreateView");
-        View view = inflater.inflate(R.layout.fragment_goods, null);
-//        ((EasyFragmentActivity)getActivity()).show();
-//        GoodCarFragment goodCarFragment = (GoodCarFragment) getActivity().getSupportFragmentManager().findFragmentByTag("GOODCAR_FRAGMENT_FLAG");
-//        goodCarFragment.show();
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        Log.d(TAG,"onCreateView");
+//        View view = inflater.inflate(R.layout.fragment_goods, null);
+////        ((EasyFragmentActivity)getActivity()).show();
+////        GoodCarFragment goodCarFragment = (GoodCarFragment) getActivity().getSupportFragmentManager().findFragmentByTag("GOODCAR_FRAGMENT_FLAG");
+////        goodCarFragment.show();
+//
+////        mCallback.show();
+//        return view;
+//    }
 
-        mCallback.show();
-        return view;
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if(isVisible){
+            //可见，并且是第一次加载
+
+        }else{
+            //取消加载
+        }
+    }
+
+
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_goods;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
     @Override

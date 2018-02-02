@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mafeibiao.testapplication.fragment.BestFragmentActivity;
 import com.mafeibiao.testapplication.fragment.EasyFragmentActivity;
+import com.mafeibiao.testapplication.fragment_tabLayout_viewpager.TabActivity;
 import com.mafeibiao.testapplication.leakCanary.LeakNavActivity;
 import com.mafeibiao.testapplication.messaging.MessageActivity;
 
@@ -62,6 +63,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     }
                     case 5: {
                         mContext.startActivity(new Intent(mContext, BestFragmentActivity.class));
+                        break;
+                    }
+                    case 6: {
+                        mContext.startActivity(new Intent(mContext, TabActivity.class));
                         break;
                     }
                 }

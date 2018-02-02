@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.2"
@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.android.support:support-v4:25.4.0'
     implementation 'com.android.support:recyclerview-v7:25.4.0'
 
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     //网络请求框架
     implementation 'com.squareup.okhttp3:okhttp:3.9.1'
 

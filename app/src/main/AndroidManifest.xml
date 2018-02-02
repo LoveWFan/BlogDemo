@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mafeibiao.testapplication">
+    package="com.mafeibiao.testapplication">
 
     <application
         android:name=".TestApplication"
@@ -11,34 +11,35 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CustomViewGroupDemoActivity"/>
-        <activity android:name=".CustomViewDemoActivity"/>
-        <activity android:name=".leakCanary.TestActivity"/>
-        <activity android:name=".leakCanary.LeakNavActivity"/>
-        <activity android:name=".leakCanary.SingleActivity"/>
-        <activity android:name=".leakCanary.NonStaticActivity"/>
-        <activity android:name=".leakCanary.HandlerActivity"/>
-        <activity android:name=".messaging.MessageActivity"/>
+        <activity android:name=".CustomViewGroupDemoActivity" />
+        <activity android:name=".CustomViewDemoActivity" />
+        <activity android:name=".leakCanary.TestActivity" />
+        <activity android:name=".leakCanary.LeakNavActivity" />
+        <activity android:name=".leakCanary.SingleActivity" />
+        <activity android:name=".leakCanary.NonStaticActivity" />
+        <activity android:name=".leakCanary.HandlerActivity" />
+        <activity android:name=".messaging.MessageActivity" />
 
         <provider
             android:name=".contentProvider.BookProvider"
             android:authorities="com.mafeibiao.testapplication.contentProvider.provider"
-            android:process=":provider"/>
+            android:process=":provider" />
 
-        <activity android:name=".xuliehua.TestActivity"/>
-        <activity android:name=".bitmap.BitmapActivity"/>
-        <activity android:name=".fragment.BestFragmentActivity"/>
-        <activity android:name=".fragment.EasyFragmentActivity"/>
+        <activity android:name=".xuliehua.TestActivity" />
+        <activity android:name=".bitmap.BitmapActivity" />
+        <activity android:name=".fragment.BestFragmentActivity" />
+        <activity android:name=".fragment.EasyFragmentActivity" />
 
         <service
             android:name=".intentservice.MyIntentService"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
+
+        <activity android:name=".fragment_tabLayout_viewpager.TabActivity"></activity>
     </application>
 
 </manifest>

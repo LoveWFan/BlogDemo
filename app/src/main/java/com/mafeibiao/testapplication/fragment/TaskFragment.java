@@ -2,27 +2,35 @@ package com.mafeibiao.testapplication.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.mafeibiao.testapplication.R;
+import com.mafeibiao.testapplication.fragment_tabLayout_viewpager.BaseFragment;
 
 
 /**
  * Created by Chenyc on 15/7/1.
  */
-public class TaskFragment extends Fragment {
+public class TaskFragment extends BaseFragment {
 
     private static String TAG= TaskFragment.class.getSimpleName();
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_task, null);
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View view = inflater.inflate(R.layout.fragment_task, null);
+//
+//        return view;
+//    }
 
-        return view;
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_task;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 
     @Override

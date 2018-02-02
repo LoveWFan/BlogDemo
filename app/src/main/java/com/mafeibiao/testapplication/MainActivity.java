@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add("Android消息机制");
         dataList.add("Fragment初探");
         dataList.add("Fragment最佳实践");
+        dataList.add("Fragment+ViewPager+TabLayout");
         return dataList;
     }
 
