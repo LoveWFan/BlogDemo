@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.mafeibiao.testapplication.fragment.AboutFragment;
 import com.mafeibiao.testapplication.fragment.CategoryFragment;
+import com.mafeibiao.testapplication.fragment.GoodCarFragment;
 import com.mafeibiao.testapplication.fragment.GoodsFragment;
 import com.mafeibiao.testapplication.fragment.TaskFragment;
 
@@ -39,7 +41,12 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
                 return tab2;
             case 2:
                 TaskFragment tab3=new TaskFragment();
-                return tab3;
+            case 3:
+                GoodCarFragment tab4=new GoodCarFragment();
+                return tab4;
+            case 4:
+                AboutFragment tab5=new AboutFragment();
+                return tab5;
         }
         return null;
     }

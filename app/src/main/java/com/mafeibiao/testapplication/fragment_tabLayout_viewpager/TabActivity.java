@@ -25,7 +25,8 @@ public class TabActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("Tab 1"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Tab 2"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Tab 3"));
-
+        mTabLayout.addTab(mTabLayout.newTab().setText("Tab 4"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Tab 5"));
         //自定义的Adapter继承自FragmentPagerAdapter
         final MyPagerAdapter adapter = new MyPagerAdapter
                 (getSupportFragmentManager(), mTabLayout.getTabCount());
