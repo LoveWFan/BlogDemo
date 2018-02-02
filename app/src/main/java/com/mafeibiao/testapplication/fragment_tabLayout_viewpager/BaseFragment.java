@@ -18,7 +18,6 @@ public abstract class BaseFragment extends Fragment {
     protected View rootView;
 
     private Unbinder mUnbinder;
-    private int count;//记录开启进度条的情况 只能开一个
     //当前Fragment是否处于可见状态标志，防止因ViewPager的缓存机制而导致回调函数的触发
     private boolean isFragmentVisible;
     //是否是第一次开启网络加载

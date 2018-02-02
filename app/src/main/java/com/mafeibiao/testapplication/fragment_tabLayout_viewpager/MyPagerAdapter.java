@@ -12,13 +12,21 @@ import com.mafeibiao.testapplication.fragment.CategoryFragment;
 import com.mafeibiao.testapplication.fragment.GoodsFragment;
 import com.mafeibiao.testapplication.fragment.TaskFragment;
 
-public class PagerAdapter extends FragmentPagerAdapter {
+public class MyPagerAdapter extends FragmentPagerAdapter {
+    //fragment的数量
     int nNumOfTabs;
-    public PagerAdapter(FragmentManager fm, int nNumOfTabs)
+    public MyPagerAdapter(FragmentManager fm, int nNumOfTabs)
     {
         super(fm);
         this.nNumOfTabs=nNumOfTabs;
     }
+
+    /**
+     * 重写getItem方法
+     *
+     * @param position 指定的位置
+     * @return 特定的Fragment
+     */
     @Override
     public Fragment getItem(int position) {
         switch(position)
@@ -36,6 +44,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
+    /**
+     * 重写getCount方法
+     *
+     * @return fragment的数量
+     */
     @Override
     public int getCount() {
         return nNumOfTabs;

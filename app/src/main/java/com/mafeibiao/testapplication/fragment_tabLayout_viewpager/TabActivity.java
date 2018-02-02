@@ -26,28 +26,33 @@ public class TabActivity extends AppCompatActivity {
         mTabLayout.addTab(mTabLayout.newTab().setText("Tab 2"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Tab 3"));
 
-        final PagerAdapter adapter = new PagerAdapter
+        //自定义的Adapter继承自FragmentPagerAdapter
+        final MyPagerAdapter adapter = new MyPagerAdapter
                 (getSupportFragmentManager(), mTabLayout.getTabCount());
+
+        //ViewPager设置Adapter
         mViewPager.setAdapter(adapter);
+
+        //为ViewPager添加页面改变监听
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        if (mTabLayout != null){
-            mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    mViewPager.setCurrentItem(tab.getPosition());
-                }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
+        //为TabLayout添加Tab选择监听
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
 
-                }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
 }
