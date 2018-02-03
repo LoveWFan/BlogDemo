@@ -1,5 +1,6 @@
 package com.mafeibiao.testapplication.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -15,7 +16,13 @@ import com.mafeibiao.testapplication.fragment_tabLayout_viewpager.BaseFragment;
 public class CategoryFragment extends BaseFragment {
 
     private static String TAG= CategoryFragment.class.getSimpleName();
-//    @Nullable
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG,"onAttach");
+    }
+    //    @Nullable
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        View view = inflater.inflate(R.layout.fragment_category, null);
@@ -93,4 +100,20 @@ public class CategoryFragment extends BaseFragment {
         Log.d(TAG,"onDetach");
     }
 
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if(isVisible){
+            //可见，并且是第一次加载
+            lazyLoad();
+        }else{
+            //取消加载
+        }
+    }
+
+    private void lazyLoad() {
+        if (!isFirst) {
+            isFirst = true;
+        }
+    }
 }

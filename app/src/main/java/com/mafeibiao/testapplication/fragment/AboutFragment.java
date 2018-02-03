@@ -90,4 +90,20 @@ public class AboutFragment extends BaseFragment {
         super.onDetach();
         Log.d(TAG,"onDetach");
     }
+
+    @Override
+    protected void onFragmentVisibleChange(boolean isVisible) {
+        if(isVisible){
+            //可见，并且是第一次加载
+            lazyLoad();
+        }else{
+            //取消加载
+        }
+    }
+
+    private void lazyLoad() {
+        if (!isFirst) {
+            isFirst = true;
+        }
+    }
 }
