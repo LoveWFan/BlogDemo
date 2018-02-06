@@ -37,9 +37,10 @@
 
         <service
             android:name=".intentservice.MyIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <activity android:name=".fragment_tabLayout_viewpager.TabActivity"></activity>
+        <activity android:name=".fragment_tabLayout_viewpager.TabActivity" />
+        <activity android:name=".listview.ListViewActivity"></activity>
     </application>
 
 </manifest>

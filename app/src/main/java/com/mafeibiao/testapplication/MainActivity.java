@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add("Fragment初探");
         dataList.add("Fragment最佳实践");
         dataList.add("Fragment+ViewPager+TabLayout");
+        dataList.add("ListView");
         return dataList;
     }
 
