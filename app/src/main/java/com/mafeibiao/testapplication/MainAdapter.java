@@ -14,6 +14,7 @@ import com.mafeibiao.testapplication.fragment_tabLayout_viewpager.TabActivity;
 import com.mafeibiao.testapplication.leakCanary.LeakNavActivity;
 import com.mafeibiao.testapplication.listview.ListViewActivity;
 import com.mafeibiao.testapplication.messaging.MessageActivity;
+import com.mafeibiao.testapplication.recyclerview.GuideMainActivity;
 
 import java.util.List;
 
@@ -72,6 +73,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                     }
                     case 7: {
                         mContext.startActivity(new Intent(mContext, ListViewActivity.class));
+                        break;
+                    }
+                    case 8: {
+                        mContext.startActivity(new Intent(mContext, GuideMainActivity.class));
                         break;
                     }
                 }

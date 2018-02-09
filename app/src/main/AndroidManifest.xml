@@ -40,7 +40,9 @@
             android:exported="false" />
 
         <activity android:name=".fragment_tabLayout_viewpager.TabActivity" />
-        <activity android:name=".listview.ListViewActivity"></activity>
+        <activity android:name=".listview.ListViewActivity" />
+        <activity android:name=".recyclerview.demo1.RecyclerViewDemo1Activity" />
+        <activity android:name=".recyclerview.GuideMainActivity"></activity>
     </application>
 
 </manifest>
