@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GuideMainActivity extends AppCompatActivity {
     @BindView(R.id.list_view)
@@ -23,7 +24,9 @@ public class GuideMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view_main);
+        setContentView(R.layout.activity_recycler_guide);
+
+        ButterKnife.bind(this);
         //初始化数据
         init();
 

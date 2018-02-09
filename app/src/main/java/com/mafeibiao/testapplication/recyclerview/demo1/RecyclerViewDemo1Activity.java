@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.mafeibiao.testapplication.DefaultItemDecoration;
-import com.mafeibiao.testapplication.MainAdapter;
 import com.mafeibiao.testapplication.R;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_recycler_demo1_view);
         ButterKnife.bind(this);
 
         mLayoutManager = createLayoutManager();
@@ -34,16 +33,15 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
         mRecyclerView.addItemDecoration( new DefaultItemDecoration(ContextCompat.getColor(this, R.color.divider_color)));
         mData = createDataList();
 
-        mRecyclerView.setAdapter(new MainAdapter(this,mData));
+        mRecyclerView.setAdapter(new RecyclerViewDemo1Adapter(this,mData));
     }
 
     protected List<String> createDataList() {
-        List<String> dataList = new ArrayList<>();
-        dataList.add("基础使用");
-        dataList.add("设置分割线");
-        dataList.add("添加HeadView以及FooterView");
-        dataList.add("设置EmptyView");
-        return dataList;
+        mData = new ArrayList<>();
+        for (int i=0;i<20;i++){
+            mData.add("这是第"+i+"个View");
+        }
+        return mData;
     }
 
     protected RecyclerView.LayoutManager createLayoutManager() {
