@@ -1,12 +1,10 @@
 package com.mafeibiao.testapplication.recyclerview.demo1;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.mafeibiao.testapplication.DefaultItemDecoration;
 import com.mafeibiao.testapplication.R;
 
 import java.util.ArrayList;
@@ -19,7 +17,6 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    private RecyclerView.LayoutManager mLayoutManager;
     private List<String> mData;
 
     @Override
@@ -28,12 +25,11 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_recycler_demo1_view);
         ButterKnife.bind(this);
 
-        mLayoutManager = createLayoutManager();
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration( new DefaultItemDecoration(ContextCompat.getColor(this, R.color.divider_color)));
+        //LayoutManager必须指定，否则无法显示数据,这里指定为线性布局，
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mData = createDataList();
-
-        mRecyclerView.setAdapter(new RecyclerViewDemo1Adapter(this,mData));
+        //设置Adapter必须指定，否则数据怎么显示
+        mRecyclerView.setAdapter(new RecyclerViewDemo1Adapter(mData));
     }
 
     protected List<String> createDataList() {
@@ -44,7 +40,4 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
         return mData;
     }
 
-    protected RecyclerView.LayoutManager createLayoutManager() {
-        return new LinearLayoutManager(this);
-    }
 }
