@@ -27,6 +27,7 @@ public class RecyclerViewDemo1Activity extends AppCompatActivity {
 
         //LayoutManager必须指定，否则无法显示数据,这里指定为线性布局，
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //虚拟数据
         mData = createDataList();
         //设置Adapter必须指定，否则数据怎么显示
         mRecyclerView.setAdapter(new RecyclerViewDemo1Adapter(mData));

@@ -31,9 +31,11 @@ public class RecyclerViewDemo1Adapter extends RecyclerView.Adapter<RecyclerViewD
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final ViewHolder viewHolder = new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_main, parent, false));
+        View view = LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.item_menu_main, parent, false);
 
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
