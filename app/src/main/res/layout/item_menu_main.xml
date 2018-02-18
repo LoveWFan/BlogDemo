@@ -28,6 +28,12 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Testing"/>
+        tools:text="Testing"
+        android:textSize="18sp"
+        android:textColor="#555555"
+        android:textStyle="bold"
+        android:text="text"
+        android:gravity="center"
+        />
 
 </LinearLayout>
