@@ -1,13 +1,13 @@
-package com.mafeibiao.testapplication.recyclerview.demo3;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ItemViewDelegate;
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ItemViewDelegateManager;
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ViewHolder;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ItemViewDelegate;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ItemViewDelegateManager;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ViewHolder;
 
 import java.util.List;
 

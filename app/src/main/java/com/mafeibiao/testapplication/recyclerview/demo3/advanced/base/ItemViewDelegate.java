@@ -1,7 +1,5 @@
-package com.mafeibiao.testapplication.recyclerview.demo3.base;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced.base;
 
-
-import android.view.View;
 
 /**
  * Created by zhy on 16/6/22.

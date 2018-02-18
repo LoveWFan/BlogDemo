@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.recyclerview.demo3.base;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

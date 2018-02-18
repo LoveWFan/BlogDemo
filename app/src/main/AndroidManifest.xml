@@ -45,7 +45,7 @@
         <activity android:name=".recyclerview.GuideMainActivity"/>
         <activity android:name=".recyclerview.demo2.RecyclerViewDemo2Activity">
         </activity>
-        <activity android:name=".recyclerview.demo3.RecyclerViewDomo3Activity">
+        <activity android:name=".recyclerview.demo3.RecyclerViewDemo3Activity">
         </activity>
     </application>
 

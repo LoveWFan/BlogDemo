@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.recyclerview.demo3.wrapper;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced.wrapper;
 
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ViewHolder;
-import com.mafeibiao.testapplication.recyclerview.demo3.utils.WrapperUtils;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ViewHolder;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.utils.WrapperUtils;
 
 
 /**

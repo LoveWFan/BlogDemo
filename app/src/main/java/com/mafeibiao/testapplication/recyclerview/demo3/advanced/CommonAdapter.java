@@ -1,10 +1,10 @@
-package com.mafeibiao.testapplication.recyclerview.demo3;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ItemViewDelegate;
-import com.mafeibiao.testapplication.recyclerview.demo3.base.ViewHolder;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ItemViewDelegate;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ViewHolder;
 
 import java.util.List;
 

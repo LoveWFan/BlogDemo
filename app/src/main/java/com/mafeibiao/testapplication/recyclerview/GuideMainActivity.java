@@ -11,6 +11,7 @@ import com.mafeibiao.testapplication.R;
 import com.mafeibiao.testapplication.listview.ListViewAdapter;
 import com.mafeibiao.testapplication.recyclerview.demo1.RecyclerViewDemo1Activity;
 import com.mafeibiao.testapplication.recyclerview.demo2.RecyclerViewDemo2Activity;
+import com.mafeibiao.testapplication.recyclerview.demo3.RecyclerViewDemo3Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,10 @@ public class GuideMainActivity extends AppCompatActivity {
                     }
                     case 1: {
                         startActivity(new Intent(GuideMainActivity.this, RecyclerViewDemo2Activity.class));
+                        break;
+                    }
+                    case 2: {
+                        startActivity(new Intent(GuideMainActivity.this, RecyclerViewDemo3Activity.class));
                         break;
                     }
                 }

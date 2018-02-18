@@ -1,4 +1,4 @@
-package com.mafeibiao.testapplication.recyclerview.demo3.utils;
+package com.mafeibiao.testapplication.recyclerview.demo3.advanced.utils;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
