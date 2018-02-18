@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.mafeibiao.testapplication.R;
 import com.mafeibiao.testapplication.listview.ListViewAdapter;
 import com.mafeibiao.testapplication.recyclerview.demo1.RecyclerViewDemo1Activity;
+import com.mafeibiao.testapplication.recyclerview.demo2.RecyclerViewDemo2Activity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,10 @@ public class GuideMainActivity extends AppCompatActivity {
                         startActivity(new Intent(GuideMainActivity.this, RecyclerViewDemo1Activity.class));
                         break;
                     }
-
+                    case 1: {
+                        startActivity(new Intent(GuideMainActivity.this, RecyclerViewDemo2Activity.class));
+                        break;
+                    }
                 }
             }
         });
@@ -56,7 +60,7 @@ public class GuideMainActivity extends AppCompatActivity {
     private void init() {
         mArrayList.add("基础使用");
         mArrayList.add("设置分割线");
-        mArrayList.add("添加HeadView以及FooterView");
+        mArrayList.add("添加HeaderView以及FooterView");
         mArrayList.add("设置EmptyView");
     }
 
