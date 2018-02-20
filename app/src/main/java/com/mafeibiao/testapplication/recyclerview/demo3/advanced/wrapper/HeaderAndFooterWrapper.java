@@ -52,6 +52,11 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
         return mInnerAdapter.onCreateViewHolder(parent, viewType);
     }
 
+    /**
+     * 获得对应position的type
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position)
     {
@@ -70,7 +75,11 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
         return mInnerAdapter.getItemCount();
     }
 
-
+    /**
+     * 绑定数据
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
@@ -85,6 +94,10 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
         mInnerAdapter.onBindViewHolder(holder, position - getHeadersCount());
     }
 
+    /**
+     * 得到item数量 (包括头部布局数量和尾部布局数量)
+     * @return
+     */
     @Override
     public int getItemCount()
     {
