@@ -1,11 +1,12 @@
 package com.mafeibiao.testapplication.recyclerview.demo3.advanced.wrapper;
 
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ViewHolder;
 import com.mafeibiao.testapplication.recyclerview.demo3.advanced.utils.WrapperUtils;
 
 
@@ -39,10 +40,12 @@ public class EmptyWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ViewHolder holder;
             if (mEmptyView != null)
             {
-                holder = ViewHolder.createViewHolder(parent.getContext(), mEmptyView);
+                holder = new ViewHolder(parent.getContext(), mEmptyView);
             } else
             {
-                holder = ViewHolder.createViewHolder(parent.getContext(), parent, mEmptyLayoutId);
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(mEmptyLayoutId, parent,
+                        false);
+               holder = new ViewHolder(parent.getContext(), itemView);
             }
             return holder;
         }
@@ -122,4 +125,14 @@ public class EmptyWrapper<T> extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mEmptyLayoutId = layoutId;
     }
 
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private View mConvertView;
+        private Context mContext;
+
+        public ViewHolder(Context context, View itemView) {
+            super(itemView);
+            mContext = context;
+            mConvertView = itemView;
+        }
+    }
 }

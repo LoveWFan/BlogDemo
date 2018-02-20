@@ -1,12 +1,12 @@
 package com.mafeibiao.testapplication.recyclerview.demo3.advanced.wrapper;
 
+import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mafeibiao.testapplication.recyclerview.demo3.advanced.base.ViewHolder;
 import com.mafeibiao.testapplication.recyclerview.demo3.advanced.utils.WrapperUtils;
 
 
@@ -17,7 +17,7 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
 {
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
-
+    //SparseArrayCompat类似于Map，其用法与map相似
     private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
@@ -28,17 +28,25 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
         mInnerAdapter = adapter;
     }
 
+    /**
+     * 重写onCreateViewHolder，创建ViewHolder
+     * @param parent 父容器，这里指的是RecyclerView
+     * @param viewType view的类型，用int表示，也是SparseArrayCompat的key
+     * @return
+     */
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         if (mHeaderViews.get(viewType) != null)
-        {
-            ViewHolder holder = ViewHolder.createViewHolder(parent.getContext(), mHeaderViews.get(viewType));
+        {//如果以viewType为key获取的View为null
+
+            //创建ViewHolder并返回
+            ViewHolder holder = new ViewHolder(parent.getContext(), mHeaderViews.get(viewType));
             return holder;
 
         } else if (mFootViews.get(viewType) != null)
         {
-            ViewHolder holder = ViewHolder.createViewHolder(parent.getContext(), mFootViews.get(viewType));
+            ViewHolder holder =  new ViewHolder(parent.getContext(), mFootViews.get(viewType));
             return holder;
         }
         return mInnerAdapter.onCreateViewHolder(parent, viewType);
@@ -148,5 +156,14 @@ public class HeaderAndFooterWrapper<T> extends RecyclerView.Adapter<RecyclerView
         return mFootViews.size();
     }
 
+    class ViewHolder extends RecyclerView.ViewHolder {
+        private View mConvertView;
+        private Context mContext;
 
+        public ViewHolder(Context context, View itemView) {
+            super(itemView);
+            mContext = context;
+            mConvertView = itemView;
+        }
+    }
 }

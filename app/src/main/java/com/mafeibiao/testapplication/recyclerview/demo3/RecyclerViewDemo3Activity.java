@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.mafeibiao.testapplication.R;
 import com.mafeibiao.testapplication.recyclerview.demo2.RecyclerViewDemo2Adapter;
+import com.mafeibiao.testapplication.recyclerview.demo3.advanced.wrapper.EmptyWrapper;
 import com.mafeibiao.testapplication.recyclerview.demo3.advanced.wrapper.HeaderAndFooterWrapper;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class RecyclerViewDemo3Activity extends AppCompatActivity {
 
     private List<String> mData;
     private RecyclerViewDemo2Adapter mAdapter;
+    private EmptyWrapper mEmptyWrapperAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,13 @@ public class RecyclerViewDemo3Activity extends AppCompatActivity {
         mAdapter = new RecyclerViewDemo2Adapter(mData);
 
         mHeaderAndFooterWrapper = new HeaderAndFooterWrapper(mAdapter);
+
+//        mEmptyWrapperAdapter = new EmptyWrapper(mHeaderAndFooterWrapper);
+//        TextView emptyText = new TextView(this);
+//        emptyText.setText("Empty");
+
+//        mEmptyWrapperAdapter.setEmptyView(emptyText);
+
 
         TextView t1 = new TextView(this);
         t1.setText("Header 1");
