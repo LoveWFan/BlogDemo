@@ -2,9 +2,8 @@ package com.mafeibiao.testapplication.recyclerview.demo3;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.TextView;
 
 import com.mafeibiao.testapplication.R;
@@ -34,10 +33,10 @@ public class RecyclerViewDemo3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_recycler_view_domo3);
         ButterKnife.bind(this);
 
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        mRecyclerView.setLayoutManager(new GridLayoutManager(this,3));
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL));
+//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, OrientationHelper.VERTICAL));
         //虚拟数据
         mData = createDataList();
 

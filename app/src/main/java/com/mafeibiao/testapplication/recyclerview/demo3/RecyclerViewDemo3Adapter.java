@@ -1,6 +1,7 @@
 package com.mafeibiao.testapplication.recyclerview.demo3;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import java.util.List;
 
 public class RecyclerViewDemo3Adapter extends RecyclerView.Adapter<RecyclerViewDemo3Adapter.ViewHolder> {
 
+    private static final String TAG = RecyclerViewDemo3Adapter.class.getSimpleName();
+
     private List<String> mData;
 
     public RecyclerViewDemo3Adapter(List<String> data) {
@@ -21,6 +24,8 @@ public class RecyclerViewDemo3Adapter extends RecyclerView.Adapter<RecyclerViewD
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        Log.d(TAG,"onCreateViewHolder->viewtype"+viewType);
         View view = LayoutInflater
                     .from(parent.getContext())
                     .inflate(R.layout.item_menu_main, parent, false);
@@ -30,6 +35,7 @@ public class RecyclerViewDemo3Adapter extends RecyclerView.Adapter<RecyclerViewD
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d(TAG,"onBindViewHolder->position"+position);
         holder.setData(this.mData.get(position));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
