@@ -1,51 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mafeibiao.testapplication">
+    package="com.poney.blogdemo">
 
     <application
-        android:name=".TestApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".CustomViewGroupDemoActivity"/>
-        <activity android:name=".CustomViewDemoActivity"/>
-        <activity android:name=".leakCanary.TestActivity"/>
-        <activity android:name=".leakCanary.LeakNavActivity"/>
-        <activity android:name=".leakCanary.SingleActivity"/>
-        <activity android:name=".leakCanary.NonStaticActivity"/>
-        <activity android:name=".leakCanary.HandlerActivity"/>
-        <activity android:name=".messaging.MessageActivity"/>
-
-        <provider
-            android:name=".contentProvider.BookProvider"
-            android:authorities="com.mafeibiao.testapplication.contentProvider.provider"
-            android:process=":provider"/>
-
-        <activity android:name=".xuliehua.TestActivity"/>
-        <activity android:name=".bitmap.BitmapActivity"/>
-        <activity android:name=".fragment.BestFragmentActivity"/>
-        <activity android:name=".fragment.EasyFragmentActivity"/>
-
-        <service
-            android:name=".intentservice.MyIntentService"
-            android:exported="false"/>
-
-        <activity android:name=".fragment_tabLayout_viewpager.TabActivity"/>
-        <activity android:name=".listview.ListViewActivity"/>
-        <activity android:name=".recyclerview.demo1.RecyclerViewDemo1Activity"/>
-        <activity android:name=".recyclerview.GuideMainActivity"/>
-        <activity android:name=".recyclerview.demo2.RecyclerViewDemo2Activity">
-        </activity>
-        <activity android:name=".recyclerview.demo3.RecyclerViewDemo3Activity">
         </activity>
     </application>
 
