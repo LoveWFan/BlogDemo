@@ -1,0 +1,65 @@
+ext {
+
+    androidConfig = [
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 16,
+            targetSdkVersion : 28
+
+    ]
+
+    supportLibrary = "28.0.0"
+
+    dependenciesConfig = [
+            appcompatV7            : 'androidx.appcompat:appcompat:1.2.0',
+            design                 : 'com.google.android.material:material:1.2.1',
+            recyclerviewV7         : 'androidx.recyclerview:recyclerview:1.1.0',
+
+            buglyNativecrashreport : "com.tencent.bugly:nativecrashreport:3.3.1",
+            buglyCrashreportUpgrade: "com.tencent.bugly:crashreport_upgrade:1.3.1",
+
+            rxjava                 : "io.reactivex.rxjava2:rxjava:2.1.4",
+            rxandroid              : "io.reactivex.rxjava2:rxandroid:2.0.2",
+            retrofit2AdapterRxjava : "com.squareup.retrofit2:adapter-rxjava:2.0.2",
+            retrofit2Retrofit      : "com.squareup.retrofit2:retrofit:2.0.2",
+            retrofit2Converter     : "com.squareup.retrofit2:converter-gson:2.0.2",
+            stethoOkhttp3          : "com.facebook.stetho:stetho-okhttp3:1.3.0",
+
+            butterknife            : "com.jakewharton:butterknife:10.2.1",
+            butterknifeannotation  : "com.jakewharton:butterknife-compiler:10.2.1",
+            glide                  : "com.github.bumptech.glide:glide:4.0.0",
+            glideCompiler          : "com.github.bumptech.glide:compiler:4.0.0",
+            luban                  : "top.zibin:Luban:1.1.3",
+            swipebackhelper        : "com.jude:swipebackhelper:3.1.2",
+            exoplayer              : "com.google.android.exoplayer:exoplayer:r2.4.0",
+            walleLibrary           : "com.meituan.android.walle:library:1.0.5",
+            reactNative            : "com.facebook.react:react-native:0.42.0",
+            alibabaArouter         : "com.alibaba:arouter-api:1.1.1",
+            alibabaArouterCompiler : 'com.alibaba:arouter-compiler:1.0.5',
+            androidImageCropper    : "com.theartofdev.edmodo:android-image-cropper:2.3.1",
+            toasty                 : "com.github.GrenderG:Toasty:1.1.5",
+
+            discreteSeekbar        : 'org.adw.library:discrete-seekbar:1.0.1',
+            rxpermissions          : 'com.github.tbruyelle:rxpermissions:0.11',
+            matisse                : 'com.zhihu.android:matisse:0.5.0-alpha4',
+            disklrucache           : 'com.jakewharton:disklrucache:2.0.2',
+            eventbus3              : 'org.greenrobot:eventbus:3.1.1',
+            okhttp3Logging         : 'com.squareup.okhttp3:logging-interceptor:3.6.0',
+            multitype              : 'me.drakeet.multitype:multitype:3.1.0',
+            logger                 : 'com.orhanobut:logger:2.1.1',
+            commonsLang            : 'org.apache.commons:commons-lang3:3.5',
+            okio                   : 'com.squareup.okio:okio:1.9.0',
+            junit                  : 'junit:junit:4.12',
+            mockito                : 'org.mockito:mockito-core:1.10.19',
+            robolectric            : 'org.robolectric:robolectric:3.4.2',
+
+
+    ]
+}
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            force 'org.ow2.asm:asm:5.0.4'
+        }
+    }
+}
