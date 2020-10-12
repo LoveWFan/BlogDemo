@@ -1,5 +1,6 @@
 package com.poney.blogdemo.demo1;
 
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -8,6 +9,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.poney.blogdemo.R;
+import com.poney.blogdemo.demo1.drawer.BitmapDrawer;
+import com.poney.blogdemo.demo1.drawer.IDrawer;
+import com.poney.blogdemo.demo1.drawer.TriangleDrawer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -49,16 +53,8 @@ public class DemoActivity extends AppCompatActivity {
             // 配置混合算法
             GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
             //------------------------------
-
-            iDrawer.setTextureID(createTextureIds(1)[0]);
-
         }
 
-        private int[] createTextureIds(int count) {
-            int[] texture = new int[count];
-            GLES20.glGenTextures(count, texture, 0);//生成纹理
-            return texture;
-        }
 
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {

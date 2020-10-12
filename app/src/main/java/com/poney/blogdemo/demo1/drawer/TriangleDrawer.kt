@@ -1,4 +1,4 @@
-package com.poney.blogdemo.demo1
+package com.poney.blogdemo.demo1.drawer
 
 import android.opengl.GLES20
 import java.nio.ByteBuffer
@@ -13,15 +13,6 @@ class TriangleDrawer : IDrawer {
             0f, 1f
     )
 
-    //纹理坐标
-    private val mTextureCoors = floatArrayOf(
-            0f, 1f,
-            1f, 1f,
-            0.5f, 0f
-    )
-
-    //纹理ID
-    private var mTextureId: Int = -1
 
     //OpenGL程序ID
     private var mProgram: Int = -1
@@ -31,7 +22,6 @@ class TriangleDrawer : IDrawer {
 
 
     private lateinit var mVertexBuffer: FloatBuffer
-    private lateinit var mTextureBuffer: FloatBuffer
 
     init {
         //【步骤1: 初始化顶点坐标】
@@ -45,27 +35,14 @@ class TriangleDrawer : IDrawer {
         mVertexBuffer = bb.asFloatBuffer()
         mVertexBuffer.put(mVertexCoors)
         mVertexBuffer.position(0)
-
-        val cc = ByteBuffer.allocateDirect(mTextureCoors.size * 4)
-        cc.order(ByteOrder.nativeOrder())
-        mTextureBuffer = cc.asFloatBuffer()
-        mTextureBuffer.put(mTextureCoors)
-        mTextureBuffer.position(0)
     }
-
-    override fun setTextureID(id: Int) {
-        mTextureId = id
-    }
-
 
 
     override fun draw() {
-        if (mTextureId != -1) {
-            //【步骤2: 创建、编译并启动OpenGL着色器】
-            createGLPrg()
-            //【步骤3: 开始渲染绘制】
-            doDraw()
-        }
+        //【步骤2: 创建、编译并启动OpenGL着色器】
+        createGLPrg()
+        //【步骤3: 开始渲染绘制】
+        doDraw()
 
     }
 
@@ -102,7 +79,6 @@ class TriangleDrawer : IDrawer {
         GLES20.glDisableVertexAttribArray(mVertexPosHandler)
         GLES20.glDeleteProgram(mProgram)
     }
-
 
 
     private fun getVertexShader(): String {

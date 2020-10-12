@@ -1,4 +1,4 @@
-package com.poney.blogdemo.demo1;
+package com.poney.blogdemo.demo1.drawer;
 
 import android.graphics.Bitmap
 import android.opengl.GLES20
@@ -47,6 +47,15 @@ class BitmapDrawer(private var mBitmap: Bitmap) : IDrawer {
     init {
         //【步骤1: 初始化顶点坐标】
         initPos()
+
+        //[步骤2：创建纹理]
+        setTextureID(createTextureIds(1)[0])
+    }
+
+    private fun createTextureIds(count: Int): IntArray {
+        val texture = IntArray(count)
+        GLES20.glGenTextures(count, texture, 0) //生成纹理
+        return texture
     }
 
     private fun initPos() {
@@ -64,7 +73,7 @@ class BitmapDrawer(private var mBitmap: Bitmap) : IDrawer {
         mTextureBuffer.position(0)
     }
 
-    override fun setTextureID(id: Int) {
+    fun setTextureID(id: Int) {
         mTextureId = id
     }
 
