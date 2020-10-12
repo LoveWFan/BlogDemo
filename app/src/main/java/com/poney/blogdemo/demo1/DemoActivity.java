@@ -20,6 +20,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DemoActivity extends AppCompatActivity {
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
+    }
 
     @BindView(R.id.gl_surface)
     GLSurfaceView glSurface;
@@ -31,7 +35,7 @@ public class DemoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         MyGLRender renderer = new MyGLRender();
-        renderer.setDrawer(new TriangleDrawer());
+        renderer.setDrawer(createTriangleDrawer());
 //        renderer.setDrawer(new BitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_default)));
         glSurface.setEGLContextClientVersion(2);
         glSurface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -40,8 +44,8 @@ public class DemoActivity extends AppCompatActivity {
         glSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    private static class MyGLRender implements GLSurfaceView.Renderer {
-        private IDrawer iDrawer;
+    private class MyGLRender implements GLSurfaceView.Renderer {
+        private int iDrawer = -1;
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -65,14 +69,17 @@ public class DemoActivity extends AppCompatActivity {
         public void onDrawFrame(GL10 gl) {
             // 清屏，否则会有画面残留
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-            iDrawer.draw();
+            if (iDrawer != -1)
+                drawTriangle(iDrawer);
         }
 
 
-        public void setDrawer(IDrawer iDrawer) {
+        public void setDrawer(int iDrawer) {
             this.iDrawer = iDrawer;
         }
-
-
     }
+
+    public native int createTriangleDrawer();
+
+    public native void drawTriangle(int drawer);
 }
