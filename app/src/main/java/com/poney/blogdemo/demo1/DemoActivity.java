@@ -1,4 +1,4 @@
-package com.poney.blogdemo;
+package com.poney.blogdemo.demo1;
 
 import android.graphics.PixelFormat;
 import android.opengl.GLES20;
@@ -7,8 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.poney.blogdemo.drawer.IDrawer;
-import com.poney.blogdemo.drawer.TriangleDrawer;
+import com.poney.blogdemo.R;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

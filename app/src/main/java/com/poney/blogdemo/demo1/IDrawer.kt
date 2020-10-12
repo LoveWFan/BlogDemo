@@ -1,4 +1,4 @@
-package com.poney.blogdemo.drawer
+package com.poney.blogdemo.demo1
 
 interface IDrawer {
     fun draw()
