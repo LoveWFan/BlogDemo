@@ -86,7 +86,7 @@ void TriangleDrawer::Release() {
 void TriangleDrawer::DoDraw() {
     //启用顶点的句柄
     glEnableVertexAttribArray(m_vertex_pos_handler);
-    glVertexAttribPointer(m_vertex_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
+    glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
     //开始绘制
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 

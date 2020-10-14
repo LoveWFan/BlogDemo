@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.poney.gpuimage.activity.GalleryActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.button_gallery:
-                startActivity(new Intent(this, GalleryActivity.class));
                 break;
             case R.id.button_camera:
                 break;

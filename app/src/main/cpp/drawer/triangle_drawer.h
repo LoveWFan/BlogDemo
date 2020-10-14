@@ -13,10 +13,10 @@ class TriangleDrawer : public BaseDrawer {
 private:
     const char *TAG = "Drawer";
 
-    const GLfloat m_vertex_coors[6] = {
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            0.0f, 1.0f
+    const GLfloat m_vertex_coors[9] = {
+            -0.5f, -0.5f, 0.0f,//左下
+            0.5f, -0.5f, 0.0f,//右下
+            0.0f, 0.5f, 0.0f//上
     };
 
     GLuint m_program_id = 0;

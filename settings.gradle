@@ -1,3 +1,2 @@
-include ':gpuimage'
 include ':app'
 rootProject.name = "BlogDemo"
