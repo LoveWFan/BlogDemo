@@ -27,12 +27,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
-        }
-    }
 
 
     compileOptions {
@@ -49,6 +43,7 @@ dependencies {
     implementation dependenciesConfig.rxpermissions
     implementation dependenciesConfig.rxjava
     implementation dependenciesConfig.rxandroid
+    implementation project(path: ':gpuimage')
     annotationProcessor dependenciesConfig.butterknifeannotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

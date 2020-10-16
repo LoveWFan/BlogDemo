@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.poney.gpuimage.view.GPUImageView
+            android:id="@+id/gpu_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:paddingTop="5dip"
+        android:paddingBottom="5dip">
+
+        <ImageView
+            android:id="@+id/btn_filter"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:scaleType="center"
+            android:src="@drawable/ic_image_filter" />
+
+
+        <ImageView
+            android:id="@+id/btn_adjust"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:scaleType="center"
+            android:src="@drawable/ic_image_adjust" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/layout_filter"
+        layout="@layout/filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="bottom" />
+</LinearLayout>
