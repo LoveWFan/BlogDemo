@@ -12,10 +12,13 @@ protected:
     const char *TAG = "BaseDrawer";
     GLuint m_program_id = 0;
 
+    //顶点坐标接收者
     GLint m_vertex_pos_handler = -1;
 
     GLuint m_texture_id = 0;
+    //纹理坐标接收者
     GLint m_texture_pos_handler = -1;
+    //纹理接收者
     GLint m_texture_handler = -1;
 
     void CreateProgram();
@@ -29,7 +32,6 @@ public:
 
     ~BaseDrawer();
 
-    virtual void Draw() = 0;
 
     virtual void Release() = 0;
 
@@ -39,6 +41,7 @@ public:
 
     virtual const GLchar *GetFragmentShader() = 0;
 
+    virtual void InitVarHandler() = 0;
 };
 
 

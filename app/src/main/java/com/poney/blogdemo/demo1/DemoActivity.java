@@ -1,5 +1,6 @@
 package com.poney.blogdemo.demo1;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.opengl.GLES20;
@@ -35,8 +36,8 @@ public class DemoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         MyGLRender renderer = new MyGLRender();
-        renderer.setDrawer(createTriangleDrawer());
-//        renderer.setDrawer(new BitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_default)));
+//        renderer.setDrawer(createTriangleDrawer());
+        renderer.setDrawer(createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_default)));
         glSurface.setEGLContextClientVersion(2);
         glSurface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         glSurface.getHolder().setFormat(PixelFormat.RGBA_8888);
@@ -70,7 +71,7 @@ public class DemoActivity extends AppCompatActivity {
             // 清屏，否则会有画面残留
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
             if (iDrawer != -1)
-                drawTriangle(iDrawer);
+                drawBitmap(iDrawer);
         }
 
 
@@ -82,4 +83,8 @@ public class DemoActivity extends AppCompatActivity {
     public native int createTriangleDrawer();
 
     public native void drawTriangle(int drawer);
+
+    public native int createBitmapDrawer(Bitmap bitmap);
+
+    public native void drawBitmap(int drawer);
 }

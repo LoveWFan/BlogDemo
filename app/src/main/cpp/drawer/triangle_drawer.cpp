@@ -6,16 +6,17 @@
 #include "../utils/logger.h"
 
 TriangleDrawer::TriangleDrawer() {
+
 }
 
 TriangleDrawer::~TriangleDrawer() {
 
 }
 
-void TriangleDrawer::Draw() {
-    CreateProgram();
-    DoDraw();
+void TriangleDrawer::InitVarHandler() {
+    m_vertex_pos_handler = glGetAttribLocation(m_program_id, "aPosition");
 }
+
 
 void TriangleDrawer::Release() {
     glDisableVertexAttribArray(m_vertex_pos_handler);
@@ -24,6 +25,9 @@ void TriangleDrawer::Release() {
 }
 
 void TriangleDrawer::DoDraw() {
+    //创建程序
+    CreateProgram();
+
     //启用顶点的句柄
     glEnableVertexAttribArray(m_vertex_pos_handler);
     glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);

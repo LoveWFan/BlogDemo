@@ -26,11 +26,11 @@ public:
     ~TriangleDrawer();
 
 
-    void Draw() override;
-
     void Release() override;
 
     void DoDraw() override;
+
+    void InitVarHandler() override;
 
     const GLchar *GetVertexShader() override;
 

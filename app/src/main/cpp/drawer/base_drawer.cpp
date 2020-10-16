@@ -24,7 +24,11 @@ void BaseDrawer::CreateProgram() {
         glAttachShader(m_program_id, fragmentShader);
         //连接到着色器程序
         glLinkProgram(m_program_id);
-        m_vertex_pos_handler = glGetAttribLocation(m_program_id, "aPosition");
+
+
+        //获取变量句柄
+        InitVarHandler();
+
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
@@ -72,4 +76,5 @@ BaseDrawer::BaseDrawer() {
 BaseDrawer::~BaseDrawer() {
 
 }
+
 
