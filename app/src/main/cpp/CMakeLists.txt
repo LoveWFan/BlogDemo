@@ -21,8 +21,11 @@ add_library( # Sets the name of the library.
         ${CMAKE_SOURCE_DIR}/utils/logger.h
 
         ${CMAKE_SOURCE_DIR}/drawer/base_drawer.h
+        ${CMAKE_SOURCE_DIR}/drawer/base_drawer.cpp
         ${CMAKE_SOURCE_DIR}/drawer/triangle_drawer.h
         ${CMAKE_SOURCE_DIR}/drawer/triangle_drawer.cpp
+        ${CMAKE_SOURCE_DIR}/drawer/bitmap_drawer.h
+        ${CMAKE_SOURCE_DIR}/drawer/bitmap_drawer.cpp
 
         # Provides a relative path to your source file(s).
         ${CMAKE_SOURCE_DIR}/native-lib.cpp

@@ -11,7 +11,7 @@
 
 class TriangleDrawer : public BaseDrawer {
 private:
-    const char *TAG = "Drawer";
+    const char *TAG = "TriangleDrawer";
 
     const GLfloat m_vertex_coors[9] = {
             -0.5f, -0.5f, 0.0f,//左下
@@ -19,13 +19,6 @@ private:
             0.0f, 0.5f, 0.0f//上
     };
 
-    GLuint m_program_id = 0;
-
-    GLint m_vertex_pos_handler = -1;
-
-    void CreateProgram();
-
-    GLuint LoadShader(GLenum type, const GLchar *shader_code);
 
 public:
     TriangleDrawer();
@@ -37,11 +30,11 @@ public:
 
     void Release() override;
 
-    void DoDraw();
+    void DoDraw() override;
 
-    const GLchar *GetVertexShader();
+    const GLchar *GetVertexShader() override;
 
-    const GLchar *GetFragmentShader();
+    const GLchar *GetFragmentShader() override;
 };
 
 
