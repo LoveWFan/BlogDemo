@@ -19,7 +19,10 @@ package com.poney.gpuimage.filter.group;
 import android.annotation.SuppressLint;
 import android.opengl.GLES20;
 
+import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
 import com.poney.gpuimage.filter.base.GPUImageFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
+import com.poney.gpuimage.utils.FilterTypeHelper;
 import com.poney.gpuimage.utils.Rotation;
 import com.poney.gpuimage.utils.TextureRotationUtil;
 
@@ -215,6 +218,31 @@ public class GPUImageFilterGroup extends GPUImageFilter {
                 }
             }
         }
+    }
+
+    /**
+     * Gets the filters.
+     *
+     * @return the filters
+     */
+    public GPUImageAdjustFilter getFilterByType(GPUImageFilterType filterType) {
+        GPUImageAdjustFilter gpuImageFilterResult = null;
+        boolean isFind = false;
+        for (GPUImageFilter gpuImageFilter : filters) {
+            if (gpuImageFilter instanceof GPUImageAdjustFilter) {
+                GPUImageAdjustFilter gpuImageAdjustFilter = (GPUImageAdjustFilter) gpuImageFilter;
+                if (gpuImageAdjustFilter.getGpuImageFilterType() == filterType) {
+                    gpuImageFilterResult = gpuImageAdjustFilter;
+                    isFind = true;
+                    continue;
+                }
+            }
+        }
+        if (!isFind) {
+            gpuImageFilterResult = FilterTypeHelper.createImageAdjustFilterBy(filterType);
+            addFilter(gpuImageFilterResult);
+        }
+        return gpuImageFilterResult;
     }
 
     /**

@@ -19,6 +19,7 @@ package com.poney.gpuimage.filter.adjust.common;
 import android.opengl.GLES20;
 
 import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
 
 /**
  * exposure: The adjusted exposure (-10.0 - 10.0, with 0.0 as the default)
@@ -41,11 +42,11 @@ public class GPUImageExposureFilter extends GPUImageAdjustFilter {
     private float exposure;
 
     public GPUImageExposureFilter() {
-        this(1.0f);
+        this(0.0f);
     }
 
     public GPUImageExposureFilter(final float exposure) {
-        super(NO_FILTER_VERTEX_SHADER, EXPOSURE_FRAGMENT_SHADER);
+        super(NO_FILTER_VERTEX_SHADER, EXPOSURE_FRAGMENT_SHADER, GPUImageFilterType.EXPOSURE);
         this.exposure = exposure;
     }
 

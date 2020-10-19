@@ -2,6 +2,8 @@ package com.poney.gpuimage.utils;
 
 
 import com.poney.gpuimage.R;
+import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageBlendFilter;
 import com.poney.gpuimage.filter.blend.GPUImageFairytaleFilter;
 import com.poney.gpuimage.filter.blend.GPUImageSunRiseFilter;
 import com.poney.gpuimage.filter.adjust.common.GPUImageBrightnessFilter;
@@ -267,18 +269,18 @@ public class FilterTypeHelper {
         }
     }
 
-    public static GPUImageFilter createGroupFilterBy(GPUImageFilterType filterType) {
+    public static GPUImageFilter createFilterBy(GPUImageFilterType filterType) {
         switch (filterType) {
             case FAIRYTALE:
                 return new GPUImageFairytaleFilter();
             case SUNRISE:
                 return new GPUImageSunRiseFilter();
             default:
-                return new GPUImageFilter();
+                return new GPUImageBlendFilter();
         }
     }
 
-    public static GPUImageFilter createImageAdjustFilterBy(GPUImageFilterType filterType) {
+    public static GPUImageAdjustFilter createImageAdjustFilterBy(GPUImageFilterType filterType) {
         switch (filterType) {
             case CONTRAST:
                 return new GPUImageContrastFilter();
@@ -293,6 +295,6 @@ public class FilterTypeHelper {
             case EXPOSURE:
                 return new GPUImageExposureFilter();
         }
-        return new GPUImageFilter();
+        return new GPUImageAdjustFilter();
     }
 }

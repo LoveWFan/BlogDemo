@@ -2,7 +2,7 @@ package com.poney.gpuimage.filter.base
 
 import com.poney.gpuimage.filter.adjust.common.*
 
-class FilterAdjuster(filter: GPUImageFilter?) {
+class FilterAdjuster(filter: GPUImageAdjustFilter?) {
     private val adjuster: Adjuster<out GPUImageAdjustFilter>? = when (filter) {
         is GPUImageContrastFilter -> ContrastAdjuster(filter)
         is GPUImageBrightnessFilter -> BrightnessAdjuster(filter)

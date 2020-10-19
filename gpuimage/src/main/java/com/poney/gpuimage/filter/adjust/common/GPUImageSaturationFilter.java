@@ -3,6 +3,7 @@ package com.poney.gpuimage.filter.adjust.common;
 import android.opengl.GLES20;
 
 import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
 
 /**
  * 饱和度可定义为彩度除以明度，与彩度同样表征彩色偏离同亮度灰色的程度。饱和度是指色彩的鲜艳程度，也称色彩的纯度。
@@ -37,7 +38,7 @@ public class GPUImageSaturationFilter extends GPUImageAdjustFilter {
     }
 
     public GPUImageSaturationFilter(float saturation) {
-        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER);
+        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER, GPUImageFilterType.SATURATION);
         this.saturation = saturation;
     }
 

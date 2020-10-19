@@ -3,6 +3,7 @@ package com.poney.gpuimage.filter.adjust.common;
 import android.opengl.GLES20;
 
 import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
 
 /**
  * 对比度是画面黑与白的比值，也就是从黑到白的渐变层次。比值越大，从黑到白的渐变层次就越多，从而色彩表现越丰富。
@@ -32,11 +33,11 @@ public class GPUImageContrastFilter extends GPUImageAdjustFilter {
     private float contrast;
 
     public GPUImageContrastFilter() {
-        this(1.2f);
+        this(1.0f);
     }
 
     public GPUImageContrastFilter(float contrast) {
-        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER);
+        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER, GPUImageFilterType.CONTRAST);
         this.contrast = contrast;
     }
 

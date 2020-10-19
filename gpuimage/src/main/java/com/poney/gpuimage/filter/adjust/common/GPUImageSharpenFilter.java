@@ -3,12 +3,13 @@ package com.poney.gpuimage.filter.adjust.common;
 import android.opengl.GLES20;
 
 import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
 
 /**
- *图像锐化(image sharpening)是补偿图像的轮廓，增强图像的边缘及灰度跳变的部分，使图像变得清晰，分为空域处理和频域处理两类。
- *
+ * 图像锐化(image sharpening)是补偿图像的轮廓，增强图像的边缘及灰度跳变的部分，使图像变得清晰，分为空域处理和频域处理两类。
+ * <p>
  * 图像锐化是为了突出图像上地物的边缘、轮廓，或某些线性目标要素的特征。这种滤波方法提高了地物边缘与周围像元之间的反差，因此也被称为边缘增强。
- *
+ * <p>
  * 简单的说，我们通过周围像素之间的对比，提高对比度让边缘轮廓更清晰。根据四周像素点的颜色和锐化程度改变中心点和四周的差值。
  */
 public class GPUImageSharpenFilter extends GPUImageAdjustFilter {
@@ -82,7 +83,7 @@ public class GPUImageSharpenFilter extends GPUImageAdjustFilter {
     }
 
     public GPUImageSharpenFilter(float sharpness) {
-        super(VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER);
+        super(VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER, GPUImageFilterType.SHARPEN);
         this.sharpness = sharpness;
     }
 

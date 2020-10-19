@@ -3,6 +3,7 @@ package com.poney.gpuimage.filter.adjust.common;
 import android.opengl.GLES20;
 
 import com.poney.gpuimage.filter.base.GPUImageAdjustFilter;
+import com.poney.gpuimage.filter.base.GPUImageFilterType;
 
 
 /**
@@ -66,7 +67,7 @@ public class GPUImageHueFilter extends GPUImageAdjustFilter {
     }
 
     public GPUImageHueFilter(float hue) {
-        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER);
+        super(NO_FILTER_VERTEX_SHADER, CONTRAST_FRAGMENT_SHADER, GPUImageFilterType.HUE);
         this.hue = hue;
     }
 
