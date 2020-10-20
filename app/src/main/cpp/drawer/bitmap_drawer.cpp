@@ -30,9 +30,9 @@ void BitmapDrawer::DoDraw() {
     //设置着色器参数
 //    glUniformMatrix4fv(m_vertex_matrix_handler, 1, false, m_matrix, 0);
     glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
-    glVertexAttribPointer(m_texture_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_texture_coors);
+    glVertexAttribPointer(m_texture_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_texture_coors_wrap);
     //开始绘制
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void BitmapDrawer::InitVarHandler() {
@@ -75,6 +75,12 @@ void BitmapDrawer::ActivateTexture() {
     glTexParameterf(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+   /*
+    *
+    *   glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    *   glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    */
 }
 
 const char *BitmapDrawer::GetVertexShader() {

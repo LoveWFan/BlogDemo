@@ -38,7 +38,7 @@ public class DemoActivity extends AppCompatActivity {
 
         MyGLRender renderer = new MyGLRender();
 //        renderer.setDrawer(createTriangleDrawer());
-        iDrawer = createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.wall));
+        iDrawer = createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_qxx));
         renderer.setDrawer(iDrawer);
         glSurface.setEGLContextClientVersion(2);
         glSurface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
