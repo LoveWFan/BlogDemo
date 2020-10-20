@@ -16,27 +16,32 @@ private:
     int m_origin_height = 0;
 
     //顶点坐标
-    const GLfloat m_vertex_coors[8] = {
-            -1.0f, -1.0f,//左下
-            1.0f, -1.0f,//右下
-            -1.0f, 1.0f,//左上
-            1.0f, 1.0f//右上
+    const GLfloat m_vertex_coors[9] = {
+            -0.5f, -0.5f, 0.0f,//左下
+            0.5f, -0.5f, 0.0f,//右下
+            0.0f, 0.5f, 0.0f//左上
     };
 
     //纹理坐标
-    const GLfloat m_texture_coors[8] = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f
+    const GLfloat m_texture_coors[6] = {
+            0.0f, 0.0f, // 左下角
+            1.0f, 0.0f, // 右下角
+            0.5f, 1.0f//上
     };
 
+
+    /*
+    const GLfloat m_texture_coors[6] = {
+            0.0f, 1.0f,//左下
+            1.0f, 1.0f,//右下
+            0.0f, 0.0f//上
+    };
+    */
     // 自定义用户数据，可用于存放画面数据
     void *cst_data = NULL;
 
 
-    void ActivateTexture(GLenum type = GL_TEXTURE_2D, GLuint texture = -1,
-                         GLenum index = 0, int texture_handler = -1);
+    void ActivateTexture();
 
 public:
     BitmapDrawer(int origin_width, int origin_height, void *p);

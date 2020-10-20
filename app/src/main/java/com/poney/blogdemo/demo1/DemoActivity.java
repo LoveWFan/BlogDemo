@@ -28,6 +28,7 @@ public class DemoActivity extends AppCompatActivity {
 
     @BindView(R.id.gl_surface)
     GLSurfaceView glSurface;
+    private int iDrawer = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,8 @@ public class DemoActivity extends AppCompatActivity {
 
         MyGLRender renderer = new MyGLRender();
 //        renderer.setDrawer(createTriangleDrawer());
-        renderer.setDrawer(createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.icon_default)));
+        iDrawer = createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.wall));
+        renderer.setDrawer(iDrawer);
         glSurface.setEGLContextClientVersion(2);
         glSurface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         glSurface.getHolder().setFormat(PixelFormat.RGBA_8888);
@@ -79,6 +81,15 @@ public class DemoActivity extends AppCompatActivity {
             this.iDrawer = iDrawer;
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (iDrawer != -1)
+            release(iDrawer);
+    }
+
+    public native void release(int drawer);
 
     public native int createTriangleDrawer();
 

@@ -64,4 +64,9 @@ JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_drawBitmap(JNIEnv *env, jobject thiz, jint drawer) {
     BitmapDrawer *pTriangleDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
     pTriangleDrawer->DoDraw();
+}extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_DemoActivity_release(JNIEnv *env, jobject thiz, jint drawer) {
+    BaseDrawer *pBaseDrawer = reinterpret_cast<BaseDrawer *>(drawer);
+    pBaseDrawer->Release();
 }

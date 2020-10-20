@@ -1,0 +1,20 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.poney.gpuimage"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+10
+11    <application>
+11-->D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:5:5-7:19
+12        <activity android:name="com.poney.gpuimage.activity.GalleryActivity" />
+12-->D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:6:9-62
+12-->D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:6:19-59
+13    </application>
+14
+15</manifest>

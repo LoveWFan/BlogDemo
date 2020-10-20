@@ -4,7 +4,7 @@
 
 #include "bitmap_drawer.h"
 #include "../utils/logger.h"
-
+#include <malloc.h>
 BitmapDrawer::BitmapDrawer(int origin_width, int origin_height, void *p) {
     m_origin_width = origin_width;
     m_origin_height = origin_height;
@@ -29,10 +29,10 @@ void BitmapDrawer::DoDraw() {
     glEnableVertexAttribArray(m_texture_pos_handler);
     //设置着色器参数
 //    glUniformMatrix4fv(m_vertex_matrix_handler, 1, false, m_matrix, 0);
-    glVertexAttribPointer(m_vertex_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
+    glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
     glVertexAttribPointer(m_texture_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_texture_coors);
     //开始绘制
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 }
 
 void BitmapDrawer::InitVarHandler() {
@@ -44,7 +44,6 @@ void BitmapDrawer::InitVarHandler() {
         glGenTextures(1, &m_texture_id);
         LOGI(TAG, "Create texture id : %d, %x", m_texture_id, glGetError())
     }
-    //激活纹理
     ActivateTexture();
 
     //绑定纹理数据
@@ -56,19 +55,21 @@ void BitmapDrawer::InitVarHandler() {
                      GL_RGBA, // 数据格式，必须和上面的纹理格式保持一直
                      GL_UNSIGNED_BYTE, // RGBA每位数据的字节数，这里是BYTE​: 1 byte
                      cst_data);// 画面数据
+                     //释放资源
+                     free(cst_data);
+                     cst_data = NULL;
     }
 }
 
 
-void BitmapDrawer::ActivateTexture(GLenum type, GLuint texture, GLenum index, int texture_handler) {
-    if (texture == -1) texture = m_texture_id;
-    if (texture_handler == -1) texture_handler = m_texture_handler;
+void BitmapDrawer::ActivateTexture() {
+    GLenum type = GL_TEXTURE_2D;
     //激活指定纹理单元
-    glActiveTexture(GL_TEXTURE0 + index);
+//    glActiveTexture(GL_TEXTURE0 + index);
     //绑定纹理ID到纹理单元
-    glBindTexture(type, texture);
+    glBindTexture(type, m_texture_id);
     //将活动的纹理单元传递到着色器里面
-    glUniform1i(texture_handler, index);
+//    glUniform1i(texture_handler, index);
     //配置边缘过渡参数
     glTexParameterf(type, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameterf(type, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
