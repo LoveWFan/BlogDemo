@@ -1,0 +1,43 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+	package
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:3:5-33
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:1-9:12
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:5:5-7:19
+activity#com.poney.gpuimage.activity.GalleryActivity
+ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:6:9-62
+	android:name
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml:6:19-59
+uses-sdk
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		ADDED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
+		INJECTED from D:\AndroidStudioProjects\mine\BlogDemo\gpuimage\src\main\AndroidManifest.xml
