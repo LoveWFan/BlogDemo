@@ -19,6 +19,7 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
         ${CMAKE_SOURCE_DIR}/utils/logger.h
+        ${CMAKE_SOURCE_DIR}/utils/stb_image.h
 
         ${CMAKE_SOURCE_DIR}/drawer/base_drawer.h
         ${CMAKE_SOURCE_DIR}/drawer/base_drawer.cpp

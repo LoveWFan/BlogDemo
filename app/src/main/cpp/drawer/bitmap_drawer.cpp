@@ -5,9 +5,12 @@
 #include "bitmap_drawer.h"
 #include "../utils/logger.h"
 #include <malloc.h>
+#include <math.h>
+#include <cmath>
+
 BitmapDrawer::BitmapDrawer(int origin_width, int origin_height, void *p) {
-    m_origin_width = origin_width;
-    m_origin_height = origin_height;
+    m_origin_width = (float) origin_width;
+    m_origin_height = (float) origin_height;
     cst_data = p;
 }
 
@@ -30,7 +33,7 @@ void BitmapDrawer::DoDraw() {
     //设置着色器参数
 //    glUniformMatrix4fv(m_vertex_matrix_handler, 1, false, m_matrix, 0);
     glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);
-    glVertexAttribPointer(m_texture_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_texture_coors_wrap);
+    glVertexAttribPointer(m_texture_pos_handler, 2, GL_FLOAT, GL_FALSE, 0, m_texture_coors);
     //开始绘制
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
@@ -55,10 +58,11 @@ void BitmapDrawer::InitVarHandler() {
                      GL_RGBA, // 数据格式，必须和上面的纹理格式保持一直
                      GL_UNSIGNED_BYTE, // RGBA每位数据的字节数，这里是BYTE​: 1 byte
                      cst_data);// 画面数据
-                     //释放资源
-                     free(cst_data);
-                     cst_data = NULL;
+        //释放资源
+        free(cst_data);
+        cst_data = NULL;
     }
+
 }
 
 
@@ -76,11 +80,11 @@ void BitmapDrawer::ActivateTexture() {
     glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-   /*
-    *
-    *   glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    *   glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-    */
+    /*
+     *
+     *   glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+     *   glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+     */
 }
 
 const char *BitmapDrawer::GetVertexShader() {
@@ -102,4 +106,43 @@ const char *BitmapDrawer::GetFragmentShader() {
            "{                                            \n"
            "   gl_FragColor = texture2D ( uTexture, vCoordinate);  \n"
            "}                                            \n";
+}
+
+void BitmapDrawer::AdjustImageScale() {
+    if (m_output_width > 0
+        && m_output_height > 0
+        && m_origin_width > 0
+        && m_origin_height > 0) {
+        float ratio1 = m_output_width / m_origin_width;
+        float ratio2 = m_output_height / m_origin_height;
+        float ratioMax = fmaxf(ratio1, ratio2);
+        int imageWidthNew = round(m_origin_width * ratioMax);
+        int imageHeightNew = round(m_origin_height * ratioMax);
+
+        float ratioWidth = imageWidthNew / m_output_width;
+        float ratioHeight = imageHeightNew / m_output_height;
+
+        float distHorizontal = (1 - 1 / ratioWidth) / 2;
+        float distVertical = (1 - 1 / ratioHeight) / 2;
+        m_texture_coors[0] = addDistance(m_texture_coors[0], distHorizontal);
+        m_texture_coors[1] = addDistance(m_texture_coors[1], distVertical);
+        m_texture_coors[2] = addDistance(m_texture_coors[2], distHorizontal);
+        m_texture_coors[3] = addDistance(m_texture_coors[3], distVertical);
+        m_texture_coors[4] = addDistance(m_texture_coors[4], distHorizontal);
+        m_texture_coors[5] = addDistance(m_texture_coors[5], distVertical);
+        m_texture_coors[6] = addDistance(m_texture_coors[6], distHorizontal);
+        m_texture_coors[7] = addDistance(m_texture_coors[7], distVertical);
+
+    }
+
+}
+
+void BitmapDrawer::OnOutputSizeChanged(int outputWidth, int outputHeight) {
+    m_output_width = (float) outputWidth;
+    m_output_height = (float) outputHeight;
+    AdjustImageScale();
+}
+
+float BitmapDrawer::addDistance(const GLfloat coordinate, float distance) {
+    return coordinate == 0.0f ? distance : 1 - distance;
 }

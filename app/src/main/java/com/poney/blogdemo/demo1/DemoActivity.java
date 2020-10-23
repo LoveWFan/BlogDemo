@@ -10,9 +10,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.poney.blogdemo.R;
-import com.poney.blogdemo.demo1.drawer.BitmapDrawer;
-import com.poney.blogdemo.demo1.drawer.IDrawer;
-import com.poney.blogdemo.demo1.drawer.TriangleDrawer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -28,14 +25,17 @@ public class DemoActivity extends AppCompatActivity {
 
     @BindView(R.id.gl_surface)
     GLSurfaceView glSurface;
-    private int iDrawer = -1;
+    private long iDrawer = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
         ButterKnife.bind(this);
+        init();
+    }
 
+    private void init() {
         MyGLRender renderer = new MyGLRender();
 //        renderer.setDrawer(createTriangleDrawer());
         iDrawer = createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_qxx));
@@ -47,8 +47,11 @@ public class DemoActivity extends AppCompatActivity {
         glSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
+
     private class MyGLRender implements GLSurfaceView.Renderer {
-        private int iDrawer = -1;
+        private long iDrawer = -1;
+        private int outWidth;
+        private int outHeight;
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -65,19 +68,24 @@ public class DemoActivity extends AppCompatActivity {
 
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            GLES20.glViewport(0, 0, width, height);
+            this.outWidth = width;
+            this.outHeight = height;
+            GLES20.glViewport(0, 0, this.outWidth, this.outHeight);
         }
 
         @Override
         public void onDrawFrame(GL10 gl) {
             // 清屏，否则会有画面残留
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-            if (iDrawer != -1)
+            if (iDrawer != -1) {
+                onOutputSizeChanged(iDrawer, outWidth, outHeight);
                 drawBitmap(iDrawer);
+            }
+
         }
 
 
-        public void setDrawer(int iDrawer) {
+        public void setDrawer(long iDrawer) {
             this.iDrawer = iDrawer;
         }
     }
@@ -89,13 +97,15 @@ public class DemoActivity extends AppCompatActivity {
             release(iDrawer);
     }
 
-    public native void release(int drawer);
+    public native void release(long drawer);
 
-    public native int createTriangleDrawer();
+    public native long createTriangleDrawer();
 
-    public native void drawTriangle(int drawer);
+    public native void drawTriangle(long drawer);
 
-    public native int createBitmapDrawer(Bitmap bitmap);
+    public native long createBitmapDrawer(Bitmap bitmap);
 
-    public native void drawBitmap(int drawer);
+    public native void onOutputSizeChanged(long drawer, int width, int height);
+
+    public native void drawBitmap(long drawer);
 }

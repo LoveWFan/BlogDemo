@@ -2,12 +2,16 @@
 #include "drawer/triangle_drawer.h"
 #include "utils/logger.h"
 #include "drawer/bitmap_drawer.h"
+// 需要加上这个宏不然编译器会编译失败
+#define STB_IMAGE_IMPLEMENTATION
+
+#include "utils/stb_image.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
 
 extern "C"
-JNIEXPORT jint
+JNIEXPORT jlong
 
 JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_createTriangleDrawer(JNIEnv *env, jobject thiz) {
@@ -17,13 +21,13 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createTriangleDrawer(JNIEnv *env, job
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_drawTriangle(JNIEnv *env, jobject thiz, jint drawer) {
+Java_com_poney_blogdemo_demo1_DemoActivity_drawTriangle(JNIEnv *env, jobject thiz, jlong drawer) {
     TriangleDrawer *triangleDrawer = reinterpret_cast<TriangleDrawer *>(drawer);
     triangleDrawer->DoDraw();
 }
 
 extern "C"
-JNIEXPORT jint JNICALL
+JNIEXPORT jlong JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapDrawer(JNIEnv *env, jobject thiz,
                                                               jobject bitmap) {
     AndroidBitmapInfo info; // create a AndroidBitmapInfo
@@ -61,12 +65,24 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapDrawer(JNIEnv *env, jobje
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_drawBitmap(JNIEnv *env, jobject thiz, jint drawer) {
-    BitmapDrawer *pTriangleDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
-    pTriangleDrawer->DoDraw();
-}extern "C"
+Java_com_poney_blogdemo_demo1_DemoActivity_drawBitmap(JNIEnv *env, jobject thiz, jlong drawer) {
+    BitmapDrawer *pBitmapDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
+    pBitmapDrawer->DoDraw();
+}
+
+extern "C"
 JNIEXPORT void JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_release(JNIEnv *env, jobject thiz, jint drawer) {
+Java_com_poney_blogdemo_demo1_DemoActivity_release(JNIEnv *env, jobject thiz, jlong drawer) {
     BaseDrawer *pBaseDrawer = reinterpret_cast<BaseDrawer *>(drawer);
     pBaseDrawer->Release();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_DemoActivity_onOutputSizeChanged(JNIEnv *env, jobject thiz,
+                                                               jlong drawer, jint width,
+                                                               jint height) {
+    BitmapDrawer *pBitmapDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
+    if (pBitmapDrawer != NULL)
+        pBitmapDrawer->OnOutputSizeChanged(width, height);
 }
