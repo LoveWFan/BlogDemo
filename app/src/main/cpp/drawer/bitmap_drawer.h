@@ -79,6 +79,8 @@ public:
     void OnOutputSizeChanged(int outputWidth, int outputHeight);
 
     float addDistance(const GLfloat d, float horizontal);
+
+    void ResetTextureCoors();
 };
 
 

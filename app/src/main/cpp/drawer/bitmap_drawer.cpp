@@ -113,6 +113,7 @@ void BitmapDrawer::AdjustImageScale() {
         && m_output_height > 0
         && m_origin_width > 0
         && m_origin_height > 0) {
+        ResetTextureCoors();
         float ratio1 = m_output_width / m_origin_width;
         float ratio2 = m_output_height / m_origin_height;
         float ratioMax = fmaxf(ratio1, ratio2);
@@ -145,4 +146,15 @@ void BitmapDrawer::OnOutputSizeChanged(int outputWidth, int outputHeight) {
 
 float BitmapDrawer::addDistance(const GLfloat coordinate, float distance) {
     return coordinate == 0.0f ? distance : 1 - distance;
+}
+
+void BitmapDrawer::ResetTextureCoors() {
+    m_texture_coors[0] = 0.0f;
+    m_texture_coors[1] = 1.0f;
+    m_texture_coors[2] = 1.0f;
+    m_texture_coors[3] = 1.0f;
+    m_texture_coors[4] = 0.0f;
+    m_texture_coors[5] = 0.0f;
+    m_texture_coors[6] = 1.0f;
+    m_texture_coors[7] = 0.0f;
 }

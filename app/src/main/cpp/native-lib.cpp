@@ -50,7 +50,6 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapDrawer(JNIEnv *env, jobje
     }
     size_t count = info.stride * info.height;
 
-    LOGE("Player", "count: %d", count);
     unsigned char *resultData = (unsigned char *) malloc(count * sizeof(unsigned char));;
     memcpy(resultData, data, count);
 
