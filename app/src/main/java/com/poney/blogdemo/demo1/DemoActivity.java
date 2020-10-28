@@ -6,6 +6,7 @@ import android.graphics.PixelFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +26,7 @@ public class DemoActivity extends AppCompatActivity {
 
     @BindView(R.id.gl_surface)
     GLSurfaceView glSurface;
-    private long iDrawer = -1;
+    private MyGLRender renderer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,8 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     private void init() {
-        MyGLRender renderer = new MyGLRender();
+        renderer = new MyGLRender();
 //        renderer.setDrawer(createTriangleDrawer());
-        iDrawer = createBitmapDrawer(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_qxx));
-        renderer.setDrawer(iDrawer);
         glSurface.setEGLContextClientVersion(2);
         glSurface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         glSurface.getHolder().setFormat(PixelFormat.RGBA_8888);
@@ -47,14 +46,19 @@ public class DemoActivity extends AppCompatActivity {
         glSurface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
+    public void onViewClicked(View view) {
+        renderer.setFilter(1);
+        glSurface.requestRender();
+    }
 
     private class MyGLRender implements GLSurfaceView.Renderer {
-        private long iDrawer = -1;
+        private long render = -1;
         private int outWidth;
         private int outHeight;
 
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+            render = createBitmapRender(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_qxx));
             GLES20.glClearColor(0f, 0f, 0f, 0f);
 
             //------开启混合，即半透明---------
@@ -71,41 +75,48 @@ public class DemoActivity extends AppCompatActivity {
             this.outWidth = width;
             this.outHeight = height;
             GLES20.glViewport(0, 0, this.outWidth, this.outHeight);
+            if (render != -1) {
+                onOutputSizeChanged(render, outWidth, outHeight);
+            }
+
         }
 
         @Override
         public void onDrawFrame(GL10 gl) {
             // 清屏，否则会有画面残留
-            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-            if (iDrawer != -1) {
-                onOutputSizeChanged(iDrawer, outWidth, outHeight);
-                drawBitmap(iDrawer);
+            if (render != -1) {
+                drawBitmap(render);
             }
 
         }
 
 
-        public void setDrawer(long iDrawer) {
-            this.iDrawer = iDrawer;
+        public void release() {
+            if (render != -1) {
+                releaseNative(render);
+            }
+        }
+
+        public void setFilter(int filterType) {
+            if (render != -1) {
+                setFilterNative(render, filterType);
+            }
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (iDrawer != -1)
-            release(iDrawer);
+        renderer.release();
     }
 
-    public native void release(long drawer);
+    public native void releaseNative(long render);
 
-    public native long createTriangleDrawer();
+    public native long createBitmapRender(Bitmap bitmap);
 
-    public native void drawTriangle(long drawer);
+    public native void onOutputSizeChanged(long render, int width, int height);
 
-    public native long createBitmapDrawer(Bitmap bitmap);
+    public native void drawBitmap(long render);
 
-    public native void onOutputSizeChanged(long drawer, int width, int height);
-
-    public native void drawBitmap(long drawer);
+    public native void setFilterNative(long render, int filterType);
 }

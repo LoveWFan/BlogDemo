@@ -1,11 +1,12 @@
 #include <jni.h>
 #include "drawer/triangle_drawer.h"
 #include "utils/logger.h"
-#include "drawer/bitmap_drawer.h"
+#include "render/image_render.h"
 // 需要加上这个宏不然编译器会编译失败
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "utils/stb_image.h"
+#include "filter/adjust/color_invert_filter.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -20,15 +21,8 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createTriangleDrawer(JNIEnv *env, job
 }
 
 extern "C"
-JNIEXPORT void JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_drawTriangle(JNIEnv *env, jobject thiz, jlong drawer) {
-    TriangleDrawer *triangleDrawer = reinterpret_cast<TriangleDrawer *>(drawer);
-    triangleDrawer->DoDraw();
-}
-
-extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapDrawer(JNIEnv *env, jobject thiz,
+Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapRender(JNIEnv *env, jobject thiz,
                                                               jobject bitmap) {
     AndroidBitmapInfo info; // create a AndroidBitmapInfo
     int result;
@@ -58,30 +52,42 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createBitmapDrawer(JNIEnv *env, jobje
     if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
         LOGE("Player", "AndroidBitmap_unlockPixels failed, result: %d", result);
     }
-    BitmapDrawer *bitmapDrawer = new BitmapDrawer(info.width, info.height, resultData);
-    return (jint) bitmapDrawer;
+    ImageRender *pImageRender = new ImageRender(info.width, info.height, resultData);
+    return (jint) pImageRender;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_drawBitmap(JNIEnv *env, jobject thiz, jlong drawer) {
-    BitmapDrawer *pBitmapDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
-    pBitmapDrawer->DoDraw();
+    ImageRender *pImageRender = reinterpret_cast<ImageRender *>(drawer);
+    pImageRender->DoDraw();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_poney_blogdemo_demo1_DemoActivity_release(JNIEnv *env, jobject thiz, jlong drawer) {
-    BaseDrawer *pBaseDrawer = reinterpret_cast<BaseDrawer *>(drawer);
-    pBaseDrawer->Release();
+Java_com_poney_blogdemo_demo1_DemoActivity_releaseNative(JNIEnv *env, jobject thiz, jlong render) {
+    ImageRender *pImageRender = reinterpret_cast<ImageRender *>(render);
+    pImageRender->Release();
 }
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_onOutputSizeChanged(JNIEnv *env, jobject thiz,
-                                                               jlong drawer, jint width,
+                                                               jlong render, jint width,
                                                                jint height) {
-    BitmapDrawer *pBitmapDrawer = reinterpret_cast<BitmapDrawer *>(drawer);
-    if (pBitmapDrawer != NULL)
-        pBitmapDrawer->OnOutputSizeChanged(width, height);
+    ImageRender *pImageRender = reinterpret_cast<ImageRender *>(render);
+    if (pImageRender != NULL)
+        pImageRender->OnOutputSizeChanged(width, height);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_DemoActivity_setFilterNative(JNIEnv *env, jobject thiz, jlong render,
+                                                           jint filter_type) {
+    ImageRender *pImageRender = reinterpret_cast<ImageRender *>(render);
+    if (pImageRender != NULL) {
+        if (filter_type == 1) {
+            pImageRender->setFilter(new ColorInvertImageFilter());
+        }
+    }
 }

@@ -13,7 +13,9 @@ TriangleDrawer::~TriangleDrawer() {
 
 }
 
-void TriangleDrawer::InitVarHandler() {
+void TriangleDrawer::Init() {
+    //创建程序
+    m_program_id = OpenGLUtils::CreateProgram(GetVertexShader(), GetFragmentShader());
     m_vertex_pos_handler = glGetAttribLocation(m_program_id, "aPosition");
 }
 
@@ -24,10 +26,7 @@ void TriangleDrawer::Release() {
     glDeleteProgram(m_program_id);
 }
 
-void TriangleDrawer::DoDraw() {
-    //创建程序
-    CreateProgram();
-
+void TriangleDrawer::DoDraw(int textureId, void *vertexPos, void *texturePos) {
     //启用顶点的句柄
     glEnableVertexAttribArray(m_vertex_pos_handler);
     glVertexAttribPointer(m_vertex_pos_handler, 3, GL_FLOAT, GL_FALSE, 0, m_vertex_coors);

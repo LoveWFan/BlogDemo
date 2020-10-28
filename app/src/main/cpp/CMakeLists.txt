@@ -19,15 +19,21 @@ add_library( # Sets the name of the library.
         # Sets the library as a shared library.
         SHARED
         ${CMAKE_SOURCE_DIR}/utils/logger.h
+        ${CMAKE_SOURCE_DIR}/utils/opengl_utils.h
         ${CMAKE_SOURCE_DIR}/utils/stb_image.h
 
         ${CMAKE_SOURCE_DIR}/drawer/base_drawer.h
         ${CMAKE_SOURCE_DIR}/drawer/base_drawer.cpp
         ${CMAKE_SOURCE_DIR}/drawer/triangle_drawer.h
         ${CMAKE_SOURCE_DIR}/drawer/triangle_drawer.cpp
-        ${CMAKE_SOURCE_DIR}/drawer/bitmap_drawer.h
-        ${CMAKE_SOURCE_DIR}/drawer/bitmap_drawer.cpp
+        ${CMAKE_SOURCE_DIR}/render/image_render.h
+        ${CMAKE_SOURCE_DIR}/render/image_render.cpp
 
+        ${CMAKE_SOURCE_DIR}/filter/adjust/color_invert_filter.cpp
+        ${CMAKE_SOURCE_DIR}/filter/adjust/color_invert_filter.h
+
+        ${CMAKE_SOURCE_DIR}/filter/base/image_filter.h
+        ${CMAKE_SOURCE_DIR}/filter/base/image_filter.cpp
         # Provides a relative path to your source file(s).
         ${CMAKE_SOURCE_DIR}/native-lib.cpp
         )

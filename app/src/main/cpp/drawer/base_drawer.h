@@ -6,6 +6,7 @@
 #define BLOGDEMO_BASE_DRAWER_H
 
 #include <GLES2/gl2.h>
+#include "../utils/opengl_utils.h"
 
 class BaseDrawer {
 protected:
@@ -15,33 +16,26 @@ protected:
     //顶点坐标接收者
     GLint m_vertex_pos_handler = -1;
 
-    GLuint m_texture_id = 0;
     //纹理坐标接收者
     GLint m_texture_pos_handler = -1;
+
     //纹理接收者
     GLint m_texture_handler = -1;
-
-    void CreateProgram();
-
-    GLuint LoadShader(GLenum type, const GLchar *shader_code);
-
-
 public:
 
     BaseDrawer();
 
     ~BaseDrawer();
 
+    virtual void Init() = 0;
 
     virtual void Release() = 0;
 
-    virtual void DoDraw() = 0;
+    virtual void DoDraw(int textureId, void *vertexPos, void *texturePos) = 0;
 
     virtual const GLchar *GetVertexShader() = 0;
 
     virtual const GLchar *GetFragmentShader() = 0;
-
-    virtual void InitVarHandler() = 0;
 };
 
 

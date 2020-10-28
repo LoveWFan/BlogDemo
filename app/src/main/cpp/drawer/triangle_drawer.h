@@ -28,9 +28,9 @@ public:
 
     void Release() override;
 
-    void DoDraw() override;
+    void DoDraw(int textureId, void *vertexPos, void *texturePos) override;
 
-    void InitVarHandler() override;
+    void Init() override;
 
     const GLchar *GetVertexShader() override;
 
