@@ -10,8 +10,8 @@
 
 class ContrastImageFilter : public ImageFilter {
 private:
-    int contrastLocation;
-    float contrast = 1.2f;
+    int m_contrastLocation;
+    float m_contrast = 1.2f;
 public:
 
     virtual void OnInit();
