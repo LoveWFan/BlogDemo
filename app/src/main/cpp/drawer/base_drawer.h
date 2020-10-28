@@ -21,13 +21,15 @@ protected:
 
     //纹理接收者
     GLint m_texture_handler = -1;
+
+
 public:
 
     BaseDrawer();
 
     ~BaseDrawer();
 
-    virtual void Init() = 0;
+    virtual void OnInit() = 0;
 
     virtual void Release() = 0;
 
@@ -36,6 +38,7 @@ public:
     virtual const GLchar *GetVertexShader() = 0;
 
     virtual const GLchar *GetFragmentShader() = 0;
+
 };
 
 

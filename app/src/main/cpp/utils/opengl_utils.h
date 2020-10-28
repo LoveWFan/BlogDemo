@@ -11,6 +11,8 @@
 
 class OpenGLUtils {
 public:
+
+
     static GLuint LoadShader(GLenum type, const GLchar *shader_code) {
         LOGI("OpenGLUtils", "Load shader:\n %s", shader_code)
         //根据type创建顶点着色器或者片元着色器

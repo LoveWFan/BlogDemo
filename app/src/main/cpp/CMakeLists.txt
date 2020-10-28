@@ -32,6 +32,9 @@ add_library( # Sets the name of the library.
         ${CMAKE_SOURCE_DIR}/filter/adjust/color_invert_filter.cpp
         ${CMAKE_SOURCE_DIR}/filter/adjust/color_invert_filter.h
 
+        ${CMAKE_SOURCE_DIR}/filter/adjust/contrast_image_filter.cpp
+        ${CMAKE_SOURCE_DIR}/filter/adjust/contrast_image_filter.h
+
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.h
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.cpp
         # Provides a relative path to your source file(s).

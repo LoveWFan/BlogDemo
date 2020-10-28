@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">BlogDemo</string>
+    <string name="edit_contrast">对比度</string>
+
+    <string name="edit_exposure">曝光</string>
+
+    <string name="edit_vibrance">自然饱和度</string>
+
+    <string name="edit_saturation">饱和度</string>
+
+    <string name="edit_sharpness">锐化</string>
+
+    <string name="edit_brightness">亮度</string>
+
+    <string name="edit_hue">色调</string>
+    <string name="edit_invert">反相</string>
 </resources>

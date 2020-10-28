@@ -4,15 +4,21 @@
 
 #include "image_filter.h"
 
-void ImageFilter::Init() {
+void ImageFilter::setFloat(int location, float floatValue) {
+    glUniform1f(location, floatValue);
+}
+
+void ImageFilter::OnInit() {
     m_program_id = OpenGLUtils::CreateProgram(GetVertexShader(), GetFragmentShader());
     m_vertex_pos_handler = glGetAttribLocation(m_program_id, "position");
     m_texture_pos_handler = glGetAttribLocation(m_program_id, "inputTextureCoordinate");
     m_texture_handler = glGetUniformLocation(m_program_id, "inputImageTexture");
+    isInitialized = true;
 }
 
 void ImageFilter::Release() {
-
+    isInitialized = false;
+    glDeleteProgram(m_program_id);
 }
 
 void ImageFilter::DoDraw(int textureId, void *vertexPos, void *texturePos) {
@@ -53,3 +59,5 @@ const GLchar *ImageFilter::GetFragmentShader() {
            "     gl_FragColor = texture2D(inputImageTexture, textureCoordinate);\n"
            "}";
 }
+
+

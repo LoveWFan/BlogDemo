@@ -7,6 +7,7 @@
 
 #include "utils/stb_image.h"
 #include "filter/adjust/color_invert_filter.h"
+#include "filter/adjust/contrast_image_filter.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -83,11 +84,52 @@ Java_com_poney_blogdemo_demo1_DemoActivity_onOutputSizeChanged(JNIEnv *env, jobj
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_setFilterNative(JNIEnv *env, jobject thiz, jlong render,
-                                                           jint filter_type) {
+                                                           jint filterType,
+                                                           jlong filter) {
     ImageRender *pImageRender = reinterpret_cast<ImageRender *>(render);
-    if (pImageRender != NULL) {
-        if (filter_type == 1) {
-            pImageRender->setFilter(new ColorInvertImageFilter());
-        }
+    ImageFilter *pImageFilter = reinterpret_cast<ImageFilter *>(filter);
+    if (pImageRender != NULL && pImageFilter != NULL) {
+        BaseDrawer *old_filter = pImageRender->getFilter();
+        if (old_filter != NULL)
+            old_filter->Release();
+        pImageRender->setFilter(filterType, pImageFilter);
     }
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(JNIEnv *env, jobject thiz,
+                                                                    jint filter_type) {
+    ImageFilter *pImageFilter = NULL;
+
+    switch (filter_type) {
+        case 0:
+            pImageFilter = new ImageFilter();
+            break;
+        case 1:
+            pImageFilter = new ColorInvertImageFilter();
+            break;
+        case 2:
+            pImageFilter = new ContrastImageFilter();
+            break;
+    }
+
+    return reinterpret_cast<jlong>(pImageFilter);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(JNIEnv *env, jobject thiz,
+                                                                      jint filter_type,
+                                                                      jlong filter, jfloat value) {
+
+    switch (filter_type) {
+        case 2:
+            auto *pImageFilter = reinterpret_cast<ContrastImageFilter *>(filter);
+            if (pImageFilter != NULL)
+                pImageFilter->setContrast(value);
+            break;
+    }
+
+
 }

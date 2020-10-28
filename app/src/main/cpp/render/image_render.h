@@ -7,6 +7,7 @@
 
 
 #include "../drawer/base_drawer.h"
+#include "../filter/base/image_filter.h"
 
 class ImageRender {
 private:
@@ -40,7 +41,9 @@ private:
     // 自定义用户数据，可用于存放画面数据
     void *cst_data = NULL;
 
-    BaseDrawer *m_filter;
+    ImageFilter *m_filter;
+
+    int m_filter_type = 0;
 
     GLuint m_texture_id = 0;
 
@@ -62,9 +65,9 @@ public:
 
     void Release();
 
-    BaseDrawer *getFilter() const;
+    ImageFilter *getFilter() const;
 
-    void setFilter(BaseDrawer *mFilter);
+    void setFilter(int filterType, ImageFilter *mFilter);
 };
 
 

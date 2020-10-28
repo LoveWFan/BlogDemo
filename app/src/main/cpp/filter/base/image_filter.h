@@ -9,8 +9,13 @@
 #include "../../drawer/base_drawer.h"
 
 class ImageFilter : public BaseDrawer {
+private :
+    bool isInitialized;
+protected:
+    void setFloat(int location, float floatValue);
+
 public:
-    virtual void Init();
+    virtual void OnInit();
 
     virtual void Release();
 

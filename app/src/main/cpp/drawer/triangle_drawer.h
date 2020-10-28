@@ -30,7 +30,7 @@ public:
 
     void DoDraw(int textureId, void *vertexPos, void *texturePos) override;
 
-    void Init() override;
+    void OnInit() override;
 
     const GLchar *GetVertexShader() override;
 

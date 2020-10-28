@@ -25,8 +25,7 @@ void ImageRender::DoDraw() {
     if (m_filter == NULL) {
         m_filter = new ImageFilter();
     }
-    m_filter->Init();
-
+    m_filter->OnInit();
     m_filter->DoDraw(m_texture_id, m_vertex_coors,
                      m_texture_coors);
 }
@@ -89,10 +88,12 @@ void ImageRender::Release() {
     }
 }
 
-BaseDrawer *ImageRender::getFilter() const {
-    return m_filter;
+
+void ImageRender::setFilter(int filterType, ImageFilter *mFilter) {
+    m_filter_type = filterType;
+    m_filter = mFilter;
 }
 
-void ImageRender::setFilter(BaseDrawer *mFilter) {
-    m_filter = mFilter;
+ImageFilter *ImageRender::getFilter() const {
+    return m_filter;
 }
