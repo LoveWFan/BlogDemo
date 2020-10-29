@@ -14,4 +14,5 @@
 
     <string name="edit_hue">色调</string>
     <string name="edit_invert">反相</string>
+    <string name="edit_default">原图</string>
 </resources>

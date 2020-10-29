@@ -87,7 +87,10 @@ public class DemoActivity extends AppCompatActivity {
 
                 imageFilterType = GPUImageFilterType.NONE;
 
-                if (checkedId == R.id.fragment_radio_invert) {
+                if (checkedId == R.id.fragment_radio_default) {
+                    seekBar.setVisibility(View.INVISIBLE);
+                    imageFilterType = GPUImageFilterType.NONE;
+                } else if (checkedId == R.id.fragment_radio_invert) {
                     seekBar.setVisibility(View.INVISIBLE);
                     imageFilterType = GPUImageFilterType.INVERT;
                 } else if (checkedId == R.id.fragment_radio_contrast) {
@@ -139,8 +142,6 @@ public class DemoActivity extends AppCompatActivity {
 
     private class MyGLRender implements GLSurfaceView.Renderer {
         private long render = -1;
-        private int outWidth;
-        private int outHeight;
         private long filter;
 
         @Override
@@ -159,11 +160,9 @@ public class DemoActivity extends AppCompatActivity {
 
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            this.outWidth = width;
-            this.outHeight = height;
-            GLES20.glViewport(0, 0, this.outWidth, this.outHeight);
+            GLES20.glViewport(0, 0, width, height);
             if (render != -1) {
-                onOutputSizeChanged(render, outWidth, outHeight);
+                onOutputSizeChanged(render, width, height);
             }
 
         }
@@ -209,7 +208,6 @@ public class DemoActivity extends AppCompatActivity {
                     break;
             }
 
-            Log.e("MFB", gpuImageFilterType.ordinal() + ":" + filter + ":" + value);
             adjustFilterProgressNative(gpuImageFilterType.ordinal(), filter, value);
         }
     }

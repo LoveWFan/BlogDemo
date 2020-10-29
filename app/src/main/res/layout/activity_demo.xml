@@ -44,6 +44,12 @@
                 android:padding="10dp">
 
                 <RadioButton
+                    android:id="@+id/fragment_radio_default"
+                    style="@style/ImageEditor_adjust_radiobutton"
+                    android:drawableTop="@drawable/selector_image_edit_adjust_default"
+                    android:text="@string/edit_default" />
+
+                <RadioButton
                     android:id="@+id/fragment_radio_invert"
                     style="@style/ImageEditor_adjust_radiobutton"
                     android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
