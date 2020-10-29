@@ -9,6 +9,7 @@
 #include "filter/adjust/color_invert_filter.h"
 #include "filter/adjust/contrast_image_filter.h"
 #include "filter/adjust/exposure_filter.h"
+#include "filter/adjust/brightness_filter.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -113,6 +114,9 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(JNIEnv *env,
         case 2:
             pImageFilter = new ContrastImageFilter();
             break;
+        case 3:
+            pImageFilter = new BrightnessFilter();
+            break;
         case 4:
             pImageFilter = new ExposureFilter();
             break;
@@ -134,6 +138,12 @@ Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(JNIEnv *en
                 pImageFilter->setValue(value);
         }
             break;
+        case 3: {
+            auto *pImageFilter = reinterpret_cast<BrightnessFilter *>(filter);
+            if (pImageFilter != NULL)
+                pImageFilter->setValue(value);
+        }
+
         case 4: {
             auto *pImageFilter = reinterpret_cast<ExposureFilter *>(filter);
             if (pImageFilter != NULL)
