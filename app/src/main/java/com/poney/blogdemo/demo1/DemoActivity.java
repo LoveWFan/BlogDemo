@@ -201,6 +201,9 @@ public class DemoActivity extends AppCompatActivity {
                 case CONTRAST:
                     value = range(progress, 0.0f, 2.0f);
                     break;
+                case EXPOSURE:
+                    value = range(progress, -2.0f, 2.0f);
+                    break;
             }
 
             Log.e("MFB", gpuImageFilterType.ordinal() + ":" + filter + ":" + value);

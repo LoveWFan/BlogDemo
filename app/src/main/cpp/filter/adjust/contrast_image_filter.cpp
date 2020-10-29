@@ -9,7 +9,7 @@ void ContrastImageFilter::OnInit() {
     LOGE("MFB", "OnInit")
     ImageFilter::OnInit();
     m_contrastLocation = glGetUniformLocation(m_program_id, "m_contrast");
-    setContrast(m_contrast);
+    setValue(m_contrast);
 }
 
 const GLchar *ContrastImageFilter::GetFragmentShader() {
@@ -28,7 +28,7 @@ const GLchar *ContrastImageFilter::GetFragmentShader() {
 
 }
 
-void ContrastImageFilter::setContrast(float contrast) {
+void ContrastImageFilter::setValue(float contrast) {
     m_contrast = contrast;
     setFloat(m_contrastLocation, contrast);
 }

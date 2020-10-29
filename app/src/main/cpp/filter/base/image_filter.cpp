@@ -9,11 +9,14 @@ void ImageFilter::setFloat(int location, float floatValue) {
 }
 
 void ImageFilter::OnInit() {
-    m_program_id = OpenGLUtils::CreateProgram(GetVertexShader(), GetFragmentShader());
-    m_vertex_pos_handler = glGetAttribLocation(m_program_id, "position");
-    m_texture_pos_handler = glGetAttribLocation(m_program_id, "inputTextureCoordinate");
-    m_texture_handler = glGetUniformLocation(m_program_id, "inputImageTexture");
-    isInitialized = true;
+    if (!isInitialized) {
+        m_program_id = OpenGLUtils::CreateProgram(GetVertexShader(), GetFragmentShader());
+        m_vertex_pos_handler = glGetAttribLocation(m_program_id, "position");
+        m_texture_pos_handler = glGetAttribLocation(m_program_id, "inputTextureCoordinate");
+        m_texture_handler = glGetUniformLocation(m_program_id, "inputImageTexture");
+        isInitialized = true;
+    }
+
 }
 
 void ImageFilter::Release() {

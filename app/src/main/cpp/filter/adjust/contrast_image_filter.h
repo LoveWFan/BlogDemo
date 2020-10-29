@@ -18,7 +18,7 @@ public:
 
     virtual const GLchar *GetFragmentShader();
 
-    void setContrast(float contrast);
+    void setValue(float contrast);
 };
 
 
