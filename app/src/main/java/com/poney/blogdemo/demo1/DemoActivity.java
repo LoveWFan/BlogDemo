@@ -206,6 +206,9 @@ public class DemoActivity extends AppCompatActivity {
                 case EXPOSURE:
                     value = range(progress, -2.0f, 2.0f);
                     break;
+                case SATURATION:
+                    value = range(progress, 0.0f, 2.0f);
+                    break;
             }
 
             adjustFilterProgressNative(gpuImageFilterType.ordinal(), filter, value);

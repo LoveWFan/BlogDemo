@@ -37,6 +37,8 @@ add_library( # Sets the name of the library.
         ${CMAKE_SOURCE_DIR}/filter/adjust/exposure_filter.cpp
         ${CMAKE_SOURCE_DIR}/filter/adjust/brightness_filter.h
         ${CMAKE_SOURCE_DIR}/filter/adjust/brightness_filter.cpp
+        ${CMAKE_SOURCE_DIR}/filter/adjust/saturation_filter.h
+        ${CMAKE_SOURCE_DIR}/filter/adjust/saturation_filter.cpp
 
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.h
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.cpp
