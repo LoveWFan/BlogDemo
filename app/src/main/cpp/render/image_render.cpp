@@ -26,6 +26,7 @@ void ImageRender::DoDraw() {
         m_filter = new ImageFilter();
     }
     m_filter->OnInit();
+    m_filter->onOutputSizeChanged(m_output_width, m_output_height);
     m_filter->DoDraw(m_texture_id, m_vertex_coors,
                      m_texture_coors);
 }

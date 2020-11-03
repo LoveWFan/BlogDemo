@@ -212,6 +212,9 @@ public class DemoActivity extends AppCompatActivity {
                 case HUE:
                     value = range(progress, 0.0f, 360.0f);
                     break;
+                case SHARPEN:
+                    value = range(progress, -4.0f, 4.0f);
+                    break;
             }
 
             adjustFilterProgressNative(gpuImageFilterType.ordinal(), filter, value);

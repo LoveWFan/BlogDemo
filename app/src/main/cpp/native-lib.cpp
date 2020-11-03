@@ -12,6 +12,7 @@
 #include "filter/adjust/brightness_filter.h"
 #include "filter/adjust/saturation_filter.h"
 #include "filter/adjust/hue_filter.h"
+#include "filter/adjust/sharpen_filter.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -128,6 +129,9 @@ Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(JNIEnv *env,
         case 6:
             pImageFilter = new SaturationFilter();
             break;
+        case 7:
+            pImageFilter = new SharpenFilter();
+            break;
     }
 
     return reinterpret_cast<jlong>(pImageFilter);
@@ -166,6 +170,12 @@ Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(JNIEnv *en
             break;
         case 6: {
             auto *pImageFilter = reinterpret_cast<SaturationFilter *>(filter);
+            if (pImageFilter != NULL)
+                pImageFilter->setValue(value);
+        }
+            break;
+        case 7: {
+            auto *pImageFilter = reinterpret_cast<SharpenFilter *>(filter);
             if (pImageFilter != NULL)
                 pImageFilter->setValue(value);
         }
