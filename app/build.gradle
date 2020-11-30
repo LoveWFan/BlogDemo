@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.poney.blogdemo"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -16,7 +16,7 @@ android {
                 cppFlags ""
             }
             ndk {
-                abiFilters  "armeabi-v7a"
+                abiFilters "armeabi-v7a"
             }
         }
     }
@@ -51,4 +51,18 @@ dependencies {
     implementation dependenciesConfig.rxandroid
     annotationProcessor dependenciesConfig.butterknifeannotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation project(path: ':media')
+    // CameraX core library
+    def camerax_version = '1.0.0-beta10'
+    implementation "androidx.camera:camera-core:$camerax_version"
+
+    // CameraX Camera2 extensions
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+
+    // CameraX Lifecycle library
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+
+    // CameraX View class
+    implementation 'androidx.camera:camera-view:1.0.0-alpha19'
+
 }

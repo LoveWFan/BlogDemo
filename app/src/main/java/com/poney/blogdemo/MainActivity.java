@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         RxPermissions rxPermissions = new RxPermissions(this);
         Disposable disposable = rxPermissions.request(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA)
                 .subscribe(permission -> {
                     if (permission) {
                     } else {
