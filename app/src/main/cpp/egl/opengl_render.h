@@ -88,6 +88,8 @@ public:
 
 // 释放资源相关方法
     void ReleaseRender();
+
+    ImageRender *GetImageRender();
 };
 
 

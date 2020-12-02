@@ -19,6 +19,7 @@
 
         </activity>
         <activity
+            android:label="GLSurfaceView"
             android:name=".demo1.DemoActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -30,8 +31,14 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".demo1.EGLDemoActivity">
+        <activity
+            android:name=".demo1.EGLDemoActivity"
+            android:label="EGLNative">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -245,12 +245,18 @@ JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_switchToFilterNative(JNIEnv *env, jobject thiz,
                                                                    jint render, jint filter_type) {
 
-
+    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    pGLRender->GetImageRender()->setFilter(
+            reinterpret_cast<ImageFilter *>(Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(
+                    env, thiz, filter_type)));
 }
 
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_adjust(JNIEnv *env, jobject thiz, jint render,
-                                                     jint progress, jint filter_type) {
-
+                                                     jfloat value, jint filter_type) {
+    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    jlong pFilter = reinterpret_cast<jlong>(pGLRender->GetImageRender()->getFilter());
+    Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(env, thiz, filter_type,
+                                                                          pFilter, value);
 }

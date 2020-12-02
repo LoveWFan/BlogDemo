@@ -155,6 +155,10 @@ void OpenGLRender::SetBitmapRender(ImageRender *bitmapRender) {
     pImageRender = bitmapRender;
 }
 
+ImageRender *OpenGLRender::GetImageRender() {
+    return pImageRender;
+}
+
 
 
 

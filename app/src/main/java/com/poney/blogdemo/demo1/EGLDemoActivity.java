@@ -118,7 +118,7 @@ public class EGLDemoActivity extends AppCompatActivity {
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        adjust(player, progress, imageFilterType.ordinal());
+                        adjust(player, getAdjustValue(progress, imageFilterType), imageFilterType.ordinal());
                     }
 
                     @Override
@@ -137,10 +137,42 @@ public class EGLDemoActivity extends AppCompatActivity {
 
     }
 
+    public float getAdjustValue(int progress, GPUImageFilterType gpuImageFilterType) {
+        float value = 0;
+        switch (gpuImageFilterType) {
+            case CONTRAST:
+                value = range(progress, 0.0f, 2.0f);
+                break;
+            case BRIGHTNESS:
+                value = range(progress, -1.0f, 1.0f);
+                break;
+            case EXPOSURE:
+                value = range(progress, -2.0f, 2.0f);
+                break;
+            case SATURATION:
+                value = range(progress, 0.0f, 2.0f);
+                break;
+            case HUE:
+                value = range(progress, 0.0f, 360.0f);
+                break;
+            case SHARPEN:
+                value = range(progress, -4.0f, 4.0f);
+                break;
+        }
+        return value;
+    }
+
+    static float range(int percentage, float start, float end) {
+        return (end - start) * percentage / 100.0f + start;
+    }
+
+    static int range(int percentage, int start, int end) {
+        return (end - start) * percentage / 100 + start;
+    }
 
     public native void switchToFilterNative(int render, int filterType);
 
-    public native void adjust(int render, int progress, int filterType);
+    public native void adjust(int render, float value, int filterType);
 
     public native void releaseGLRender(int render);
 
