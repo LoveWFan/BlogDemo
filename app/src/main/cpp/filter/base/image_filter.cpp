@@ -63,8 +63,3 @@ const GLchar *ImageFilter::GetFragmentShader() {
            "}";
 }
 
-void ImageFilter::onOutputSizeChanged(int width, int height) {
-    m_outputWidth = width;
-    m_outputHeight = height;
-}
-

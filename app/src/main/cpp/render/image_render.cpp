@@ -10,10 +10,10 @@
 #include <cmath>
 
 ImageRender::ImageRender(int origin_width, int origin_height, void *p) {
-    m_origin_width = (float) origin_width;
-    m_origin_height = (float) origin_height;
+    m_origin_width = origin_width;
+    m_origin_height = origin_height;
     cst_data = p;
-    m_texture_id = OpenGLUtils::loadTexture(cst_data, m_origin_width, m_origin_height);
+
 }
 
 ImageRender::~ImageRender() {
@@ -23,11 +23,15 @@ ImageRender::~ImageRender() {
 
 void ImageRender::DoDraw() {
     if (isReadyToDraw()) {
+        if (!texture_loaded) {
+            m_texture_id = OpenGLUtils::loadTexture(cst_data, m_origin_width, m_origin_height);
+            texture_loaded = true;
+        }
+
         if (m_filter == NULL) {
             m_filter = new ImageFilter();
         }
         m_filter->OnInit();
-        m_filter->onOutputSizeChanged(m_output_width, m_output_height);
         m_filter->DoDraw(m_texture_id, m_vertex_coors,
                          m_texture_coors);
     }
@@ -41,9 +45,8 @@ void ImageRender::AdjustImageScale() {
         && m_origin_width > 0
         && m_origin_height > 0) {
         ResetTextureCoors();
-        float ratio1 = m_output_width / m_origin_width;
-        float ratio2 = m_output_height / m_origin_height;
-        LOGE("MFB", "radio1:%f ratio2:%f", ratio1, ratio2)
+        float ratio1 = 1.0f * m_output_width / m_origin_width;
+        float ratio2 = 1.0f * m_output_height / m_origin_height;
         float ratioMax = fmaxf(ratio1, ratio2);
         int imageWidthNew = round(m_origin_width * ratioMax);
         int imageHeightNew = round(m_origin_height * ratioMax);
@@ -67,8 +70,8 @@ void ImageRender::AdjustImageScale() {
 }
 
 void ImageRender::OnOutputSizeChanged(int outputWidth, int outputHeight) {
-    m_output_width = (float) outputWidth;
-    m_output_height = (float) outputHeight;
+    m_output_width = outputWidth;
+    m_output_height = outputHeight;
     AdjustImageScale();
 }
 
@@ -88,6 +91,10 @@ void ImageRender::ResetTextureCoors() {
 }
 
 void ImageRender::Release() {
+    //释放资源
+    texture_loaded = false;
+    free(cst_data);
+    cst_data = NULL;
     if (m_filter != NULL) {
         m_filter->Release();
     }

@@ -109,9 +109,6 @@ public:
                          GL_RGBA, // 数据格式，必须和上面的纹理格式保持一直
                          GL_UNSIGNED_BYTE, // RGBA每位数据的字节数，这里是BYTE​: 1 byte
                          cst_data);// 画面数据
-            //释放资源
-            free(cst_data);
-            cst_data = NULL;
         }
 
         return m_texture_id;

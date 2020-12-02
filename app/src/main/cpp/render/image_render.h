@@ -12,14 +12,14 @@
 class ImageRender {
 private:
     const char *TAG = "ImageRender";
-    float m_origin_width = 0;
+    int m_origin_width = 0;
 
-    float m_origin_height = 0;
+    int m_origin_height = 0;
 
 
-    float m_output_width = 0;
+    int m_output_width = 0;
 
-    float m_output_height = 0;
+    int m_output_height = 0;
 
 
     //顶点坐标
@@ -70,6 +70,7 @@ public:
 
     bool isReadyToDraw();
 
+    bool texture_loaded;
 };
 
 

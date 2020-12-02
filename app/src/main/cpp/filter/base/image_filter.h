@@ -11,8 +11,6 @@
 class ImageFilter : public BaseDrawer {
 private :
     bool isInitialized;
-    int m_outputWidth;
-    int m_outputHeight;
 protected:
     void setFloat(int location, float floatValue);
 
@@ -26,8 +24,6 @@ public:
     virtual const GLchar *GetVertexShader();
 
     virtual const GLchar *GetFragmentShader();
-
-    virtual void onOutputSizeChanged(int width, int height);
 };
 
 
