@@ -19,14 +19,10 @@
 
         </activity>
         <activity
-            android:label="GLSurfaceView"
             android:name=".demo1.DemoActivity"
+            android:label="GLSurfaceView"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
 
