@@ -22,13 +22,16 @@ ImageRender::~ImageRender() {
 
 
 void ImageRender::DoDraw() {
-    if (m_filter == NULL) {
-        m_filter = new ImageFilter();
+    if (isReadyToDraw()) {
+        if (m_filter == NULL) {
+            m_filter = new ImageFilter();
+        }
+        m_filter->OnInit();
+        m_filter->onOutputSizeChanged(m_output_width, m_output_height);
+        m_filter->DoDraw(m_texture_id, m_vertex_coors,
+                         m_texture_coors);
     }
-    m_filter->OnInit();
-    m_filter->onOutputSizeChanged(m_output_width, m_output_height);
-    m_filter->DoDraw(m_texture_id, m_vertex_coors,
-                     m_texture_coors);
+
 }
 
 
@@ -40,6 +43,7 @@ void ImageRender::AdjustImageScale() {
         ResetTextureCoors();
         float ratio1 = m_output_width / m_origin_width;
         float ratio2 = m_output_height / m_origin_height;
+        LOGE("MFB", "radio1:%f ratio2:%f", ratio1, ratio2)
         float ratioMax = fmaxf(ratio1, ratio2);
         int imageWidthNew = round(m_origin_width * ratioMax);
         int imageHeightNew = round(m_origin_height * ratioMax);
@@ -90,11 +94,16 @@ void ImageRender::Release() {
 }
 
 
-void ImageRender::setFilter(int filterType, ImageFilter *mFilter) {
-    m_filter_type = filterType;
+void ImageRender::setFilter(ImageFilter *mFilter) {
     m_filter = mFilter;
 }
 
 ImageFilter *ImageRender::getFilter() const {
     return m_filter;
 }
+
+bool ImageRender::isReadyToDraw() {
+    return m_origin_width > 0 && m_origin_height > 0;
+}
+
+

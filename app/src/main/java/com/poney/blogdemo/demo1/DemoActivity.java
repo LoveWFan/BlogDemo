@@ -106,7 +106,7 @@ public class DemoActivity extends AppCompatActivity {
                 } else if (checkedId == R.id.fragment_radio_hue) {
                     imageFilterType = GPUImageFilterType.HUE;
                 }
-                switchToFilter(imageFilterType.ordinal(), createFilterByTypeNative(imageFilterType.ordinal()));
+                switchToFilter(createFilterByTypeNative(imageFilterType.ordinal()));
 
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
@@ -131,9 +131,9 @@ public class DemoActivity extends AppCompatActivity {
 
     }
 
-    private void switchToFilter(int filterType, long filterNative) {
+    private void switchToFilter(long filterNative) {
         if (renderer.getFilter() != filterNative) {
-            renderer.setFilter(filterType, filterNative);
+            renderer.setFilter(filterNative);
             glSurface.requestRender();
         }
 
@@ -183,10 +183,10 @@ public class DemoActivity extends AppCompatActivity {
             }
         }
 
-        public void setFilter(int filterType, long filter) {
+        public void setFilter(long filter) {
             if (render != -1) {
                 this.filter = filter;
-                setFilterNative(render, filterType, this.filter);
+                setFilterNative(render, this.filter);
             }
         }
 
@@ -243,7 +243,7 @@ public class DemoActivity extends AppCompatActivity {
 
     public native void drawBitmap(long render);
 
-    public native void setFilterNative(long render, int filterType, long filter);
+    public native void setFilterNative(long render, long filter);
 
     public native long createFilterByTypeNative(int filterType);
 

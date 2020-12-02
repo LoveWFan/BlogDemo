@@ -46,6 +46,15 @@ add_library( # Sets the name of the library.
 
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.h
         ${CMAKE_SOURCE_DIR}/filter/base/image_filter.cpp
+
+        #EGL
+        ${CMAKE_SOURCE_DIR}/egl/egl_core.cpp
+        ${CMAKE_SOURCE_DIR}/egl/egl_core.h
+        ${CMAKE_SOURCE_DIR}/egl/egl_surface.h
+        ${CMAKE_SOURCE_DIR}/egl/egl_surface.cpp
+        ${CMAKE_SOURCE_DIR}/egl/opengl_render.h
+        ${CMAKE_SOURCE_DIR}/egl/opengl_render.cpp
+
         # Provides a relative path to your source file(s).
         ${CMAKE_SOURCE_DIR}/native-lib.cpp
         )

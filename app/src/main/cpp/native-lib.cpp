@@ -13,6 +13,7 @@
 #include "filter/adjust/saturation_filter.h"
 #include "filter/adjust/hue_filter.h"
 #include "filter/adjust/sharpen_filter.h"
+#include "egl/opengl_render.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -89,7 +90,6 @@ Java_com_poney_blogdemo_demo1_DemoActivity_onOutputSizeChanged(JNIEnv *env, jobj
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_DemoActivity_setFilterNative(JNIEnv *env, jobject thiz, jlong render,
-                                                           jint filterType,
                                                            jlong filter) {
     ImageRender *pImageRender = reinterpret_cast<ImageRender *>(render);
     ImageFilter *pImageFilter = reinterpret_cast<ImageFilter *>(filter);
@@ -97,7 +97,7 @@ Java_com_poney_blogdemo_demo1_DemoActivity_setFilterNative(JNIEnv *env, jobject 
         BaseDrawer *old_filter = pImageRender->getFilter();
         if (old_filter != NULL)
             old_filter->Release();
-        pImageRender->setFilter(filterType, pImageFilter);
+        pImageRender->setFilter(pImageFilter);
     }
 }
 
@@ -182,5 +182,75 @@ Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(JNIEnv *en
             break;
     }
 
+
+}extern "C"
+JNIEXPORT jint JNICALL
+Java_com_poney_blogdemo_demo1_EGLDemoActivity_createGLRender(JNIEnv *env, jobject thiz,
+                                                             jobject surface) {
+    OpenGLRender *glRender = new OpenGLRender(env);
+
+    glRender->SetSurface(surface);
+    return (jint) glRender;
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_EGLDemoActivity_showBitmap(JNIEnv *env, jobject thiz, jint render,
+                                                         jobject bitmap) {
+    AndroidBitmapInfo info; // create a AndroidBitmapInfo
+    int result;
+    // 获取图片信息
+    result = AndroidBitmap_getInfo(env, bitmap, &info);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("Player", "AndroidBitmap_getInfo failed, result: %d", result);
+        return;
+    }
+    LOGD("Player", "bitmap width: %d, height: %d, format: %d, stride: %d", info.width, info.height,
+         info.format, info.stride);
+    // 获取像素信息
+    unsigned char *data;
+
+    result = AndroidBitmap_lockPixels(env, bitmap, reinterpret_cast<void **>(&data));
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("Player", "AndroidBitmap_lockPixels failed, result: %d", result);
+        return;
+    }
+    size_t count = info.stride * info.height;
+
+    unsigned char *resultData = (unsigned char *) malloc(count * sizeof(unsigned char));;
+    memcpy(resultData, data, count);
+
+    // 像素信息不再使用后需要解除锁定
+    result = AndroidBitmap_unlockPixels(env, bitmap);
+    if (result != ANDROID_BITMAP_RESULT_SUCCESS) {
+        LOGE("Player", "AndroidBitmap_unlockPixels failed, result: %d", result);
+    }
+    ImageRender *pImageRender = new ImageRender(info.width, info.height, resultData);
+    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    pGLRender->SetBitmapRender(pImageRender);
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_EGLDemoActivity_releaseGLRender(JNIEnv *env, jobject thiz,
+                                                              jint render) {
+    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    pGLRender->ReleaseRender();
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_EGLDemoActivity_switchToFilterNative(JNIEnv *env, jobject thiz,
+                                                                   jint render, jint filter_type) {
+
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_poney_blogdemo_demo1_EGLDemoActivity_adjust(JNIEnv *env, jobject thiz, jint render,
+                                                     jint progress, jint filter_type) {
 
 }

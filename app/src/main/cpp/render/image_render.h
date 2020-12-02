@@ -43,7 +43,6 @@ private:
 
     ImageFilter *m_filter;
 
-    int m_filter_type = 0;
 
     GLuint m_texture_id = 0;
 
@@ -67,7 +66,10 @@ public:
 
     ImageFilter *getFilter() const;
 
-    void setFilter(int filterType, ImageFilter *mFilter);
+    void setFilter(ImageFilter *mFilter);
+
+    bool isReadyToDraw();
+
 };
 
 
