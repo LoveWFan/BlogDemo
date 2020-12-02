@@ -3,6 +3,7 @@ package com.poney.blogdemo.demo1;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -59,24 +60,33 @@ public class EGLDemoActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
     private void init() {
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if (player == -1)
-                    player = createGLRender(holder.getSurface());
-
             }
 
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                if (player == -1) {
+                    player = createGLRender(holder.getSurface());
+                }
                 showBitmap(player, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_qxx));
             }
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                if (player != -1)
+                if (player != -1) {
                     releaseGLRender(player);
+                    player = -1;
+                }
+
             }
         });
         fragmentAdjustRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
