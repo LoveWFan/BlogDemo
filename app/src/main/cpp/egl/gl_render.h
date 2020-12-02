@@ -14,10 +14,10 @@
 #include "egl_surface.h"
 #include "../render/image_render.h"
 
-class OpenGLRender {
+class GLRender {
 private:
 
-    const char *TAG = "OpenGLRender";
+    const char *TAG = "GLRender";
 
     //OpenGL渲染状态
     enum STATE {
@@ -70,12 +70,12 @@ private:
     void ReleaseWindow();
 
     // 渲染线程回调方法
-    static void sRenderThread(std::shared_ptr<OpenGLRender> that);
+    static void sRenderThread(std::shared_ptr<GLRender> that);
 
 public:
-    OpenGLRender(JNIEnv *env);
+    GLRender(JNIEnv *env);
 
-    ~OpenGLRender();
+    ~GLRender();
 
     void SetSurface(jobject surface);
 

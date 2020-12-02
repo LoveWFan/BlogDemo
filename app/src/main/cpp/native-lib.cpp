@@ -13,7 +13,7 @@
 #include "filter/adjust/saturation_filter.h"
 #include "filter/adjust/hue_filter.h"
 #include "filter/adjust/sharpen_filter.h"
-#include "egl/opengl_render.h"
+#include "egl/gl_render.h"
 #include <android/bitmap.h>
 #include <malloc.h>
 #include <string.h>
@@ -187,7 +187,7 @@ Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(JNIEnv *en
 JNIEXPORT jint JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_createGLRender(JNIEnv *env, jobject thiz,
                                                              jobject surface) {
-    OpenGLRender *glRender = new OpenGLRender(env);
+    GLRender *glRender = new GLRender(env);
 
     glRender->SetSurface(surface);
     return (jint) glRender;
@@ -227,7 +227,7 @@ Java_com_poney_blogdemo_demo1_EGLDemoActivity_showBitmap(JNIEnv *env, jobject th
         LOGE("Player", "AndroidBitmap_unlockPixels failed, result: %d", result);
     }
     ImageRender *pImageRender = new ImageRender(info.width, info.height, resultData);
-    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
     pGLRender->SetBitmapRender(pImageRender);
 
 }
@@ -236,7 +236,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_releaseGLRender(JNIEnv *env, jobject thiz,
                                                               jint render) {
-    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
     pGLRender->ReleaseRender();
 }
 
@@ -245,7 +245,7 @@ JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_switchToFilterNative(JNIEnv *env, jobject thiz,
                                                                    jint render, jint filter_type) {
 
-    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
     pGLRender->GetImageRender()->setFilter(
             reinterpret_cast<ImageFilter *>(Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(
                     env, thiz, filter_type)));
@@ -255,7 +255,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_adjust(JNIEnv *env, jobject thiz, jint render,
                                                      jfloat value, jint filter_type) {
-    OpenGLRender *pGLRender = reinterpret_cast<OpenGLRender *>(render);
+    GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
     jlong pFilter = reinterpret_cast<jlong>(pGLRender->GetImageRender()->getFilter());
     Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(env, thiz, filter_type,
                                                                           pFilter, value);

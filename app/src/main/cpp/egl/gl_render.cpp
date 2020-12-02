@@ -4,31 +4,31 @@
 
 #include <unistd.h>
 #include <GLES2/gl2.h>
-#include "opengl_render.h"
+#include "gl_render.h"
 #include "../utils/logger.h"
 #include "../render/image_render.h"
 #include "../drawer/triangle_drawer.h"
 
-void OpenGLRender::InitRenderThread() {
+void GLRender::InitRenderThread() {
     // 使用智能指针，线程结束时，自动删除本类指针
-    std::shared_ptr<OpenGLRender> that(this);
+    std::shared_ptr<GLRender> that(this);
     std::thread t(sRenderThread, that);
     t.detach();
 }
 
-OpenGLRender::OpenGLRender(JNIEnv *env) {
+GLRender::GLRender(JNIEnv *env) {
     this->m_env = env;
     //获取JVM虚拟机，为创建线程作准备
     env->GetJavaVM(&m_jvm_for_thread);
     InitRenderThread();
 }
 
-OpenGLRender::~OpenGLRender() {
+GLRender::~GLRender() {
     delete m_egl_surface;
 }
 
 
-void OpenGLRender::sRenderThread(std::shared_ptr<OpenGLRender> that) {
+void GLRender::sRenderThread(std::shared_ptr<GLRender> that) {
     JNIEnv *env;
     //将线程附加到虚拟机，并获取env
     if (that->m_jvm_for_thread->AttachCurrentThread(&env, NULL) != JNI_OK) {
@@ -74,12 +74,12 @@ void OpenGLRender::sRenderThread(std::shared_ptr<OpenGLRender> that) {
     }
 }
 
-bool OpenGLRender::InitEGL() {
+bool GLRender::InitEGL() {
     m_egl_surface = new EglSurface();
     return m_egl_surface->Init();
 }
 
-void OpenGLRender::SetSurface(jobject surface) {
+void GLRender::SetSurface(jobject surface) {
     if (NULL != surface) {
         m_surface_ref = m_env->NewGlobalRef(surface);
         m_state = FRESH_SURFACE;
@@ -89,7 +89,7 @@ void OpenGLRender::SetSurface(jobject surface) {
     }
 }
 
-void OpenGLRender::InitDspWindow(JNIEnv *env) {
+void GLRender::InitDspWindow(JNIEnv *env) {
     if (m_surface_ref != NULL) {
         // 初始化窗口
         m_native_window = ANativeWindow_fromSurface(env, m_surface_ref);
@@ -106,36 +106,36 @@ void OpenGLRender::InitDspWindow(JNIEnv *env) {
     }
 }
 
-void OpenGLRender::CreateSurface() {
+void GLRender::CreateSurface() {
     m_egl_surface->CreateEglSurface(m_native_window, m_window_width, m_window_height);
     glViewport(0, 0, m_window_width, m_window_height);
 }
 
 
-void OpenGLRender::DestroySurface() {
+void GLRender::DestroySurface() {
     m_egl_surface->DestroyEglSurface();
     ReleaseWindow();
 }
 
 
-void OpenGLRender::Render() {
+void GLRender::Render() {
     if (RENDERING == m_state) {
         pImageRender->DoDraw();
         m_egl_surface->SwapBuffers();
     }
 }
 
-void OpenGLRender::Stop() {
+void GLRender::Stop() {
     m_state = STOP;
 }
 
-void OpenGLRender::ReleaseRender() {
+void GLRender::ReleaseRender() {
     Stop();
     ReleaseSurface();
     ReleaseWindow();
 }
 
-void OpenGLRender::ReleaseSurface() {
+void GLRender::ReleaseSurface() {
     if (m_egl_surface != NULL) {
         m_egl_surface->Release();
         delete m_egl_surface;
@@ -143,7 +143,7 @@ void OpenGLRender::ReleaseSurface() {
     }
 }
 
-void OpenGLRender::ReleaseWindow() {
+void GLRender::ReleaseWindow() {
     if (m_native_window != NULL) {
         ANativeWindow_release(m_native_window);
         m_native_window = NULL;
@@ -151,11 +151,11 @@ void OpenGLRender::ReleaseWindow() {
 }
 
 
-void OpenGLRender::SetBitmapRender(ImageRender *bitmapRender) {
+void GLRender::SetBitmapRender(ImageRender *bitmapRender) {
     pImageRender = bitmapRender;
 }
 
-ImageRender *OpenGLRender::GetImageRender() {
+ImageRender *GLRender::GetImageRender() {
     return pImageRender;
 }
 
