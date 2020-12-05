@@ -4,24 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.poney.blogdemo.demo1.DemoActivity;
+import com.poney.blogdemo.demo1.EGLDemoActivity;
+import com.poney.blogdemo.demo2.CameraXActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.button_gallery)
-    Button buttonGallery;
-    @BindView(R.id.button_camera)
-    Button buttonCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
         Disposable disposable = rxPermissions.request(
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA)
+                Manifest.permission.CAMERA,
+                Manifest.permission.RECORD_AUDIO)
                 .subscribe(permission -> {
                     if (permission) {
                     } else {
@@ -46,12 +44,17 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.button_gallery, R.id.button_camera})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.button_gallery:
+            case R.id.gLSurfaceView:
+                startActivity(new Intent(this, DemoActivity.class));
                 break;
-            case R.id.button_camera:
+            case R.id.egl:
+                startActivity(new Intent(this, EGLDemoActivity.class));
+                break;
+            case R.id.audio_video:
+                startActivity(new Intent(this, CameraXActivity.class));
                 break;
         }
     }

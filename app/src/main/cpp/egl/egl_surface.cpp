@@ -16,7 +16,12 @@ EglSurface::~EglSurface() {
 bool EglSurface::Init() {
     return m_core->Init(NULL);
 }
-
+/**
+ *
+ * @param native_window 传入上一步创建的ANativeWindow
+ * @param width
+ * @param height
+ */
 void EglSurface::CreateEglSurface(ANativeWindow *native_window, int width, int height) {
     if (native_window != NULL) {
         this->m_native_window = native_window;
