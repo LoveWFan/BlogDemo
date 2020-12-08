@@ -113,7 +113,7 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
         try {
             cameraInstance?.createCaptureSession(
                     listOf(imageReader!!.surface,
-                    surfaceHolder!!.surface),
+                            surfaceHolder!!.surface),
                     CaptureStateCallback(),
                     null
             )
@@ -134,10 +134,12 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
         val orientation = getCameraOrientation()
         val maxPreviewWidth = if (orientation == 90 or 270) viewHeight else viewWidth
         val maxPreviewHeight = if (orientation == 90 or 270) viewWidth else viewHeight
-
+        /**
+         * 横屏录制 PreviewSize的高是较小值，宽是较大值。手机竖屏情况下刚好相反
+         */
         return outputSizes?.filter {
             it.width < maxPreviewWidth / 2 && it.height < maxPreviewHeight / 2
-        }?.maxBy {
+        }?.maxByOrNull {
             it.width * it.height
         } ?: Size(PREVIEW_WIDTH, PREVIEW_HEIGHT)
     }
@@ -182,7 +184,9 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
 
     companion object {
         private const val TAG = "Camera2Loader"
-
+        /**
+         * 横屏录制 PreviewSize的高是较小值，宽是较大值。手机竖屏情况下刚好相反
+         */
         private const val PREVIEW_WIDTH = 480
         private const val PREVIEW_HEIGHT = 640
     }

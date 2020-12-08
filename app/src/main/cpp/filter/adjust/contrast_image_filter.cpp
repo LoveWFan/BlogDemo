@@ -6,7 +6,6 @@
 
 
 void ContrastImageFilter::OnInit() {
-    LOGE("MFB", "OnInit")
     ImageFilter::OnInit();
     m_contrastLocation = glGetUniformLocation(m_program_id, "m_contrast");
     setValue(m_contrast);
