@@ -111,12 +111,21 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
                 }
 
         try {
-            cameraInstance?.createCaptureSession(
-                    listOf(imageReader!!.surface,
-                            surfaceHolder!!.surface),
-                    CaptureStateCallback(),
-                    null
-            )
+            if (surfaceHolder == null) {
+                cameraInstance?.createCaptureSession(
+                        listOf(imageReader!!.surface),
+                        CaptureStateCallback(),
+                        null
+                )
+            } else {
+                cameraInstance?.createCaptureSession(
+                        listOf(imageReader!!.surface,
+                                surfaceHolder!!.surface),
+                        CaptureStateCallback(),
+                        null
+                )
+            }
+
         } catch (e: CameraAccessException) {
             Log.e(TAG, "Failed to start camera session")
         }
@@ -139,7 +148,7 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
          */
         return outputSizes?.filter {
             it.width < maxPreviewWidth / 2 && it.height < maxPreviewHeight / 2
-        }?.maxByOrNull {
+        }?.maxBy {
             it.width * it.height
         } ?: Size(PREVIEW_WIDTH, PREVIEW_HEIGHT)
     }
@@ -171,7 +180,10 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
             captureSession = session
             val builder = cameraInstance!!.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
             builder.addTarget(imageReader!!.surface)
-            builder.addTarget(surfaceHolder!!.surface)
+            surfaceHolder?.let {
+                builder.addTarget(it.surface)
+            }
+
             try {
                 session.setRepeatingRequest(builder.build(), null, null)
             } catch (e: CameraAccessException) {
@@ -184,6 +196,7 @@ class Camera2Loader(private val activity: Activity) : CameraLoader() {
 
     companion object {
         private const val TAG = "Camera2Loader"
+
         /**
          * 横屏录制 PreviewSize的高是较小值，宽是较大值。手机竖屏情况下刚好相反
          */

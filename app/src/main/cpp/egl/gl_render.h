@@ -45,7 +45,7 @@ private:
     int m_window_width = 0;
     int m_window_height = 0;
     // 绘制代理器
-    ImageRender *pImageRender;
+    ImageRender *pImageRender = NULL;
 
     STATE m_state = NO_SURFACE;
 

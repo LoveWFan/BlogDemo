@@ -69,7 +69,7 @@ class Camera1Loader(private val activity: Activity) : CameraLoader() {
             parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
         }
         cameraInstance!!.parameters = parameters
-        cameraInstance!!.setPreviewDisplay(surfaceHolder)
+        surfaceHolder?.let { cameraInstance!!.setPreviewDisplay(it) }
 
         cameraInstance!!.setPreviewCallback { data, camera ->
             if (data == null || camera == null) {

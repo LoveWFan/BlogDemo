@@ -120,7 +120,9 @@ void GLRender::DestroySurface() {
 
 void GLRender::Render() {
     if (RENDERING == m_state) {
-        pImageRender->DoDraw();
+        if (pImageRender != NULL) {
+            pImageRender->DoDraw();
+        }
         m_egl_surface->SwapBuffers();
     }
 }

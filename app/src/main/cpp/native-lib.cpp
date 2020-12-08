@@ -246,9 +246,13 @@ Java_com_poney_blogdemo_demo1_EGLDemoActivity_switchToFilterNative(JNIEnv *env, 
                                                                    jint render, jint filter_type) {
 
     GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
-    pGLRender->GetImageRender()->setFilter(
-            reinterpret_cast<ImageFilter *>(Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(
-                    env, thiz, filter_type)));
+    ImageRender *pRender = pGLRender->GetImageRender();
+    if (pRender != NULL) {
+        pRender->setFilter(
+                reinterpret_cast<ImageFilter *>(Java_com_poney_blogdemo_demo1_DemoActivity_createFilterByTypeNative(
+                        env, thiz, filter_type)));
+    }
+
 }
 
 extern "C"
@@ -256,7 +260,12 @@ JNIEXPORT void JNICALL
 Java_com_poney_blogdemo_demo1_EGLDemoActivity_adjust(JNIEnv *env, jobject thiz, jint render,
                                                      jfloat value, jint filter_type) {
     GLRender *pGLRender = reinterpret_cast<GLRender *>(render);
-    jlong pFilter = reinterpret_cast<jlong>(pGLRender->GetImageRender()->getFilter());
-    Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(env, thiz, filter_type,
-                                                                          pFilter, value);
+    ImageRender *pRender = pGLRender->GetImageRender();
+    if (pRender != NULL) {
+        jlong pFilter = reinterpret_cast<jlong>(pRender->getFilter());
+        Java_com_poney_blogdemo_demo1_DemoActivity_adjustFilterProgressNative(env, thiz,
+                                                                              filter_type,
+                                                                              pFilter, value);
+    }
+
 }
