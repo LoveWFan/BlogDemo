@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 public class H264Encoder {
     private static final int TIMEOUT_S = 10000;
     private MediaCodec mMediaCodec;
-    private boolean isRunning = false;
+    private volatile boolean isRunning = false;
 
 
     private ArrayBlockingQueue<byte[]> yuv420Queue = new ArrayBlockingQueue<>(10);
@@ -73,12 +73,11 @@ public class H264Encoder {
     }
 
     public void startEncoder() {
+        isRunning = true;
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-
-                isRunning = true;
                 byte[] input = null;
                 while (isRunning) {
                     if (yuv420Queue.size() > 0) {
@@ -141,18 +140,6 @@ public class H264Encoder {
                     }
                 }
 
-                try {
-                    mMediaCodec.stop();
-                    mMediaCodec.release();
-                    mMediaCodec = null;
-                    if (mMuxer != null) {
-                        mMuxer.stop();
-                        mMuxer.release();
-                        mMuxer = null;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
         });
     }
@@ -163,6 +150,18 @@ public class H264Encoder {
 
     public void stopEncoder() {
         isRunning = false;
+        try {
+            mMediaCodec.stop();
+            mMediaCodec.release();
+            mMediaCodec = null;
+            if (mMuxer != null) {
+                mMuxer.stop();
+                mMuxer.release();
+                mMuxer = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

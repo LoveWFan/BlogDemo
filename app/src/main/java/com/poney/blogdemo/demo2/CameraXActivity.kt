@@ -87,6 +87,8 @@ class CameraXActivity : AppCompatActivity() {
 
     override fun onPause() {
         cameraLoader.onPause()
+        mEncoder?.stopEncoder()
+        mEncoder = null
         super.onPause()
     }
 }
