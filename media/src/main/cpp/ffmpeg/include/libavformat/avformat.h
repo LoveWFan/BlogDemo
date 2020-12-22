@@ -1631,7 +1631,7 @@ typedef struct AVFormatContext {
      * Maximum buffering duration for interleaving.
      *
      * To ensure all the streams are interleaved correctly,
-     * av_interleaved_write_frame() will Wait until it has at least one packet
+     * av_interleaved_write_frame() will wait until it has at least one packet
      * for each stream before actually writing any packets to the output file.
      * When some streams are "sparse" (i.e. there are large gaps between
      * successive packets), this can result in excessive buffering.

@@ -578,7 +578,7 @@ int avio_printf(AVIOContext *s, const char *fmt, ...) av_printf_format(2, 3);
  * Force flushing of buffered data.
  *
  * For write streams, force the buffered data to be immediately written to the output,
- * without to Wait to fill the internal buffer.
+ * without to wait to fill the internal buffer.
  *
  * For read streams, discard all currently buffered data, and advance the
  * reported file position to that of the underlying stream. This does not
