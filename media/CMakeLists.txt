@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 # 1. 定义so库和头文件所在目录，方面后面使用
-set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/../jniLibs/${ANDROID_ABI})
-set(ffmpeg_head_dir ${CMAKE_SOURCE_DIR}/ffmpeg)
+set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
+set(ffmpeg_head_dir ${CMAKE_SOURCE_DIR}/src/main/cpp/ffmpeg)
 
 # 2. 添加头文件目录
 include_directories(${ffmpeg_head_dir}/include)
@@ -60,6 +60,29 @@ set_target_properties(avdevice
         PROPERTIES IMPORTED_LOCATION
         ${ffmpeg_lib_dir}/libavdevice.so)
 
+
+
+
+#libyuv
+get_filename_component(PARENT_DIR ${CMAKE_SOURCE_DIR} PATH)
+
+#使用单个yuv库
+set(LIBYUV_DIR ${PARENT_DIR}/libyuv-single)
+
+
+add_library(libyuv
+        SHARED
+        IMPORTED)
+
+set_target_properties(libyuv
+        PROPERTIES IMPORTED_LOCATION
+        ${LIBYUV_DIR}/libs/${ANDROID_ABI}/libyuv.so
+        )
+
+# libyuv库头文件
+include_directories(${LIBYUV_DIR}/src/main/cpp/include)
+
+
 # 查找代码中使用到的系统库
 find_library( # Sets the name of the path variable.
         log-lib
@@ -68,28 +91,44 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
-# 配置目标so库编译信息
-add_library( # Sets the name of the library.
-        native-lib
+set(native_head_dir ${CMAKE_SOURCE_DIR}/src/main/cpp)
 
-        # Sets the library as a shared library.
+add_library(native-encode
         SHARED
 
-        # Provides a relative path to your source file(s).
-        native-lib.cpp
+        ${native_head_dir}/encode/native_code.h
+        ${native_head_dir}/encode/native_code.cpp
+        ${native_head_dir}/encode/encode_video.h
+        ${native_head_dir}/encode/encode_video.cpp
+        ${native_head_dir}/encode/encode_mp4.h
+        ${native_head_dir}/encode/encode_mp4.cpp
+        ${native_head_dir}/encode/encode_jpeg.h
+        ${native_head_dir}/encode/encode_jpeg.cpp
+        )
+
+# 配置目标so库编译信息
+add_library( # Sets the name of the library.
+        # Sets the library as a shared library.
+        utils
+
+        SHARED
+
 
         #工具
-        ${CMAKE_SOURCE_DIR}/utils/const.h
-        ${CMAKE_SOURCE_DIR}/utils/logger.h
-        ${CMAKE_SOURCE_DIR}/utils/timer.c
+        ${native_head_dir}/utils/const.h
+        ${native_head_dir}/utils/logger.h
+        ${native_head_dir}/utils/timer.c
         )
 
 # 指定编译目标库时，cmake要链接的库
 target_link_libraries(
 
         # 指定目标库，native-lib 是在上面 add_library 中配置的目标库
-        native-lib
+        native-encode
 
+        utils
+
+        libyuv
         # 4. 连接 FFmpeg 相关的库
         avutil
         swresample

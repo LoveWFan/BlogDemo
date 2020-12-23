@@ -9,14 +9,14 @@ import com.poney.blogdemo.base.camera.Camera1Loader
 import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
-import com.poney.blogdemo.demo2.encoder.H264Encoder
+import com.poney.encoder.H264MediaCodecEncoder
 import kotlinx.android.synthetic.main.activity_camerax.*
 import java.io.File
 
 
 class CameraXActivity : AppCompatActivity() {
 
-    var mEncoder: H264Encoder? = null
+    var mMediaCodecEncoder: H264MediaCodecEncoder? = null
 
 
     @Volatile
@@ -51,11 +51,11 @@ class CameraXActivity : AppCompatActivity() {
         })
         cameraLoader.setOnPreviewFrameListener { data: ByteArray?, width: Int?, height: Int? ->
             if (isRecording) {
-                if (mEncoder == null) {
-                    mEncoder = H264Encoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "demo1.mp4")
-                    mEncoder?.startEncoder()
+                if (mMediaCodecEncoder == null) {
+                    mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "demo1.mp4")
+                    mMediaCodecEncoder?.startEncoder()
                 }
-                mEncoder?.putData(data)
+                mMediaCodecEncoder?.putData(data)
             } else {
                 endRecord()
             }
@@ -73,8 +73,8 @@ class CameraXActivity : AppCompatActivity() {
     }
 
     private fun endRecord() {
-        mEncoder?.stopEncoder()
-        mEncoder = null
+        mMediaCodecEncoder?.stopEncoder()
+        mMediaCodecEncoder = null
     }
 
 
@@ -87,8 +87,8 @@ class CameraXActivity : AppCompatActivity() {
 
     override fun onPause() {
         cameraLoader.onPause()
-        mEncoder?.stopEncoder()
-        mEncoder = null
+        mMediaCodecEncoder?.stopEncoder()
+        mMediaCodecEncoder = null
         super.onPause()
     }
 }

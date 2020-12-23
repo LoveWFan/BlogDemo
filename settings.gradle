@@ -1,3 +1,4 @@
+include ':libyuv-single'
 include ':media'
 include ':app'
 rootProject.name = "BlogDemo"

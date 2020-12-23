@@ -1,25 +1,17 @@
-package com.poney.blogdemo.demo2.encoder;
+package com.poney.encoder;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
-import android.os.Environment;
-import android.util.Log;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * @author jiazhu
- */
-public class H264Encoder {
+public class H264MediaCodecEncoder {
     private static final int TIMEOUT_S = 10000;
     private MediaCodec mMediaCodec;
     private volatile boolean isRunning = false;
@@ -31,7 +23,7 @@ public class H264Encoder {
     private boolean mMuxerStarted;
 
 
-    public H264Encoder(int width, int height, int frameRate, String outputPath) {
+    public H264MediaCodecEncoder(int width, int height, int frameRate, String outputPath) {
         MediaFormat mediaFormat = MediaFormat.createVideoFormat("video/avc", width, height);
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 5);

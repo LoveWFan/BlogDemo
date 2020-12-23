@@ -30,12 +30,11 @@ android {
 
     externalNativeBuild {
         cmake {
-            path "src/main/cpp/CMakeLists.txt"
+            path "CMakeLists.txt"
             version "3.10.2"
         }
     }
     packagingOptions {
-
         pickFirst 'lib/armeabi-v7a/libavutil.so'
         pickFirst 'lib/armeabi-v7a/libavcodec.so'
         pickFirst 'lib/armeabi-v7a/libavformat.so'
@@ -43,6 +42,8 @@ android {
         pickFirst 'lib/armeabi-v7a/libswresample.so'
         pickFirst 'lib/armeabi-v7a/libswscale.so'
         pickFirst 'lib/armeabi-v7a/libavdevice.so'
+        pickFirst 'lib/armeabi-v7a/libpostproc.so'
+        pickFirst 'lib/armeabi-v7a/libyuv.so'
     }
 }
 
