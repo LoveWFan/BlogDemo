@@ -10,6 +10,7 @@ import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
 import com.poney.encoder.H264MediaCodecEncoder
+import com.poney.encoder.NativeEncoder
 import kotlinx.android.synthetic.main.activity_camerax.*
 import java.io.File
 
@@ -18,9 +19,14 @@ class CameraXActivity : AppCompatActivity() {
 
     var mMediaCodecEncoder: H264MediaCodecEncoder? = null
 
+    var mNativeEncoder: NativeEncoder = NativeEncoder()
+
+    private var previewWidth: Int? = 0
+    private var previewHeight: Int? = 0
 
     @Volatile
-    private var isRecording: Boolean = false;
+    private var isMediaCodecRecording: Boolean = false
+    private var isNativeRecording: Boolean = false
     private var outFile: File? = null
     private val cameraLoader: CameraLoader by lazy {
         if (Build.VERSION.SDK_INT < 21) {
@@ -44,37 +50,70 @@ class CameraXActivity : AppCompatActivity() {
 
             override fun surfaceCreated(holder: SurfaceHolder?) {
                 holder?.let { cameraLoader.setPreview(it) }
-
-
             }
 
         })
         cameraLoader.setOnPreviewFrameListener { data: ByteArray?, width: Int?, height: Int? ->
-            if (isRecording) {
-                if (mMediaCodecEncoder == null) {
-                    mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "demo1.mp4")
-                    mMediaCodecEncoder?.startEncoder()
-                }
-                mMediaCodecEncoder?.putData(data)
+            previewWidth = width
+            previewHeight = height
+            if (isMediaCodecRecording) {
+                startMediaCodecRecord(width, height, data)
             } else {
-                endRecord()
+                endMediaCodecRecord()
+            }
+
+            mNativeEncoder.onPreviewFrame(data, width!!, height!!)
+        }
+
+        media_codec_record_btn.setOnClickListener {
+            if (isNativeRecording)
+                return@setOnClickListener
+            isMediaCodecRecording = !isMediaCodecRecording
+            if (isMediaCodecRecording)
+                media_codec_record_btn.setText("MediaCodec停止")
+            else
+                media_codec_record_btn.setText("MediaCodec开始")
+        }
+
+        native_record_btn.setOnClickListener {
+            if (isMediaCodecRecording)
+                return@setOnClickListener
+            isNativeRecording = !isNativeRecording
+            if (isNativeRecording) {
+                native_record_btn.setText("Native停止")
+                startNativeRecord()
+            } else {
+                native_record_btn.setText("Native开始")
+                endNativeRecord()
             }
 
         }
 
-        recordButton.setOnClickListener {
-            isRecording = !isRecording
-            if (isRecording)
-                recordButton.setText("停止录制")
-            else
-                recordButton.setText("开始录制")
+        switch_camera.setOnClickListener {
+            cameraLoader.switchCamera()
         }
-
     }
 
-    private fun endRecord() {
+    private fun startNativeRecord() {
+        mNativeEncoder.encodeMP4Start(externalCacheDir?.absolutePath + File.separator + "native_demo.mp4", previewWidth!!, previewHeight!!)
+    }
+
+    private fun endNativeRecord() {
+        mNativeEncoder.encodeMP4Stop()
+    }
+
+    private fun startMediaCodecRecord(width: Int?, height: Int?, data: ByteArray?) {
+        if (mMediaCodecEncoder == null) {
+            mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.mp4")
+            mMediaCodecEncoder?.startEncoder()
+        }
+        mMediaCodecEncoder?.putData(data)
+    }
+
+    private fun endMediaCodecRecord() {
         mMediaCodecEncoder?.stopEncoder()
         mMediaCodecEncoder = null
+        isMediaCodecRecording = false
     }
 
 
