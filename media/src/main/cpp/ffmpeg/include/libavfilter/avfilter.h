@@ -132,7 +132,7 @@ enum AVMediaType avfilter_pad_get_type(const AVFilterPad *pads, int pad_idx);
  */
 #define AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL (1 << 17)
 /**
- * Handy mask to test whether the filter supports or no the timeline feature
+ * Hponey mask to test whether the filter supports or no the timeline feature
  * (internally or generically).
  */
 #define AVFILTER_FLAG_SUPPORT_TIMELINE (AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL)

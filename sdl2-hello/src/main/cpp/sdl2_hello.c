@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     struct SDL_Surface *bmp = NULL;
     struct SDL_Texture *texture = NULL;
 
-    char *filepath = "/sdcard/Android/data/com.onzhou.sdl2.hello/files/input.bmp";
+    char *filepath = "/sdcard/Android/data/com.poney.sdl2.hello/files/input.bmp";
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) == -1) {
         LOGE("SDL_Init failed %s", SDL_GetError());
