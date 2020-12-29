@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    //构建版本
+    compileSdkVersion rootProject.ext.androidConfig.compileSdkVersion
+    buildToolsVersion rootProject.ext.androidConfig.buildToolsVersion
+    //默认的配置
+    defaultConfig {
+        minSdkVersion rootProject.ext.androidConfig.minSdkVersion
+        targetSdkVersion rootProject.ext.androidConfig.targetSdkVersion
+        versionCode rootProject.ext.androidConfig.versionCode
+        versionName rootProject.ext.androidConfig.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation rootProject.ext.dependenciesConfig["appcompatV7"]
+    implementation rootProject.ext.dependenciesConfig["design"]
+
+    implementation rootProject.ext.dependenciesConfig["rxjava"]
+    implementation rootProject.ext.dependenciesConfig["rxandroid"]
+}
