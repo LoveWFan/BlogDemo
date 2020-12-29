@@ -45,6 +45,10 @@ android {
         pickFirst 'lib/armeabi-v7a/libpostproc.so'
         pickFirst 'lib/armeabi-v7a/libyuv.so'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {

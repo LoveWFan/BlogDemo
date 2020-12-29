@@ -22,9 +22,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EGLDemoActivity extends AppCompatActivity {
-    // Used to load the 'native-lib' library on application startup.
+    // Used to load the 'opengl' library on application startup.
     static {
-        System.loadLibrary("native-lib");
+        System.loadLibrary("opengl");
     }
 
     @BindView(R.id.seekBar)
