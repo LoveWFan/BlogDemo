@@ -1,49 +1,13 @@
 package com.poney.sdl2.hello;
 
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
-import com.poney.ffmpeg.base.AbsBaseActivity;
-import com.poney.ffmpeg.task.AssertReleaseTask;
-
-import org.libsdl.app.SDLActivity;
-
-
-/**
- * @anchor: poney
- * @date: 2018-10-30
- * @description:
- */
-public class SDLPlayerActivity extends AbsBaseActivity implements AssertReleaseTask.ReleaseCallback {
-
-    private TextView mBtnSDLShow;
+public class SDLPlayerActivity extends Activity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sdl_player);
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mBtnSDLShow = (TextView) findViewById(R.id.btn_sdl_hello);
-        AssertReleaseTask videoReleaseTask = new AssertReleaseTask(this, "input.bmp", this);
-        videoReleaseTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    public void onSDLClick(View view) {
-        Intent intent = new Intent(this, SDLActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onReleaseSuccess(String filePath) {
-        mBtnSDLShow.setEnabled(true);
+        setContentView(R.layout.activity_s_d_l_player);
     }
 }

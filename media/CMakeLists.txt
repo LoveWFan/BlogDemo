@@ -106,13 +106,6 @@ add_library(native-encode
         ${native_head_dir}/encode/encode_jpeg.cpp
         )
 
-add_library(ffmpegdemo
-        SHARED
-
-        ${native_head_dir}/ffmpegdemo/ffmpegdemo.cpp
-        )
-
-
 # 配置目标so库编译信息
 add_library( # Sets the name of the library.
         # Sets the library as a shared library.
@@ -130,7 +123,6 @@ add_library( # Sets the name of the library.
 # 指定编译目标库时，cmake要链接的库
 target_link_libraries(
 
-        ffmpegdemo
         # 指定目标库，native-encode 是在上面 add_library 中配置的目标库
         native-encode
 

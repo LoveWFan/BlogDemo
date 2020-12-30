@@ -11,8 +11,6 @@ android {
         versionCode rootProject.ext.androidConfig.versionCode
         versionName rootProject.ext.androidConfig.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
         ndk {
             abiFilters 'armeabi-v7a'
         }
