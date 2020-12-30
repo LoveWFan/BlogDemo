@@ -15,4 +15,13 @@
     <string name="edit_hue">色调</string>
     <string name="edit_invert">反相</string>
     <string name="edit_default">原图</string>
+
+
+    <!--SDL2-->
+    <string name="button_protocol">Protocol</string>
+    <string name="button_codec">Codec</string>
+    <string name="button_filter">Filter</string>
+    <string name="button_format">Format</string>
+    <string name="button_play">Play</string>
+
 </resources>

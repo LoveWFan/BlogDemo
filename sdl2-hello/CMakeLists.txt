@@ -22,6 +22,6 @@ set_target_properties(sdl2
                     )
 
 #头文件
-include_directories(${CMAKE_SOURCE_DIR}/libs/${ANDROID_ABI}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 
 target_link_libraries(main sdl2 ${log-lib})

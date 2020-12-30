@@ -1,10 +1,10 @@
-package com.poney.encoder;
+package com.poney.ffmpeg.encoder;
 
 
 public class NativeEncoder {
 
     static {
-        System.loadLibrary("native-encode");
+        System.loadLibrary("ffmpeg-lib");
     }
 
     public native void encodeMP4Start(String mp4Path, int width, int height);

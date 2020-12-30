@@ -1,4 +1,4 @@
-package com.poney.encoder;
+package com.poney.ffmpeg.encoder;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;

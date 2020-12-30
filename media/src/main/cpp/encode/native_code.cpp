@@ -20,7 +20,7 @@ JNINativeMethod methods[] = {
  * @return
  */
 jint registerNativeMethod(JNIEnv *env) {
-    jclass cl = env->FindClass("com/poney/encoder/NativeEncoder");
+    jclass cl = env->FindClass("com/poney/ffmpeg/encoder/NativeEncoder");
     if ((env->RegisterNatives(cl, methods, sizeof(methods) / sizeof(methods[0]))) < 0) {
         return -1;
     }

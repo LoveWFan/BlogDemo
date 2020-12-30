@@ -6,6 +6,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 # 1. 定义so库和头文件所在目录，方面后面使用
 set(ffmpeg_lib_dir ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
 set(ffmpeg_head_dir ${CMAKE_SOURCE_DIR}/src/main/cpp/ffmpeg)
+set(native_head_dir ${CMAKE_SOURCE_DIR}/src/main/cpp)
+
 
 # 2. 添加头文件目录
 include_directories(${ffmpeg_head_dir}/include)
@@ -61,8 +63,6 @@ set_target_properties(avdevice
         ${ffmpeg_lib_dir}/libavdevice.so)
 
 
-
-
 #libyuv
 get_filename_component(PARENT_DIR ${CMAKE_SOURCE_DIR} PATH)
 
@@ -83,6 +83,26 @@ set_target_properties(libyuv
 include_directories(${LIBYUV_DIR}/src/main/cpp/include)
 
 
+#sdl2
+get_filename_component(PARENT_DIR ${CMAKE_SOURCE_DIR} PATH)
+
+#使用单个sdl2库
+set(SDL2_DIR ${PARENT_DIR}/sdl2-hello)
+
+
+add_library(SDL2
+        SHARED
+        IMPORTED)
+
+set_target_properties(SDL2
+        PROPERTIES IMPORTED_LOCATION
+        ${SDL2_DIR}/libs/${ANDROID_ABI}/libSDL2.so
+        )
+
+# sdl2库头文件
+include_directories(${SDL2_DIR}/src/main/cpp/include)
+
+
 # 查找代码中使用到的系统库
 find_library( # Sets the name of the path variable.
         log-lib
@@ -91,9 +111,8 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log)
 
-set(native_head_dir ${CMAKE_SOURCE_DIR}/src/main/cpp)
 
-add_library(native-encode
+add_library(ffmpeg-lib
         SHARED
 
         ${native_head_dir}/encode/native_code.h
@@ -104,6 +123,8 @@ add_library(native-encode
         ${native_head_dir}/encode/encode_mp4.cpp
         ${native_head_dir}/encode/encode_jpeg.h
         ${native_head_dir}/encode/encode_jpeg.cpp
+
+        ${native_head_dir}/ffmpeg/ffplay_demo.cpp
         )
 
 # 配置目标so库编译信息
@@ -124,11 +145,11 @@ add_library( # Sets the name of the library.
 target_link_libraries(
 
         # 指定目标库，native-encode 是在上面 add_library 中配置的目标库
-        native-encode
-
+        ffmpeg-lib
         utils
-
         libyuv
+        SDL2
+
         # 4. 连接 FFmpeg 相关的库
         avutil
         swresample

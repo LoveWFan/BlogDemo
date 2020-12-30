@@ -9,8 +9,8 @@ import com.poney.blogdemo.base.camera.Camera1Loader
 import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
-import com.poney.encoder.H264MediaCodecEncoder
-import com.poney.encoder.NativeEncoder
+import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
+import com.poney.ffmpeg.encoder.NativeEncoder
 import kotlinx.android.synthetic.main.activity_camerax.*
 import java.io.File
 

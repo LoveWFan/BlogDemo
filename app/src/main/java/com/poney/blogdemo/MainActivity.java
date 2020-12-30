@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.poney.blogdemo.demo1.DemoActivity;
 import com.poney.blogdemo.demo1.EGLDemoActivity;
 import com.poney.blogdemo.demo2.CameraXActivity;
+import com.poney.blogdemo.ffplaydemo.FFPlayActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.ButterKnife;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video, R.id.ff_play})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gLSurfaceView:
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.audio_video:
                 startActivity(new Intent(this, CameraXActivity.class));
+                break;
+            case R.id.ff_play:
+                startActivity(new Intent(this, FFPlayActivity.class));
                 break;
         }
     }
