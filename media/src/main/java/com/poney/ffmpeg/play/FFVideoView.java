@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Surface;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 /**
@@ -14,48 +15,62 @@ import android.view.SurfaceView;
  * Date: 2018-08-24
  * Time: 09:35
  */
-public class FFVideoView extends SurfaceView {
+public class FFVideoView extends SurfaceView implements SurfaceHolder.Callback {
 
     Surface mSurface;
+    private int viewWidth;
+    private int viewHeight;
 
     public FFVideoView(Context context) {
-        super(context);
-
-        init();
+        this(context, null);
     }
 
     public FFVideoView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
 
-        init();
     }
 
     public FFVideoView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
 
-        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public FFVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
         init();
     }
 
     private void init() {
-        getHolder().setFormat(PixelFormat.RGBA_8888);
-        mSurface = getHolder().getSurface();
+        getHolder().addCallback(this);
+    }
+
+
+    public void playVideo(final String videoPath) {
+        if (mSurface != null && viewWidth != 0 && viewHeight != 0) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    FFUtils.playVideo(videoPath, mSurface, viewWidth, viewHeight);
+                }
+            }).start();
+        }
 
     }
 
-    public void playVideo(final String videoPath) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("FFVideoView", "run: playVideo");
-                FFUtils.playVideo(videoPath, mSurface);
-            }
-        }).start();
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        holder.setFormat(PixelFormat.RGBA_8888);
+        mSurface = holder.getSurface();
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        viewWidth = width;
+        viewHeight = height;
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
     }
 }

@@ -41,7 +41,7 @@ public class FFPlayActivity extends AppCompatActivity {
                 setInfoText(FFUtils.avFormatInfo());
                 break;
             case R.id.button_play:
-                String videoPath = Environment.getExternalStorageDirectory() + "/demo.mp4";
+                String videoPath = Environment.getExternalStorageDirectory() + "/killer.mp4";
 
                 mVideoView.playVideo(videoPath);
                 break;

@@ -26,7 +26,6 @@ extern "C" {
 JNIEXPORT jstring JNICALL
 Java_com_poney_ffmpeg_play_FFUtils_urlProtocolInfo(JNIEnv *env, jclass type) {
     char info[40000] = {0};
-    av_register_all();
 
     struct URLProtocol *pup = NULL;
 
@@ -49,7 +48,6 @@ JNIEXPORT jstring JNICALL
 Java_com_poney_ffmpeg_play_FFUtils_avFormatInfo(JNIEnv *env, jclass type) {
     char info[40000] = {0};
 
-    av_register_all();
 
     AVInputFormat *if_temp = av_iformat_next(NULL);
     AVOutputFormat *of_temp = av_oformat_next(NULL);
@@ -69,7 +67,6 @@ JNIEXPORT jstring JNICALL
 Java_com_poney_ffmpeg_play_FFUtils_avCodecInfo(JNIEnv *env, jclass type) {
     char info[40000] = {0};
 
-    av_register_all();
 
     AVCodec *c_temp = av_codec_next(NULL);
 
@@ -103,7 +100,6 @@ Java_com_poney_ffmpeg_play_FFUtils_avCodecInfo(JNIEnv *env, jclass type) {
 JNIEXPORT jstring JNICALL
 Java_com_poney_ffmpeg_play_FFUtils_avFilterInfo(JNIEnv *env, jclass type) {
     char info[40000] = {0};
-    avfilter_register_all();
 
     AVFilter *f_temp = (AVFilter *) avfilter_next(NULL);
     while (f_temp != NULL) {
@@ -116,172 +112,142 @@ Java_com_poney_ffmpeg_play_FFUtils_avFilterInfo(JNIEnv *env, jclass type) {
 
 JNIEXPORT void JNICALL
 Java_com_poney_ffmpeg_play_FFUtils_playVideo(JNIEnv *env, jclass type, jstring videoPath_,
-                                                 jobject surface) {
+                                             jobject surface, jint view_width, jint view_height) {
     const char *videoPath = env->GetStringUTFChars(videoPath_, 0);
     ALOGI("PlayVideo: %s", videoPath);
-
     if (videoPath == NULL) {
-        ALOGE("videoPath is null");
+        ALOGE("video path is null");
         return;
     }
+
+    //初始化AVFormatContext
 
     AVFormatContext *formatContext = avformat_alloc_context();
 
-    // open video file
-    ALOGI("Open video file");
+    //open video file
     if (avformat_open_input(&formatContext, videoPath, NULL, NULL) != 0) {
-        ALOGE("Cannot open video file: %s\n", videoPath);
+        ALOGE("Cannot open video file :%s\n", videoPath);
         return;
     }
 
-    // Retrieve stream information
-    ALOGI("Retrieve stream information");
+    //Retrieve stream information
     if (avformat_find_stream_info(formatContext, NULL) < 0) {
         ALOGE("Cannot find stream information.");
         return;
     }
 
-    // Find the first video stream
-    ALOGI("Find video stream");
+    //Find the first video stream
     int video_stream_index = -1;
-    for (int i = 0; i < formatContext->nb_streams; i++) {
+    for (int i = 0; i < formatContext->nb_streams; ++i) {
         if (formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             video_stream_index = i;
         }
     }
-
     if (video_stream_index == -1) {
-        ALOGE("No video stream found.");
-        return; // no video stream found.
-    }
-
-    // Get a pointer to the codec context for the video stream
-    ALOGI("Get a pointer to the codec context for the video stream");
-    AVCodecParameters *codecParameters = formatContext->streams[video_stream_index]->codecpar;
-
-    // Find the decoder for the video stream
-    ALOGI("Find the decoder for the video stream");
-    AVCodec *codec = avcodec_find_decoder(codecParameters->codec_id);
-    if (codec == NULL) {
-        ALOGE("Codec not found.");
-        return; // Codec not found
-    }
-
-    AVCodecContext *codecContext = avcodec_alloc_context3(codec);
-
-    if (codecContext == NULL) {
-        ALOGE("CodecContext not found.");
-        return; // CodecContext not found
-    }
-
-    // fill CodecContext according to CodecParameters
-    if (avcodec_parameters_to_context(codecContext, codecParameters) < 0) {
-        ALOGD("Fill CodecContext failed.");
+        ALOGE("No video stream found!");
         return;
     }
 
-    // init codex context
-    ALOGI("open Codec");
-    if (avcodec_open2(codecContext, codec, NULL)) {
+    //Get a pointer to the pCodec context for the video stream
+    AVCodecParameters *pCodecParameters = formatContext->streams[video_stream_index]->codecpar;
+    AVCodec *pCodec = avcodec_find_decoder(
+            pCodecParameters->codec_id);
+    if (pCodec == NULL) {
+        ALOGE("Codec not found!");
+        return;
+    }
+    AVCodecContext *pCodecContext = avcodec_alloc_context3(pCodec);
+    if (pCodecContext == NULL) {
+        ALOGE("CodecContext not found!");
+        return;
+    }
+
+    //fill CodecContext according to CodecParameters
+    if (avcodec_parameters_to_context(pCodecContext, pCodecParameters) < 0) {
+        ALOGE("Fill CodecContext fail!");
+        return;
+    }
+
+    //init codec context
+    if (avcodec_open2(pCodecContext, pCodec, NULL)) {
         ALOGE("Init CodecContext failed.");
         return;
     }
 
-    AVPixelFormat dstFormat = AV_PIX_FMT_RGBA;
-
-    // Allocate av packet
-    AVPacket *packet = av_packet_alloc();
-    if (packet == NULL) {
-        ALOGD("Could not allocate av packet.");
+    ALOGI("pCodecContext width:%d,height:%d", pCodecContext->width, pCodecContext->height);
+    //Allocate av packet
+    AVPacket *pPacket = av_packet_alloc();
+    if (pPacket == NULL) {
+        ALOGE("Could not allocate av packet.");
         return;
     }
-
-    // Allocate video frame
-    ALOGI("Allocate video frame");
-    AVFrame *frame = av_frame_alloc();
-    // Allocate render frame
-    ALOGI("Allocate render frame");
+    //Allocate video frame
+    AVFrame *pFrame = av_frame_alloc();
+    //Allocate render frame;
     AVFrame *renderFrame = av_frame_alloc();
-
-    if (frame == NULL || renderFrame == NULL) {
-        ALOGD("Could not allocate video frame.");
+    if (pFrame == NULL || renderFrame == NULL) {
+        ALOGE("Could not allocate video frame.");
         return;
     }
+    //Determine required buffer size and allocate buffer
+    int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, pCodecContext->width,
+                                        pCodecContext->height, 1);
+    uint8_t *buffer = static_cast<uint8_t *>(av_malloc(size * sizeof(uint8_t)));
 
-    // Determine required buffer size and allocate buffer
-    ALOGI("Determine required buffer size and allocate buffer");
-    int size = av_image_get_buffer_size(dstFormat, codecContext->width, codecContext->height, 1);
-    uint8_t *buffer = (uint8_t *) av_malloc(size * sizeof(uint8_t));
-    av_image_fill_arrays(renderFrame->data, renderFrame->linesize, buffer, dstFormat,
-                         codecContext->width, codecContext->height, 1);
+    av_image_fill_arrays(renderFrame->data, renderFrame->linesize, buffer, AV_PIX_FMT_RGBA,
+                         pCodecContext->width, pCodecContext->height, 1);
+    //init SwsContext
+    SwsContext *pSwsContext = sws_getContext(pCodecContext->width, pCodecContext->height,
+                                             pCodecContext->pix_fmt,
+                                             pCodecContext->width, pCodecContext->height,
+                                             AV_PIX_FMT_RGBA,
+                                             SWS_BILINEAR, NULL, NULL, NULL);
 
-    // init SwsContext
-    ALOGI("init SwsContext");
-    struct SwsContext *swsContext = sws_getContext(codecContext->width,
-                                                   codecContext->height,
-                                                   codecContext->pix_fmt,
-                                                   codecContext->width,
-                                                   codecContext->height,
-                                                   dstFormat,
-                                                   SWS_BILINEAR,
-                                                   NULL,
-                                                   NULL,
-                                                   NULL);
-    if (swsContext == NULL) {
+    if (pSwsContext == NULL) {
         ALOGE("Init SwsContext failed.");
         return;
     }
 
-    // native window
-    ALOGI("native window");
-    ANativeWindow *nativeWindow = ANativeWindow_fromSurface(env, surface);
+    //native window
+    ANativeWindow *pWindow = ANativeWindow_fromSurface(env, surface);
+    int videoWidth = pCodecContext->width;
+    int videoHeight = pCodecContext->height;
+    ALOGI("ViewSize: [%d,%d]", view_width, view_height);
+    ALOGI("VideoSize: [%d,%d]", videoWidth, videoHeight);
+// 设置native window的buffer大小,可自动拉伸
+    ALOGI("set native window");
+    ANativeWindow_setBuffersGeometry(pWindow, videoWidth, videoHeight,
+                                     WINDOW_FORMAT_RGBA_8888);
     ANativeWindow_Buffer windowBuffer;
 
-    // get video width , height
-    ALOGI("get video width , height");
-    int videoWidth = codecContext->width;
-    int videoHeight = codecContext->height;
-    ALOGI("VideoSize: [%d,%d]", videoWidth, videoHeight);
-
-    // 设置native window的buffer大小,可自动拉伸
-    ALOGI("set native window");
-    ANativeWindow_setBuffersGeometry(nativeWindow, videoWidth, videoHeight,
-                                     WINDOW_FORMAT_RGBA_8888);
-
-
-    ALOGI("read frame");
-    while (av_read_frame(formatContext, packet) == 0) {
+    //read frame
+    while (av_read_frame(formatContext, pPacket) == 0) {
         // Is this a packet from the video stream?
-        if (packet->stream_index == video_stream_index) {
-
-            // Send origin data to decoder
-            int sendPacketState = avcodec_send_packet(codecContext, packet);
+        if (pPacket->stream_index == video_stream_index) {
+            //send origin data to the decoder
+            int sendPacketState = avcodec_send_packet(pCodecContext, pPacket);
             if (sendPacketState == 0) {
                 ALOGD("向解码器-发送数据");
 
-                int receiveFrameState = avcodec_receive_frame(codecContext, frame);
+                int receiveFrameState = avcodec_receive_frame(pCodecContext, pFrame);
                 if (receiveFrameState == 0) {
                     ALOGD("从解码器-接收数据");
-                    // lock native window buffer
-                    ANativeWindow_lock(nativeWindow, &windowBuffer, NULL);
-
-                    // 格式转换
-                    sws_scale(swsContext, (uint8_t const *const *) frame->data,
-                              frame->linesize, 0, codecContext->height,
+                    //lock native window buffer;
+                    ANativeWindow_lock(pWindow, &windowBuffer, NULL);
+                    //格式转换
+                    sws_scale(pSwsContext, pFrame->data, pFrame->linesize, 0, pCodecContext->height,
                               renderFrame->data, renderFrame->linesize);
-
-                    // 获取stride
-                    uint8_t *dst = (uint8_t *) windowBuffer.bits;
-                    uint8_t *src = (renderFrame->data[0]);
-                    int dstStride = windowBuffer.stride * 4;
+                    //获取stride
+                    uint8_t *dst = static_cast<uint8_t *>(windowBuffer.bits);
+                    uint8_t *src = renderFrame->data[0];
+                    int32_t dstStride = windowBuffer.stride * 4;
                     int srcStride = renderFrame->linesize[0];
 
-                    // 由于window的stride和帧的stride不同,因此需要逐行复制
-                    for (int i = 0; i < videoHeight; i++) {
+                    //由于window的stride和帧的stride不同，因此需要逐行复制
+                    for (int i = 0; i < videoHeight; ++i) {
                         memcpy(dst + i * dstStride, src + i * srcStride, srcStride);
                     }
-
-                    ANativeWindow_unlockAndPost(nativeWindow);
+                    ANativeWindow_unlockAndPost(pWindow);
                 } else if (receiveFrameState == AVERROR(EAGAIN)) {
                     ALOGD("从解码器-接收-数据失败：AVERROR(EAGAIN)");
                 } else if (receiveFrameState == AVERROR_EOF) {
@@ -304,18 +270,16 @@ Java_com_poney_ffmpeg_play_FFUtils_playVideo(JNIEnv *env, jclass type, jstring v
             }
 
         }
-        av_packet_unref(packet);
+        av_packet_unref(pPacket);
     }
 
-
-    //内存释放
-    ALOGI("release memory");
-    ANativeWindow_release(nativeWindow);
-    av_frame_free(&frame);
+    //release
+    ANativeWindow_release(pWindow);
+    av_frame_free(&pFrame);
     av_frame_free(&renderFrame);
-    av_packet_free(&packet);
-    avcodec_close(codecContext);
-    avcodec_free_context(&codecContext);
+    av_packet_free(&pPacket);
+    avcodec_close(pCodecContext);
+    avcodec_free_context(&pCodecContext);
     avformat_close_input(&formatContext);
     avformat_free_context(formatContext);
     env->ReleaseStringUTFChars(videoPath_, videoPath);
