@@ -1,5 +1,5 @@
 //
-// Created by feibiao.ma on 2020/11/3.
+// Created by poney.ma on 2020/11/3.
 //
 
 #ifndef BLOGDEMO_SHARPEN_FILTER_H

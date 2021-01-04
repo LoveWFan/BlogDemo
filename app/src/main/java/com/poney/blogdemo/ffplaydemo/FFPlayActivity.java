@@ -11,6 +11,9 @@ import com.poney.blogdemo.R;
 import com.poney.ffmpeg.play.FFUtils;
 import com.poney.ffmpeg.play.FFVideoView;
 
+/**
+ * FFMpeg 仅视频播放
+ */
 public class FFPlayActivity extends AppCompatActivity {
     private TextView mTextView;
     private FFVideoView mVideoView;

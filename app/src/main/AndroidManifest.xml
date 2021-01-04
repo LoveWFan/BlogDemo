@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ffplaydemo.FFPlayActivity"></activity>
+        <activity android:name=".mediacodecdemo.MediaCodecAVActivity"></activity>
+        <activity android:name=".ffplaydemo.FFAVPlayerActivity" />
+        <activity android:name=".ffplaydemo.FFPlayActivity" />
         <activity android:name="com.poney.ffmpeg.FFMpegDemoActivity" />
         <activity android:name=".demo2.CameraXActivity" />
         <activity

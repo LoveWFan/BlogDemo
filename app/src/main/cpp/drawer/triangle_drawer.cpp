@@ -1,5 +1,5 @@
 //
-// Created by feibiao.ma on 2020/10/12.
+// Created by poney.ma on 2020/10/12.
 //
 
 #include "triangle_drawer.h"
