@@ -3,7 +3,7 @@ ext {
     androidConfig = [
             compileSdkVersion: 29,
             buildToolsVersion: "30.0.2",
-            minSdkVersion    : 16,
+            minSdkVersion    : 18,
             targetSdkVersion : 29
 
     ]

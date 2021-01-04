@@ -80,7 +80,12 @@ public class H264MediaCodecEncoder {
                             int inputBufferIndex = mMediaCodec.dequeueInputBuffer(TIMEOUT_S);
                             if (inputBufferIndex >= 0) {
                                 long pts = getPts();
-                                ByteBuffer inputBuffer = mMediaCodec.getInputBuffer(inputBufferIndex);
+                                ByteBuffer inputBuffer = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                    inputBuffer = mMediaCodec.getInputBuffer(inputBufferIndex);
+                                } else {
+                                    inputBuffer = mMediaCodec.getInputBuffers()[inputBufferIndex];
+                                }
                                 inputBuffer.clear();
                                 inputBuffer.put(input);
                                 mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, pts, 0);
@@ -101,7 +106,12 @@ public class H264MediaCodecEncoder {
                             }
 
                             while (outputBufferIndex >= 0) {
-                                ByteBuffer outputBuffer = mMediaCodec.getOutputBuffer(outputBufferIndex);
+                                ByteBuffer outputBuffer = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                    outputBuffer = mMediaCodec.getOutputBuffer(outputBufferIndex);
+                                } else {
+                                    outputBuffer = mMediaCodec.getOutputBuffers()[outputBufferIndex];
+                                }
                                 if (bufferInfo.flags == MediaCodec.BUFFER_FLAG_CODEC_CONFIG) {
                                     bufferInfo.size = 0;
                                 }
