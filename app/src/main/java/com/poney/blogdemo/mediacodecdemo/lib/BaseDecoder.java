@@ -73,6 +73,9 @@ public abstract class BaseDecoder implements IDecoder {
                     Log.i(TAG, "进入等待：" + mState);
                     waitDecode();
 
+                    //----------【同步时间矫正】------------
+                    //恢复同步的起始时间,即去除等待流失的时间
+                    mStartTimeForSync = System.currentTimeMillis() - getCurTimeStamp();
                 }
                 if (!mIsRunning || mState == DecodeState.STOP) {
                     mIsRunning = false;
@@ -337,6 +340,7 @@ public abstract class BaseDecoder implements IDecoder {
 
     @Override
     public void resume() {
+        Log.i(TAG, "resume");
         mState = DecodeState.DECODING;
         notifyDecode();
     }
