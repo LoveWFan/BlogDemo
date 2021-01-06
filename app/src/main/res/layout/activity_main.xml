@@ -44,23 +44,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/audio_video" />
 
-        <Button
-            android:id="@+id/media_codec_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="MediaCodec Play"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ff_play" />
 
         <Button
-            android:id="@+id/ff_play_av"
+            android:id="@+id/media_codec_play_av"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="FFAVPlay"
+            android:text="MediaCodecAVPlay"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/media_codec_play" />
+            app:layout_constraintTop_toBottomOf="@+id/ff_play" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
 

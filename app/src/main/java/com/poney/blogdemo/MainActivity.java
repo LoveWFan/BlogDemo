@@ -12,6 +12,7 @@ import com.poney.blogdemo.demo1.DemoActivity;
 import com.poney.blogdemo.demo1.EGLDemoActivity;
 import com.poney.blogdemo.demo2.CameraXActivity;
 import com.poney.blogdemo.ffplaydemo.FFPlayActivity;
+import com.poney.blogdemo.mediacodecdemo.MediaCodecAVActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.ButterKnife;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video, R.id.ff_play})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video, R.id.ff_play, R.id.media_codec_play_av})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gLSurfaceView:
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.ff_play:
                 startActivity(new Intent(this, FFPlayActivity.class));
+                break;
+            case R.id.media_codec_play_av:
+                startActivity(new Intent(this, MediaCodecAVActivity.class));
                 break;
         }
     }
