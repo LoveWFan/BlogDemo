@@ -101,7 +101,7 @@ public abstract class BaseDecoder implements IDecoder {
                 //【解码步骤:3.将解码好的数据从缓冲区拉取出来】
                 int index = pullBufferFromDecoder();
                 if (index > 0) {
-                    //-------------【视频同步到音频】获取音视频PTS----------
+                    //-------------【视频同步到系统时钟】获取音视频PTS----------
                     if (mState == DecodeState.DECODING) {
                         sleepRender();
                     }
