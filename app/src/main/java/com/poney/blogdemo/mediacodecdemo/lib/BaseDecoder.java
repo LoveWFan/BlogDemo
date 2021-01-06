@@ -22,6 +22,7 @@ public abstract class BaseDecoder implements IDecoder {
     //线程等待锁
     private Object mLock = new Object();
 
+
     //--------------解码相关---------
     //音视频解码器
     protected MediaCodec mCodec = null;
@@ -37,8 +38,8 @@ public abstract class BaseDecoder implements IDecoder {
     protected IStateListener mStateListener;
     //解码状态
     private volatile DecodeState mState = DecodeState.STOP;
-
-
+    //解码类型
+    private volatile DecodeType mDecodeType = DecodeType.UNKNOWN;
     //流数据是否结束
     private boolean mIsEOS = false;
     private int mVideoWidth = 0;
@@ -48,10 +49,17 @@ public abstract class BaseDecoder implements IDecoder {
     private String mFilePath;
     private long mDuration;
     private double mEndPos;
+
+    //音视频同步---音频和视频都同步到系统时钟
     private long mStartTimeForSync = -1L;
 
-    public BaseDecoder(String filePath) {
+    //音视频同步---视频同步到音频
+    private long mVideoClock = -1L;
+    private long mAudioClock = -1L;
+
+    public BaseDecoder(String filePath, DecodeType decodeType) {
         this.mFilePath = filePath;
+        this.mDecodeType = decodeType;
     }
 
     @Override
@@ -81,7 +89,7 @@ public abstract class BaseDecoder implements IDecoder {
                     mIsRunning = false;
                     break;
                 }
-
+                //------------【根据系统时间 音视频同步】-----------
                 if (mStartTimeForSync == -1L) {
                     mStartTimeForSync = System.currentTimeMillis();
                 }
@@ -93,14 +101,22 @@ public abstract class BaseDecoder implements IDecoder {
                 //【解码步骤:3.将解码好的数据从缓冲区拉取出来】
                 int index = pullBufferFromDecoder();
                 if (index > 0) {
-                    //------------【根据系统时间 音视频同步】-----------
+                    //-------------【视频同步到音频】获取音视频PTS----------
                     if (mState == DecodeState.DECODING) {
                         sleepRender();
                     }
                     //【解码步骤:4.渲染】
-                    render(mOutputBuffers[index], mBufferInfo);
+                    //-------------【视频同步到音频】获取音视频PTS----------
+                    if (mDecodeType == DecodeType.VIDEO) {
+                        mVideoClock = getCurTimeStamp();
+                    } else if (mDecodeType == DecodeType.AUDIO) {
+                        mAudioClock = getCurTimeStamp();
+                        render(mOutputBuffers[index], mBufferInfo);
+                    }
+
                     //【解码步骤:5.释放输出缓冲】
                     mCodec.releaseOutputBuffer(index, true);
+
                     if (mState == DecodeState.START) {
                         mState = DecodeState.PAUSE;
                     }
@@ -123,6 +139,10 @@ public abstract class BaseDecoder implements IDecoder {
 
     }
 
+
+    /**
+     * 【根据系统时间同步音视频】
+     */
     private void sleepRender() {
         long passTime = System.currentTimeMillis() - mStartTimeForSync;
         long curTimeStamp = getCurTimeStamp();

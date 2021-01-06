@@ -21,7 +21,7 @@ public class VideoDecoder extends BaseDecoder {
     private Surface mSurface;
 
     public VideoDecoder(String filPath, SurfaceView surfaceView, Surface surface) {
-        super(filPath);
+        super(filPath, DecodeType.VIDEO);
         this.mSurfaceView = surfaceView;
         this.mSurface = surface;
     }

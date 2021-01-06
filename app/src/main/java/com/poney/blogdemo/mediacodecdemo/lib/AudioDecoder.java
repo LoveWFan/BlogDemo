@@ -31,7 +31,7 @@ public class AudioDecoder extends BaseDecoder {
 
     //音频数据缓存
     public AudioDecoder(String filePath) {
-        super(filePath);
+        super(filePath, DecodeType.AUDIO);
     }
 
     @Override
