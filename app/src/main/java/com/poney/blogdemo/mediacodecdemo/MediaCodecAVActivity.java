@@ -87,8 +87,8 @@ public class MediaCodecAVActivity extends AppCompatActivity implements SurfaceHo
         if (playState == 0) {//播放
             playState = 1;
             pauseResume.setText("PLAY");
-            mVideoDecoder.stop();
-            mAudioDecoder.stop();
+            mVideoDecoder.pause();
+            mAudioDecoder.pause();
         } else if (playState == 1) {//暂停
             playState = 0;
             pauseResume.setText("PAUSE");

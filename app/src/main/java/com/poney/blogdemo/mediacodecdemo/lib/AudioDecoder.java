@@ -42,7 +42,6 @@ public class AudioDecoder extends BaseDecoder {
 
     @Override
     protected void render(ByteBuffer outputBuffer, MediaCodec.BufferInfo bufferInfo) {
-        Log.i(TAG, "AudioDecoderBufferSize:" + bufferInfo.size);
         if (mAudioOutTempBuf == null || mAudioOutTempBuf.length < bufferInfo.size / 2) {
             mAudioOutTempBuf = new short[bufferInfo.size / 2];
         }

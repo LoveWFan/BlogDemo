@@ -357,7 +357,7 @@ public abstract class BaseDecoder implements IDecoder {
 
     @Override
     public void pause() {
-        mState = DecodeState.DECODING;
+        mState = DecodeState.PAUSE;
     }
 
     @Override

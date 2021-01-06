@@ -33,7 +33,6 @@ public class VideoDecoder extends BaseDecoder {
 
     @Override
     protected void render(ByteBuffer byteBuffer, MediaCodec.BufferInfo bufferInfo) {
-        Log.i(TAG, "VideoDecoder:" + bufferInfo.size);
     }
 
     @Override
