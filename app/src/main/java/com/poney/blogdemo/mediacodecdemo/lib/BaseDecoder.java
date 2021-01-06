@@ -73,7 +73,7 @@ public abstract class BaseDecoder implements IDecoder {
                     Log.i(TAG, "进入等待：" + mState);
                     waitDecode();
 
-                    //----------【同步时间矫正】------------
+                    //----------【根据系统时间 同步时间矫正】------------
                     //恢复同步的起始时间,即去除等待流失的时间
                     mStartTimeForSync = System.currentTimeMillis() - getCurTimeStamp();
                 }
@@ -93,7 +93,7 @@ public abstract class BaseDecoder implements IDecoder {
                 //【解码步骤:3.将解码好的数据从缓冲区拉取出来】
                 int index = pullBufferFromDecoder();
                 if (index > 0) {
-                    //------------【音视频同步】-----------
+                    //------------【根据系统时间 音视频同步】-----------
                     if (mState == DecodeState.DECODING) {
                         sleepRender();
                     }
@@ -235,7 +235,7 @@ public abstract class BaseDecoder implements IDecoder {
     private boolean init() {
 
         //1.检查参数是否完整
-        if (mFilePath.isEmpty() || !new File(mFilePath).exists()) {
+        if (mFilePath.isEmpty() || (!mFilePath.startsWith("http") && !new File(mFilePath).exists())) {
             if (mStateListener != null)
                 mStateListener.decoderError(this, "文件路径为空");
             Log.w(TAG, "文件路径为空");

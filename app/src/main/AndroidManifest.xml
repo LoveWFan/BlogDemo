@@ -3,6 +3,7 @@
     package="com.poney.blogdemo">
 
     <uses-feature android:name="android.hardware.camera.any" /> <!-- 录制音频权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,10 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mediacodecdemo.MediaCodecAVActivity"></activity>
+        <activity android:name=".mediacodecdemo.MediaCodecAVActivity" />
         <activity android:name=".ffplaydemo.FFAVPlayerActivity" />
         <activity android:name=".ffplaydemo.FFPlayActivity" />
-        <activity android:name="com.poney.ffmpeg.FFMpegDemoActivity" />
         <activity android:name=".demo2.CameraXActivity" />
         <activity
             android:name=".demo1.DemoActivity"

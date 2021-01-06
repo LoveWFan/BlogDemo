@@ -44,12 +44,13 @@ public class MediaCodecAVActivity extends AppCompatActivity implements SurfaceHo
 
     private void initPlayer(Surface surface) {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/mvtest.mp4";
+        String remoteUrl = "https://raw.githubusercontent.com/LoveWFan/BlogDemo/master/source/mvtest.mp4";
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
         //创建视频解码器
-        mVideoDecoder = new VideoDecoder(path, sfv, surface);
+        mVideoDecoder = new VideoDecoder(remoteUrl, sfv, surface);
         executorService.execute(mVideoDecoder);
-        mAudioDecoder = new AudioDecoder(path);
+        mAudioDecoder = new AudioDecoder(remoteUrl);
         executorService.execute(mAudioDecoder);
 
         //播放
