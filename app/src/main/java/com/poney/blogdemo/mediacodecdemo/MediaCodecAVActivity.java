@@ -5,13 +5,12 @@ import android.os.Environment;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.poney.blogdemo.R;
 import com.poney.blogdemo.mediacodecdemo.lib.AudioDecoder;
-import com.poney.blogdemo.mediacodecdemo.lib.BaseDecoder;
-import com.poney.blogdemo.mediacodecdemo.lib.IStateListener;
 import com.poney.blogdemo.mediacodecdemo.lib.VideoDecoder;
 
 import java.util.concurrent.ExecutorService;
@@ -19,6 +18,7 @@ import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * MediaCodec 音视频同步播放
@@ -27,8 +27,12 @@ public class MediaCodecAVActivity extends AppCompatActivity implements SurfaceHo
 
     @BindView(R.id.sfv)
     SurfaceView sfv;
+    @BindView(R.id.pause_resume)
+    Button pauseResume;
     private VideoDecoder mVideoDecoder;
     private AudioDecoder mAudioDecoder;
+
+    private int playState = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +78,22 @@ public class MediaCodecAVActivity extends AppCompatActivity implements SurfaceHo
     }
 
     private void stopPlayer() {
-        mVideoDecoder.stop();
-        mAudioDecoder.stop();
+        mVideoDecoder.release();
+        mAudioDecoder.release();
+    }
+
+    @OnClick(R.id.pause_resume)
+    public void onViewClicked() {
+        if (playState == 0) {//播放
+            playState = 1;
+            pauseResume.setText("PLAY");
+            mVideoDecoder.stop();
+            mAudioDecoder.stop();
+        } else if (playState == 1) {//暂停
+            playState = 0;
+            pauseResume.setText("PAUSE");
+            mVideoDecoder.resume();
+            mAudioDecoder.resume();
+        }
     }
 }

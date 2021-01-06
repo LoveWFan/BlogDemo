@@ -48,6 +48,7 @@ public abstract class BaseDecoder implements IDecoder {
     private String mFilePath;
     private long mDuration;
     private double mEndPos;
+    private long mStartTimeForSync = -1L;
 
     public BaseDecoder(String filePath) {
         this.mFilePath = filePath;
@@ -64,50 +65,81 @@ public abstract class BaseDecoder implements IDecoder {
         if (!init())
             return;
         Log.i(TAG, "开始解码");
-        while (mIsRunning) {
-            if (mState != DecodeState.START
-                    && mState != DecodeState.DECODING
-                    && mState != DecodeState.SEEKING) {
-                waitDecode();
-            }
-            if (!mIsRunning || mState == DecodeState.STOP) {
-                mIsRunning = false;
-                break;
-            }
+        try {
+            while (mIsRunning) {
+                if (mState != DecodeState.START
+                        && mState != DecodeState.DECODING
+                        && mState != DecodeState.SEEKING) {
+                    Log.i(TAG, "进入等待：" + mState);
+                    waitDecode();
 
-            //如果数据没有解码完毕，将数据推入解码器
-            if (!mIsEOS) {
-                //【解码步骤:2.将数据压入解码器缓冲】
-                mIsEOS = pushBufferToDecoder();
-            }
-            //【解码步骤:3.将解码好的数据从缓冲区拉取出来】
-            int index = pullBufferFromDecoder();
-            if (index > 0) {
-                //【解码步骤:4.渲染】
-                render(mOutputBuffers[index], mBufferInfo);
-                //【解码步骤:5.释放输出缓冲】
-                mCodec.releaseOutputBuffer(index, true);
-                if (mState == DecodeState.START) {
-                    mState = DecodeState.PAUSE;
+                }
+                if (!mIsRunning || mState == DecodeState.STOP) {
+                    mIsRunning = false;
+                    break;
+                }
+
+                if (mStartTimeForSync == -1L) {
+                    mStartTimeForSync = System.currentTimeMillis();
+                }
+                //如果数据没有解码完毕，将数据推入解码器
+                if (!mIsEOS) {
+                    //【解码步骤:2.将数据压入解码器缓冲】
+                    mIsEOS = pushBufferToDecoder();
+                }
+                //【解码步骤:3.将解码好的数据从缓冲区拉取出来】
+                int index = pullBufferFromDecoder();
+                if (index > 0) {
+                    //------------【音视频同步】-----------
+                    if (mState == DecodeState.DECODING) {
+                        sleepRender();
+                    }
+                    //【解码步骤:4.渲染】
+                    render(mOutputBuffers[index], mBufferInfo);
+                    //【解码步骤:5.释放输出缓冲】
+                    mCodec.releaseOutputBuffer(index, true);
+                    if (mState == DecodeState.START) {
+                        mState = DecodeState.PAUSE;
+                    }
+                }
+
+                //【解码步骤:6.判断解码是否完成】
+                if (mBufferInfo.flags == MediaCodec.BUFFER_FLAG_END_OF_STREAM) {
+                    mState = DecodeState.FINISH;
+                    if (mStateListener != null)
+                        mStateListener.decoderFinish(this);
                 }
             }
+        } catch (Exception e) {
 
-            //【解码步骤:6.判断解码是否完成】
-            if (mBufferInfo.flags == MediaCodec.BUFFER_FLAG_END_OF_STREAM) {
-                mState = DecodeState.FINISH;
-                if (mStateListener != null)
-                    mStateListener.decoderFinish(this);
+        } finally {
+            doneDecode();
+            //【解码步骤:7.释放解码器】
+            release();
+        }
+
+    }
+
+    private void sleepRender() {
+        long passTime = System.currentTimeMillis() - mStartTimeForSync;
+        long curTimeStamp = getCurTimeStamp();
+        if (curTimeStamp > passTime) {
+            try {
+                Thread.sleep(curTimeStamp - passTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
-        doneDecode();
-        //【解码步骤:7.释放解码器】
-        release();
+    }
+
+    private long getCurTimeStamp() {
+        return mBufferInfo.presentationTimeUs / 1000;
     }
 
     /**
      * 释放解码器
      */
-    private void release() {
+    public void release() {
         try {
             mState = DecodeState.STOP;
             mIsEOS = false;
@@ -305,7 +337,6 @@ public abstract class BaseDecoder implements IDecoder {
 
     @Override
     public void resume() {
-        Log.i(TAG, "resume");
         mState = DecodeState.DECODING;
         notifyDecode();
     }
