@@ -24,7 +24,8 @@ public class AudioRecordLoader {
 
     public AudioRecordLoader(int audioSource, int sampleRateInHz, int channelConfig, int audioFormat, int bufferSizeInBytes, String outPath) {
         mAudioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, bufferSizeInBytes);
-        mAACMediaCodecEncoder = new AACMediaCodecEncoder(sampleRateInHz, channelConfig, outPath);
+        mAACMediaCodecEncoder = new AACMediaCodecEncoder(sampleRateInHz, channelConfig);
+        mAACMediaCodecEncoder.setOutputPath(outPath);
     }
 
 
@@ -54,6 +55,9 @@ public class AudioRecordLoader {
         mIsRecording = false;
         mAACMediaCodecEncoder.stopEncoder();
         mAudioRecord.stop();
+    }
+
+    public void release() {
         mAudioRecord.release();
         mAACMediaCodecEncoder = null;
         mAudioRecord = null;

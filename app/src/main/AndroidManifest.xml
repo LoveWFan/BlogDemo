@@ -20,7 +20,7 @@
         <activity android:name=".mediacodecdemo.MediaCodecAVActivity" />
         <activity android:name=".ffplaydemo.FFAVPlayerActivity" />
         <activity android:name=".ffplaydemo.FFPlayActivity" />
-        <activity android:name=".demo2.CameraXActivity" />
+        <activity android:name=".demo2.H264AACMediaCodecActivity" />
         <activity
             android:name=".demo1.DemoActivity"
             android:label="GLSurfaceView"
@@ -35,6 +35,8 @@
         <activity
             android:name=".demo1.EGLDemoActivity"
             android:label="EGLNative" />
+        <activity android:name=".demo2.Mp4MediaCodecActivity" />
+        <activity android:name=".demo2.H264AACFFMpegActivity" />
     </application>
 
 </manifest>

@@ -3,7 +3,6 @@ package com.poney.ffmpeg.encoder;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AACMediaCodecEncoder {
+    public static final int AAC_ENCODER = 2;
     private static final int TIMEOUT_S = 10000;
     private BufferedOutputStream mBufferedOutputStream;
     private MediaCodec mMediaCodec;
@@ -28,11 +28,18 @@ public class AACMediaCodecEncoder {
     public final static int DEFAULT_BUFFER_SIZE_IN_BYTES = 4096;
 
 
+    private volatile EncoderCallback mEncoderCallback;
+
+    public void setEncoderCallback(EncoderCallback encoderCallback) {
+        mEncoderCallback = encoderCallback;
+    }
+
+
     private ArrayBlockingQueue<byte[]> pcmQueue = new ArrayBlockingQueue<>(10);
     private int mSampleRateInHz;
 
 
-    public AACMediaCodecEncoder(int sampleRateInHz, int channelConfig, String outputPath) {
+    public AACMediaCodecEncoder(int sampleRateInHz, int channelConfig) {
         mSampleRateInHz = sampleRateInHz;
 
         MediaFormat mediaFormat = MediaFormat.createAudioFormat(MediaFormat.MIMETYPE_AUDIO_AAC, sampleRateInHz, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
@@ -48,7 +55,9 @@ public class AACMediaCodecEncoder {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    public void setOutputPath(String outputPath) {
         if (TextUtils.isEmpty(outputPath)) {
             return;
         }
@@ -103,6 +112,13 @@ public class AACMediaCodecEncoder {
 
                             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
                             int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_S);
+                            if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                                MediaFormat newFormat = mMediaCodec.getOutputFormat();
+                                if (null != mEncoderCallback) {
+                                    mEncoderCallback.outputMediaFormatChanged(AAC_ENCODER, newFormat);
+                                }
+                            }
+
                             while (outputBufferIndex >= 0) {
                                 ByteBuffer outputBuffer = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -118,16 +134,22 @@ public class AACMediaCodecEncoder {
                                     // adjust the ByteBuffer values to match BufferInfo (not needed?)
                                     outputBuffer.position(bufferInfo.offset);
                                     outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
-
-                                    aacChunk = new byte[bufferInfo.size + 7];
-                                    addADTStoPacket(mSampleRateInHz, aacChunk, aacChunk.length);
-                                    outputBuffer.get(aacChunk, 7, bufferInfo.size);
-                                    try {
-                                        Log.i("MFB", "write aacChunk:" + aacChunk.length);
-                                        mBufferedOutputStream.write(aacChunk);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    if (mEncoderCallback != null) {
+                                        //回调
+                                        mEncoderCallback.onEncodeOutput(AAC_ENCODER, outputBuffer, bufferInfo);
                                     }
+                                    if (mBufferedOutputStream != null) {
+                                        //写入本地AAC文件
+                                        aacChunk = new byte[bufferInfo.size + 7];
+                                        addADTStoPacket(mSampleRateInHz, aacChunk, aacChunk.length);
+                                        outputBuffer.get(aacChunk, 7, bufferInfo.size);
+                                        try {
+                                            mBufferedOutputStream.write(aacChunk);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
                                 }
                                 mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
                                 bufferInfo = new MediaCodec.BufferInfo();
@@ -147,9 +169,11 @@ public class AACMediaCodecEncoder {
                     }
                 }
                 try {
-                    Log.i("MFB", "flush");
-                    mBufferedOutputStream.flush();
-                    mBufferedOutputStream.close();
+                    if (mBufferedOutputStream != null) {
+                        mBufferedOutputStream.flush();
+                        mBufferedOutputStream.close();
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -169,11 +193,12 @@ public class AACMediaCodecEncoder {
         packet[6] = (byte) 0xFC;
     }
 
-    private long getPts() {
-        return System.nanoTime() / 1000L;
-    }
 
     public void stopEncoder() {
+        if (mEncoderCallback != null) {
+            //回调
+            mEncoderCallback.onStop(AAC_ENCODER);
+        }
         isRunning = false;
         try {
             mMediaCodec.stop();

@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.poney.blogdemo.demo1.DemoActivity;
 import com.poney.blogdemo.demo1.EGLDemoActivity;
-import com.poney.blogdemo.demo2.CameraXActivity;
+import com.poney.blogdemo.demo2.H264AACFFMpegActivity;
+import com.poney.blogdemo.demo2.H264AACMediaCodecActivity;
+import com.poney.blogdemo.demo2.Mp4MediaCodecActivity;
 import com.poney.blogdemo.ffplaydemo.FFPlayActivity;
 import com.poney.blogdemo.mediacodecdemo.MediaCodecAVActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video, R.id.ff_play, R.id.media_codec_play_av})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video_h_a, R.id.audio_video_mp4, R.id.audio_video_ffmpeg_h_a, R.id.ff_play, R.id.media_codec_play_av})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gLSurfaceView:
@@ -55,8 +57,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.egl:
                 startActivity(new Intent(this, EGLDemoActivity.class));
                 break;
-            case R.id.audio_video:
-                startActivity(new Intent(this, CameraXActivity.class));
+            case R.id.audio_video_h_a:
+                startActivity(new Intent(this, H264AACMediaCodecActivity.class));
+                break;
+            case R.id.audio_video_mp4:
+                startActivity(new Intent(this, Mp4MediaCodecActivity.class));
+                break;
+            case R.id.audio_video_ffmpeg_h_a:
+                startActivity(new Intent(this, H264AACFFMpegActivity.class));
                 break;
             case R.id.ff_play:
                 startActivity(new Intent(this, FFPlayActivity.class));

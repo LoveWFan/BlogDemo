@@ -1,6 +1,5 @@
 package com.poney.blogdemo.demo2
 
-import android.R.attr
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Build
@@ -16,13 +15,12 @@ import com.poney.blogdemo.base.camera.doOnLayout
 import com.poney.ffmpeg.encoder.AACMediaCodecEncoder
 import com.poney.ffmpeg.encoder.H264FFMPEGEncoder
 import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
-import kotlinx.android.synthetic.main.activity_camerax.*
+import kotlinx.android.synthetic.main.activity_ffmpeg_h_a.*
 import java.io.File
 
 
-class CameraXActivity : AppCompatActivity() {
+class H264AACFFMpegActivity : AppCompatActivity() {
 
-    var mMediaCodecEncoder: H264MediaCodecEncoder? = null
 
     var mH264FFMPEGEncoder: H264FFMPEGEncoder = H264FFMPEGEncoder()
 
@@ -50,9 +48,10 @@ class CameraXActivity : AppCompatActivity() {
                 externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.aac")
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camerax)
+        setContentView(R.layout.activity_ffmpeg_h_a)
         outFile = File(externalCacheDir, "demo1.yuv")
 
         surface.holder.addCallback(object : SurfaceHolder.Callback {
@@ -70,27 +69,8 @@ class CameraXActivity : AppCompatActivity() {
         cameraLoader.setOnPreviewFrameListener { data: ByteArray?, width: Int?, height: Int? ->
             previewWidth = width
             previewHeight = height
-            if (isMediaCodecRecording) {
-                startMediaCodecRecord(width, height, data)
-            } else {
-                endMediaCodecRecord()
-            }
 
             mH264FFMPEGEncoder.onPreviewFrame(data, width!!, height!!)
-        }
-
-        media_codec_record_btn.setOnClickListener {
-            if (isNativeRecording)
-                return@setOnClickListener
-            isMediaCodecRecording = !isMediaCodecRecording
-            if (isMediaCodecRecording) {
-                recordLoader.startRecord()
-                media_codec_record_btn.setText("MediaCodec停止")
-            } else {
-                recordLoader.stopRecord()
-                media_codec_record_btn.setText("MediaCodec开始")
-            }
-
         }
 
         native_record_btn.setOnClickListener {
@@ -120,67 +100,6 @@ class CameraXActivity : AppCompatActivity() {
         mH264FFMPEGEncoder.encodeMP4Stop()
     }
 
-    private fun startMediaCodecRecord(width: Int?, height: Int?, data: ByteArray?) {
-        if (mMediaCodecEncoder == null) {
-            mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.h264")
-            mMediaCodecEncoder?.startEncoder()
-        }
-        val nv12 = ByteArray((width!! * height!! * 1.5).toInt())
-
-        NV21ToYUV420(data, nv12, width, height);
-
-        //NV21ToYUV420(data,nv12,width,height);
-
-        mMediaCodecEncoder?.putData(nv12)
-    }
-
-    private fun NV21ToNV12(nv21: ByteArray?, nv12: ByteArray?, width: Int, height: Int) {
-        if (nv21 == null || nv12 == null) return
-        val framesize = width * height
-        var i = 0
-        var j = 0
-        System.arraycopy(nv21, 0, nv12, 0, framesize)
-        i = 0
-        while (i < framesize) {
-            nv12[i] = nv21[i]
-            i++
-        }
-        j = 0
-        while (j < framesize / 2) {
-            nv12[framesize + j - 1] = nv21[j + framesize]
-            j += 2
-        }
-        j = 0
-        while (j < framesize / 2) {
-            nv12[framesize + j] = nv21[j + framesize - 1]
-            j += 2
-        }
-    }
-
-    private fun NV21ToYUV420(nv21: ByteArray?, yuv420: ByteArray?, width: Int, height: Int) {
-        if (nv21 == null || yuv420 == null) return
-        val framesize = width * height
-        var i = 0
-        var j = 0
-        System.arraycopy(nv21, 0, yuv420, 0, framesize)
-        i = 0
-        while (i < framesize / 4) {
-            yuv420[framesize + framesize / 4 + i] = nv21[i * 2 + framesize]
-            i++
-        }
-        j = 0
-        while (j < framesize / 4) {
-            yuv420[framesize + j] = nv21[j * 2 + 1 + framesize]
-            j++
-        }
-    }
-
-    private fun endMediaCodecRecord() {
-        mMediaCodecEncoder?.stopEncoder()
-        mMediaCodecEncoder = null
-        isMediaCodecRecording = false
-    }
-
 
     override fun onResume() {
         super.onResume()
@@ -191,8 +110,6 @@ class CameraXActivity : AppCompatActivity() {
 
     override fun onPause() {
         cameraLoader.onPause()
-        mMediaCodecEncoder?.stopEncoder()
-        mMediaCodecEncoder = null
         super.onPause()
     }
 }
