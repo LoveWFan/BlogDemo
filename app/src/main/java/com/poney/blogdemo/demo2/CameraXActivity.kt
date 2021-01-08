@@ -1,16 +1,20 @@
 package com.poney.blogdemo.demo2
 
+import android.media.AudioRecord
+import android.media.MediaRecorder
 import android.os.Build
 import android.os.Bundle
 import android.view.SurfaceHolder
 import androidx.appcompat.app.AppCompatActivity
 import com.poney.blogdemo.R
+import com.poney.blogdemo.base.audio.AudioRecordLoader
 import com.poney.blogdemo.base.camera.Camera1Loader
 import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
-import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
+import com.poney.ffmpeg.encoder.AACMediaCodecEncoder
 import com.poney.ffmpeg.encoder.H264FFMPEGEncoder
+import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
 import kotlinx.android.synthetic.main.activity_camerax.*
 import java.io.File
 
@@ -34,6 +38,15 @@ class CameraXActivity : AppCompatActivity() {
         } else {
             Camera2Loader(this)
         }
+    }
+
+    private val recordLoader: AudioRecordLoader by lazy {
+        AudioRecordLoader(MediaRecorder.AudioSource.MIC,
+                AACMediaCodecEncoder.DEFAULT_SAMPLE_RATE_IN_HZ,
+                AACMediaCodecEncoder.DEFAULT_CHANNEL_CONFIG,
+                AACMediaCodecEncoder.DEFAULT_ENCODING,
+                AudioRecord.getMinBufferSize(AACMediaCodecEncoder.DEFAULT_SAMPLE_RATE_IN_HZ, AACMediaCodecEncoder.DEFAULT_CHANNEL_CONFIG, AACMediaCodecEncoder.DEFAULT_ENCODING),
+                externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.aac")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,10 +82,14 @@ class CameraXActivity : AppCompatActivity() {
             if (isNativeRecording)
                 return@setOnClickListener
             isMediaCodecRecording = !isMediaCodecRecording
-            if (isMediaCodecRecording)
+            if (isMediaCodecRecording) {
+                recordLoader.startRecord()
                 media_codec_record_btn.setText("MediaCodec停止")
-            else
+            } else {
+                recordLoader.stopRecord()
                 media_codec_record_btn.setText("MediaCodec开始")
+            }
+
         }
 
         native_record_btn.setOnClickListener {

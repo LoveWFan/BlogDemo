@@ -1,67 +1,75 @@
 package com.poney.ffmpeg.encoder;
 
+import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
-import android.media.MediaMuxer;
+import android.text.TextUtils;
+import android.util.Log;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class H264MediaCodecEncoder {
+public class AACMediaCodecEncoder {
     private static final int TIMEOUT_S = 10000;
+    private BufferedOutputStream mBufferedOutputStream;
     private MediaCodec mMediaCodec;
     private volatile boolean isRunning = false;
+    public final static int DEFAULT_SAMPLE_RATE_IN_HZ = 44_100;
+    public final static int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+    public final static int DEFAULT_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
+    public final static int DEFAULT_BUFFER_SIZE_IN_BYTES = 2048;
 
 
-    private ArrayBlockingQueue<byte[]> yuv420Queue = new ArrayBlockingQueue<>(10);
-    private MediaMuxer mMuxer;
-    private int mTrackIndex;
-    private boolean mMuxerStarted;
+    private ArrayBlockingQueue<byte[]> pcmQueue = new ArrayBlockingQueue<>(10);
+    private int mSampleRateInHz;
 
 
-    public H264MediaCodecEncoder(int width, int height, int frameRate, String outputPath) {
-        MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
-        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 5);
-        mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate);
-        mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+    public AACMediaCodecEncoder(int sampleRateInHz, int channelConfig, String outputPath) {
+        mSampleRateInHz = sampleRateInHz;
+
+        MediaFormat mediaFormat = MediaFormat.createAudioFormat(MediaFormat.MIMETYPE_AUDIO_AAC, sampleRateInHz, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
+        //声音中的比特率是指将模拟声音信号转换成数字声音信号后，单位时间内的二进制数据量，是间接衡量音频质量的一个指标
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 96000);//64000, 96000, 128000
+        mediaFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, AudioRecord.getMinBufferSize(DEFAULT_SAMPLE_RATE_IN_HZ, DEFAULT_CHANNEL_CONFIG, DEFAULT_ENCODING));
+        mediaFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
 
         try {
-            mMediaCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
+            mMediaCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_AUDIO_AAC);
             mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
             mMediaCodec.start();
-
-
-            // Create a MediaMuxer.  We can't add the video track and start() the muxer here,
-            // because our MediaFormat doesn't have the Magic Goodies.  These can only be
-            // obtained from the encoder after it has started processing data.
-            //
-            // We're not actually interested in multiplexing audio.  We just want to convert
-            // the raw H.264 elementary stream we get from MediaCodec into a .mp4 file.
-            try {
-                mMuxer = new MediaMuxer(outputPath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
-            } catch (IOException ioe) {
-                throw new RuntimeException("MediaMuxer creation failed", ioe);
-            }
-
-            mTrackIndex = -1;
-            mMuxerStarted = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        if (TextUtils.isEmpty(outputPath)) {
+            return;
+        }
+        File file = new File(outputPath);
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+            mBufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file), DEFAULT_BUFFER_SIZE_IN_BYTES);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public void putData(byte[] buffer) {
-        if (yuv420Queue.size() >= 10) {
-            yuv420Queue.poll();
+        if (pcmQueue.size() >= 10) {
+            pcmQueue.poll();
         }
-        yuv420Queue.add(buffer);
+        pcmQueue.add(buffer);
     }
 
     public void startEncoder() {
@@ -71,15 +79,16 @@ public class H264MediaCodecEncoder {
             @Override
             public void run() {
                 byte[] input = null;
+                byte[] aacChunk;
                 while (isRunning) {
-                    if (yuv420Queue.size() > 0) {
-                        input = yuv420Queue.poll();
+                    if (pcmQueue.size() > 0) {
+                        input = pcmQueue.poll();
                     }
                     if (input != null) {
                         try {
                             int inputBufferIndex = mMediaCodec.dequeueInputBuffer(TIMEOUT_S);
                             if (inputBufferIndex >= 0) {
-                                long pts = getPts();
+
                                 ByteBuffer inputBuffer = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                                     inputBuffer = mMediaCodec.getInputBuffer(inputBufferIndex);
@@ -87,24 +96,13 @@ public class H264MediaCodecEncoder {
                                     inputBuffer = mMediaCodec.getInputBuffers()[inputBufferIndex];
                                 }
                                 inputBuffer.clear();
+                                inputBuffer.limit(input.length);
                                 inputBuffer.put(input);
-                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, pts, 0);
+                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, 0, 0);
                             }
 
                             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
                             int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, TIMEOUT_S);
-                            if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                                if (mMuxerStarted) {
-                                    throw new RuntimeException("format changed twice");
-                                }
-                                MediaFormat newFormat = mMediaCodec.getOutputFormat();
-
-                                // now that we have the Magic Goodies, start the muxer
-                                mTrackIndex = mMuxer.addTrack(newFormat);
-                                mMuxer.start();
-                                mMuxerStarted = true;
-                            }
-
                             while (outputBufferIndex >= 0) {
                                 ByteBuffer outputBuffer = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -117,14 +115,19 @@ public class H264MediaCodecEncoder {
                                 }
 
                                 if (bufferInfo.size > 0) {
-                                    if (!mMuxerStarted) {
-                                        throw new RuntimeException("muxer hasn't started");
-                                    }
                                     // adjust the ByteBuffer values to match BufferInfo (not needed?)
                                     outputBuffer.position(bufferInfo.offset);
                                     outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
 
-                                    mMuxer.writeSampleData(mTrackIndex, outputBuffer, bufferInfo);
+                                    aacChunk = new byte[bufferInfo.size + 7];
+                                    addADTStoPacket(mSampleRateInHz, aacChunk, aacChunk.length);
+                                    outputBuffer.get(aacChunk, 7, bufferInfo.size);
+                                    try {
+                                        Log.i("MFB", "write aacChunk:" + aacChunk.length);
+                                        mBufferedOutputStream.write(aacChunk);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                                 mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
                                 bufferInfo = new MediaCodec.BufferInfo();
@@ -133,6 +136,8 @@ public class H264MediaCodecEncoder {
                         } catch (Throwable throwable) {
                             throwable.printStackTrace();
                         }
+
+
                     } else {
                         try {
                             Thread.sleep(500);
@@ -141,9 +146,27 @@ public class H264MediaCodecEncoder {
                         }
                     }
                 }
-
+                try {
+                    Log.i("MFB", "flush");
+                    mBufferedOutputStream.flush();
+                    mBufferedOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+    }
+
+    private void addADTStoPacket(int sampleRateInHz, byte[] packet, int packetLen) {
+        int profile = 2;
+        int chanCfg = 2;
+        packet[0] = (byte) 0xFF;
+        packet[1] = (byte) 0xF9;
+        packet[2] = (byte) (((profile - 1) << 6) + (sampleRateInHz << 2) + (chanCfg >> 2));
+        packet[3] = (byte) (((chanCfg & 3) << 6) + (packetLen >> 11));
+        packet[4] = (byte) ((packetLen & 0x7FF) >> 3);
+        packet[5] = (byte) (((packetLen & 7) << 5) + 0x1F);
+        packet[6] = (byte) 0xFC;
     }
 
     private long getPts() {
@@ -156,11 +179,6 @@ public class H264MediaCodecEncoder {
             mMediaCodec.stop();
             mMediaCodec.release();
             mMediaCodec = null;
-            if (mMuxer != null) {
-                mMuxer.stop();
-                mMuxer.release();
-                mMuxer = null;
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
