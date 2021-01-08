@@ -8,6 +8,8 @@ import com.poney.ffmpeg.encoder.AACMediaCodecEncoder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static com.poney.ffmpeg.encoder.AACMediaCodecEncoder.DEFAULT_BUFFER_SIZE_IN_BYTES;
+
 /**
  * @author feibiao.ma
  * @project BlogDemo
@@ -34,9 +36,9 @@ public class AudioRecordLoader {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                byte[] buffer = new byte[2048];
+                byte[] buffer = new byte[DEFAULT_BUFFER_SIZE_IN_BYTES];
                 while (mIsRecording) {
-                    int len = mAudioRecord.read(buffer, 0, 2048);
+                    int len = mAudioRecord.read(buffer, 0, DEFAULT_BUFFER_SIZE_IN_BYTES);
                     if (len > 0) {
                         byte[] data = new byte[len];
                         System.arraycopy(buffer, 0, data, 0, len);

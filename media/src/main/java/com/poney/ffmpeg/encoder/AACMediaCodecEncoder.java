@@ -25,7 +25,7 @@ public class AACMediaCodecEncoder {
     public final static int DEFAULT_SAMPLE_RATE_IN_HZ = 44_100;
     public final static int DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
     public final static int DEFAULT_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-    public final static int DEFAULT_BUFFER_SIZE_IN_BYTES = 2048;
+    public final static int DEFAULT_BUFFER_SIZE_IN_BYTES = 4096;
 
 
     private ArrayBlockingQueue<byte[]> pcmQueue = new ArrayBlockingQueue<>(10);

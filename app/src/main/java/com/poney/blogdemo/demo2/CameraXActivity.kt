@@ -1,5 +1,6 @@
 package com.poney.blogdemo.demo2
 
+import android.R.attr
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Build
@@ -121,10 +122,57 @@ class CameraXActivity : AppCompatActivity() {
 
     private fun startMediaCodecRecord(width: Int?, height: Int?, data: ByteArray?) {
         if (mMediaCodecEncoder == null) {
-            mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.mp4")
+            mMediaCodecEncoder = H264MediaCodecEncoder(width!!, height!!, 30, externalCacheDir?.absolutePath + File.separator + "mediacodec_demo.h264")
             mMediaCodecEncoder?.startEncoder()
         }
-        mMediaCodecEncoder?.putData(data)
+        val nv12 = ByteArray((width!! * height!! * 1.5).toInt())
+
+        NV21ToYUV420(data, nv12, width, height);
+
+        //NV21ToYUV420(data,nv12,width,height);
+
+        mMediaCodecEncoder?.putData(nv12)
+    }
+
+    private fun NV21ToNV12(nv21: ByteArray?, nv12: ByteArray?, width: Int, height: Int) {
+        if (nv21 == null || nv12 == null) return
+        val framesize = width * height
+        var i = 0
+        var j = 0
+        System.arraycopy(nv21, 0, nv12, 0, framesize)
+        i = 0
+        while (i < framesize) {
+            nv12[i] = nv21[i]
+            i++
+        }
+        j = 0
+        while (j < framesize / 2) {
+            nv12[framesize + j - 1] = nv21[j + framesize]
+            j += 2
+        }
+        j = 0
+        while (j < framesize / 2) {
+            nv12[framesize + j] = nv21[j + framesize - 1]
+            j += 2
+        }
+    }
+
+    private fun NV21ToYUV420(nv21: ByteArray?, yuv420: ByteArray?, width: Int, height: Int) {
+        if (nv21 == null || yuv420 == null) return
+        val framesize = width * height
+        var i = 0
+        var j = 0
+        System.arraycopy(nv21, 0, yuv420, 0, framesize)
+        i = 0
+        while (i < framesize / 4) {
+            yuv420[framesize + framesize / 4 + i] = nv21[i * 2 + framesize]
+            i++
+        }
+        j = 0
+        while (j < framesize / 4) {
+            yuv420[framesize + j] = nv21[j * 2 + 1 + framesize]
+            j++
+        }
     }
 
     private fun endMediaCodecRecord() {
