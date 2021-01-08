@@ -1,7 +1,7 @@
 package com.poney.ffmpeg.encoder;
 
 
-public class NativeEncoder {
+public class H264FFMPEGEncoder {
 
     static {
         System.loadLibrary("ffmpeg-lib");

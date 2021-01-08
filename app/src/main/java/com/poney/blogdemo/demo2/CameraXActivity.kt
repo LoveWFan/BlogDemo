@@ -10,7 +10,7 @@ import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
 import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
-import com.poney.ffmpeg.encoder.NativeEncoder
+import com.poney.ffmpeg.encoder.H264FFMPEGEncoder
 import kotlinx.android.synthetic.main.activity_camerax.*
 import java.io.File
 
@@ -19,7 +19,7 @@ class CameraXActivity : AppCompatActivity() {
 
     var mMediaCodecEncoder: H264MediaCodecEncoder? = null
 
-    var mNativeEncoder: NativeEncoder = NativeEncoder()
+    var mH264FFMPEGEncoder: H264FFMPEGEncoder = H264FFMPEGEncoder()
 
     private var previewWidth: Int? = 0
     private var previewHeight: Int? = 0
@@ -62,7 +62,7 @@ class CameraXActivity : AppCompatActivity() {
                 endMediaCodecRecord()
             }
 
-            mNativeEncoder.onPreviewFrame(data, width!!, height!!)
+            mH264FFMPEGEncoder.onPreviewFrame(data, width!!, height!!)
         }
 
         media_codec_record_btn.setOnClickListener {
@@ -80,10 +80,10 @@ class CameraXActivity : AppCompatActivity() {
                 return@setOnClickListener
             isNativeRecording = !isNativeRecording
             if (isNativeRecording) {
-                native_record_btn.setText("Native停止")
+                native_record_btn.setText("FFMPEG停止")
                 startNativeRecord()
             } else {
-                native_record_btn.setText("Native开始")
+                native_record_btn.setText("FFMPEG开始")
                 endNativeRecord()
             }
 
@@ -95,11 +95,11 @@ class CameraXActivity : AppCompatActivity() {
     }
 
     private fun startNativeRecord() {
-        mNativeEncoder.encodeMP4Start(externalCacheDir?.absolutePath + File.separator + "native_demo.mp4", previewWidth!!, previewHeight!!)
+        mH264FFMPEGEncoder.encodeMP4Start(externalCacheDir?.absolutePath + File.separator + "native_demo.mp4", previewWidth!!, previewHeight!!)
     }
 
     private fun endNativeRecord() {
-        mNativeEncoder.encodeMP4Stop()
+        mH264FFMPEGEncoder.encodeMP4Stop()
     }
 
     private fun startMediaCodecRecord(width: Int?, height: Int?, data: ByteArray?) {
