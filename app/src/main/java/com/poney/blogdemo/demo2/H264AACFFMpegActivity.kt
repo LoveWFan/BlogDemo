@@ -7,14 +7,13 @@ import android.os.Bundle
 import android.view.SurfaceHolder
 import androidx.appcompat.app.AppCompatActivity
 import com.poney.blogdemo.R
-import com.poney.blogdemo.base.audio.AudioRecordLoader
+import com.poney.ffmpeg.audio.AudioRecordLoader
 import com.poney.blogdemo.base.camera.Camera1Loader
 import com.poney.blogdemo.base.camera.Camera2Loader
 import com.poney.blogdemo.base.camera.CameraLoader
 import com.poney.blogdemo.base.camera.doOnLayout
 import com.poney.ffmpeg.encoder.AACMediaCodecEncoder
 import com.poney.ffmpeg.encoder.H264FFMPEGEncoder
-import com.poney.ffmpeg.encoder.H264MediaCodecEncoder
 import kotlinx.android.synthetic.main.activity_ffmpeg_h_a.*
 import java.io.File
 

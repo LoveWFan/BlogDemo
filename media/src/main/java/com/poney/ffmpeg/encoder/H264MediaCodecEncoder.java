@@ -12,7 +12,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class H264MediaCodecEncoder {
+public class H264MediaCodecEncoder extends MediaEncoder {
+    public static final String MIMETYPE_VIDEO_AVC = "video/avc";
     public static final int H264_ENCODER = 1;
     private static final int TIMEOUT_S = 10000;
     private MediaCodec mMediaCodec;
@@ -31,14 +32,14 @@ public class H264MediaCodecEncoder {
 
 
     public H264MediaCodecEncoder(int width, int height) {
-        MediaFormat mediaFormat = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, width, height);
+        MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIMETYPE_VIDEO_AVC, width, height);
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, width * height * 5);
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, 30);//FPS
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
 
         try {
-            mMediaCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_VIDEO_AVC);
+            mMediaCodec = MediaCodec.createEncoderByType(MIMETYPE_VIDEO_AVC);
             mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
             mMediaCodec.start();
 
@@ -88,7 +89,6 @@ public class H264MediaCodecEncoder {
                         try {
                             int inputBufferIndex = mMediaCodec.dequeueInputBuffer(TIMEOUT_S);
                             if (inputBufferIndex >= 0) {
-                                long pts = getPts();
                                 ByteBuffer inputBuffer = null;
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                                     inputBuffer = mMediaCodec.getInputBuffer(inputBufferIndex);
@@ -97,7 +97,7 @@ public class H264MediaCodecEncoder {
                                 }
                                 inputBuffer.clear();
                                 inputBuffer.put(input);
-                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, pts, 0);
+                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, getPTSUs(), 0);
                             }
 
                             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
@@ -135,11 +135,14 @@ public class H264MediaCodecEncoder {
                                     // adjust the ByteBuffer values to match BufferInfo (not needed?)
                                     outputBuffer.position(bufferInfo.offset);
                                     outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
+                                    // write encoded data to muxer(need to adjust presentationTimeUs.
+                                    bufferInfo.presentationTimeUs = getPTSUs();
 
                                     if (mEncoderCallback != null) {
                                         //回调
                                         mEncoderCallback.onEncodeOutput(H264_ENCODER, outputBuffer, bufferInfo);
                                     }
+                                    prevOutputPTSUs = bufferInfo.presentationTimeUs;
                                     if (mMuxer != null) {
                                         if (!mMuxerStarted) {
                                             throw new RuntimeException("muxer hasn't started");
@@ -168,9 +171,6 @@ public class H264MediaCodecEncoder {
         });
     }
 
-    private long getPts() {
-        return System.nanoTime() / 1000L;
-    }
 
     public void stopEncoder() {
         if (mEncoderCallback != null) {

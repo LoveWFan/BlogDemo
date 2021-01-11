@@ -30,7 +30,6 @@ class Mp4MediaCodecActivity : AppCompatActivity() {
     @Volatile
     private var isMediaCodecRecording: Boolean = false
     private var isNativeRecording: Boolean = false
-    private var outFile: File? = null
     private val cameraLoader: CameraLoader by lazy {
         if (Build.VERSION.SDK_INT < 21) {
             Camera1Loader(this)
@@ -43,7 +42,6 @@ class Mp4MediaCodecActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_codec_mp4)
-        outFile = File(externalCacheDir, "demo1.yuv")
 
         surface.holder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {
@@ -96,7 +94,7 @@ class Mp4MediaCodecActivity : AppCompatActivity() {
             mp4MediaCodecRecord?.start()
         }
 
-
+        mp4MediaCodecRecord?.putVideoData(data)
     }
 
 

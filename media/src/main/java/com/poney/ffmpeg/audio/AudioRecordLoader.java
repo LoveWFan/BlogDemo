@@ -1,9 +1,10 @@
-package com.poney.blogdemo.base.audio;
+package com.poney.ffmpeg.audio;
 
 import android.media.AudioRecord;
 import android.util.Log;
 
 import com.poney.ffmpeg.encoder.AACMediaCodecEncoder;
+import com.poney.ffmpeg.encoder.Mp4MediaCodecRecord;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,5 +62,9 @@ public class AudioRecordLoader {
         mAudioRecord.release();
         mAACMediaCodecEncoder = null;
         mAudioRecord = null;
+    }
+
+    public void setEncoderCallback(Mp4MediaCodecRecord mp4MediaCodecRecord) {
+        mAACMediaCodecEncoder.setEncoderCallback(mp4MediaCodecRecord);
     }
 }

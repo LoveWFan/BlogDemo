@@ -16,7 +16,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class AACMediaCodecEncoder {
+public class AACMediaCodecEncoder extends MediaEncoder {
+    public static final String MIMETYPE_AUDIO_AAC = "audio/mp4a-latm";
     public static final int AAC_ENCODER = 2;
     private static final int TIMEOUT_S = 10000;
     private BufferedOutputStream mBufferedOutputStream;
@@ -42,14 +43,14 @@ public class AACMediaCodecEncoder {
     public AACMediaCodecEncoder(int sampleRateInHz, int channelConfig) {
         mSampleRateInHz = sampleRateInHz;
 
-        MediaFormat mediaFormat = MediaFormat.createAudioFormat(MediaFormat.MIMETYPE_AUDIO_AAC, sampleRateInHz, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
+        MediaFormat mediaFormat = MediaFormat.createAudioFormat(MIMETYPE_AUDIO_AAC, sampleRateInHz, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
         //声音中的比特率是指将模拟声音信号转换成数字声音信号后，单位时间内的二进制数据量，是间接衡量音频质量的一个指标
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 96000);//64000, 96000, 128000
         mediaFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, AudioRecord.getMinBufferSize(DEFAULT_SAMPLE_RATE_IN_HZ, DEFAULT_CHANNEL_CONFIG, DEFAULT_ENCODING));
         mediaFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, channelConfig == AudioFormat.CHANNEL_OUT_MONO ? 1 : 2);
 
         try {
-            mMediaCodec = MediaCodec.createEncoderByType(MediaFormat.MIMETYPE_AUDIO_AAC);
+            mMediaCodec = MediaCodec.createEncoderByType(MIMETYPE_AUDIO_AAC);
             mMediaCodec.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
             mMediaCodec.start();
         } catch (Exception e) {
@@ -107,7 +108,7 @@ public class AACMediaCodecEncoder {
                                 inputBuffer.clear();
                                 inputBuffer.limit(input.length);
                                 inputBuffer.put(input);
-                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, 0, 0);
+                                mMediaCodec.queueInputBuffer(inputBufferIndex, 0, input.length, getPTSUs(), 0);
                             }
 
                             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
@@ -134,10 +135,13 @@ public class AACMediaCodecEncoder {
                                     // adjust the ByteBuffer values to match BufferInfo (not needed?)
                                     outputBuffer.position(bufferInfo.offset);
                                     outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
+                                    // write encoded data to muxer(need to adjust presentationTimeUs.
+                                    bufferInfo.presentationTimeUs = getPTSUs();
                                     if (mEncoderCallback != null) {
                                         //回调
                                         mEncoderCallback.onEncodeOutput(AAC_ENCODER, outputBuffer, bufferInfo);
                                     }
+                                    prevOutputPTSUs = bufferInfo.presentationTimeUs;
                                     if (mBufferedOutputStream != null) {
                                         //写入本地AAC文件
                                         aacChunk = new byte[bufferInfo.size + 7];
