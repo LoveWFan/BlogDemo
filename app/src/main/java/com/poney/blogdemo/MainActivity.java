@@ -12,6 +12,7 @@ import com.poney.blogdemo.demo1.DemoActivity;
 import com.poney.blogdemo.demo1.EGLDemoActivity;
 import com.poney.blogdemo.demo2.H264AACFFMpegActivity;
 import com.poney.blogdemo.demo2.H264AACMediaCodecActivity;
+import com.poney.blogdemo.demo2.H264AsyncMediaCodecActivity;
 import com.poney.blogdemo.demo2.Mp4MediaCodecActivity;
 import com.poney.blogdemo.ffplaydemo.FFPlayActivity;
 import com.poney.blogdemo.mediacodecdemo.MediaCodecAVActivity;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video_h_a, R.id.audio_video_mp4, R.id.audio_video_ffmpeg_h_a, R.id.ff_play, R.id.media_codec_play_av})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video_h_a, R.id.video_h_async, R.id.audio_video_mp4, R.id.audio_video_ffmpeg_h_a, R.id.ff_play, R.id.media_codec_play_av})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gLSurfaceView:
@@ -59,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.audio_video_h_a:
                 startActivity(new Intent(this, H264AACMediaCodecActivity.class));
+                break;
+            case R.id.video_h_async:
+                startActivity(new Intent(this, H264AsyncMediaCodecActivity.class));
                 break;
             case R.id.audio_video_mp4:
                 startActivity(new Intent(this, Mp4MediaCodecActivity.class));

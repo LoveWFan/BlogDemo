@@ -12,6 +12,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ *MediaCodec同步模式
+ */
 public class H264MediaCodecEncoder extends MediaEncoder {
     public static final String MIMETYPE_VIDEO_AVC = "video/avc";
     public static final int H264_ENCODER = 1;

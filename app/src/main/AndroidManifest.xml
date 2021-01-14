@@ -37,6 +37,7 @@
             android:label="EGLNative" />
         <activity android:name=".demo2.Mp4MediaCodecActivity" />
         <activity android:name=".demo2.H264AACFFMpegActivity" />
+        <activity android:name=".demo2.H264AsyncMediaCodecActivity" />
     </application>
 
 </manifest>

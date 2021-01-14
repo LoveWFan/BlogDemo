@@ -36,13 +36,22 @@
             app:layout_constraintTop_toBottomOf="@+id/egl" />
 
         <Button
+            android:id="@+id/video_h_async"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="MediaCodec H264 Async编码"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/audio_video_h_a" />
+
+        <Button
             android:id="@+id/audio_video_mp4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="MediaCodec Mp4编码"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/audio_video_h_a" />
+            app:layout_constraintTop_toBottomOf="@+id/video_h_async" />
 
         <Button
             android:id="@+id/audio_video_ffmpeg_h_a"
