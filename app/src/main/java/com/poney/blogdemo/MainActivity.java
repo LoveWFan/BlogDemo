@@ -15,7 +15,8 @@ import com.poney.blogdemo.demo2.H264AACMediaCodecActivity;
 import com.poney.blogdemo.demo2.H264AsyncMediaCodecActivity;
 import com.poney.blogdemo.demo2.Mp4MediaCodecActivity;
 import com.poney.blogdemo.ffplaydemo.FFPlayActivity;
-import com.poney.blogdemo.mediacodecdemo.MediaCodecAVActivity;
+import com.poney.blogdemo.mediacodecdemo.play.MediaCodecAVActivity;
+import com.poney.blogdemo.mediacodecdemo.play.MediaCodecAVSyncActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.ButterKnife;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video_h_a, R.id.video_h_async, R.id.audio_video_mp4, R.id.audio_video_ffmpeg_h_a, R.id.ff_play, R.id.media_codec_play_av})
+    @OnClick({R.id.gLSurfaceView, R.id.egl, R.id.audio_video_h_a, R.id.video_h_async, R.id.audio_video_mp4,
+            R.id.audio_video_ffmpeg_h_a, R.id.ff_play, R.id.media_codec_play_av, R.id.media_codec_play_avsync})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.gLSurfaceView:
@@ -75,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.media_codec_play_av:
                 startActivity(new Intent(this, MediaCodecAVActivity.class));
+                break;
+            case R.id.media_codec_play_avsync:
+                startActivity(new Intent(this, MediaCodecAVSyncActivity.class));
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package com.poney.blogdemo.mediacodecdemo;
+package com.poney.blogdemo.mediacodecdemo.play;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * MediaCodec 音视频同步播放
+ * MediaCodec 音视频同步播放 基础版
  */
 public class MediaCodecAVActivity extends AppCompatActivity implements SurfaceHolder.Callback2 {
 

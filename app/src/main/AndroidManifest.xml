@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mediacodecdemo.MediaCodecAVActivity" />
+        <activity android:name=".mediacodecdemo.play.MediaCodecAVActivity" />
         <activity android:name=".ffplaydemo.FFAVPlayerActivity" />
         <activity android:name=".ffplaydemo.FFPlayActivity" />
         <activity android:name=".demo2.H264AACMediaCodecActivity" />
@@ -38,6 +38,7 @@
         <activity android:name=".demo2.Mp4MediaCodecActivity" />
         <activity android:name=".demo2.H264AACFFMpegActivity" />
         <activity android:name=".demo2.H264AsyncMediaCodecActivity" />
+        <activity android:name=".mediacodecdemo.play.MediaCodecAVSyncActivity" />
     </application>
 
 </manifest>
